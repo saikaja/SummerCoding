@@ -5,7 +5,7 @@ obj/
 *.user
 *.suo
 
-# Ignore EF Core Migrations folder
+# Ignore EF Core Migrations folders in any project
 **/Migrations/
 
 # Ignore local appsettings.json (but not appsettings.Development.json if needed)
