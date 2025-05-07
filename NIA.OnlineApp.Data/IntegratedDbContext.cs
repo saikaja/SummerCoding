@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using NIA.OnlineApp.Data.Configurations;
 using NIA.OnlineApp.Data.Entities;
 
 namespace NIA.OnlineApp.Data
 {
-    public class IntegratedDbContext : DbContext
+    public class AppDbContext : DbContext
     {
-        public IntegratedDbContext(DbContextOptions options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+        public DbSet<TypeUtil> Types { get; set; }
+        public DbSet<TypeInformation> TypeInformations { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new TypeConfig());
         }
-        public DbSet<TypeUtil> type { get; set; }
-        public DbSet<TypeInformation> typeInformation { get; set; }
     }
 }
