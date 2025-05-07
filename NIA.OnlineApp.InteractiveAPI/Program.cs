@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using NIA.OnlineApp.Data;
 using NIA.OnlineApp.Data.Entities;
+using NIA.OnlineApp.Data.Repositories;
+using NIA.OnlineApp.InteractiveAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     
 }
 );
+
+builder.Services.AddScoped<ITypeUtilRepo, TypeUtilRepo>();
+builder.Services.AddScoped<ITypeInformationRepo, TypeInformationRepo>();
+builder.Services.AddScoped<ITypeUtilService, TypeUtilService>();
+builder.Services.AddScoped<ITypeInformationService, TypeInformationService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
