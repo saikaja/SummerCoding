@@ -1,14 +1,13 @@
-﻿using Microsoft.Win32;
-using NIA.OnlineApp.Data.Entities;
+﻿using NIA.OnlineApp.Data.Entities;
 
 namespace NIA.OnlineApp.InteractiveAPI.Services
 {
     public interface ITypeUtilService
     {
-        IEnumerable<TypeUtil> GetAllEvents();
-        bool InsertEvent(TypeUtil typeUtil);
-        bool UpdateEvent(int Id, TypeUtil typeUtil);
-
-        bool DeleteAttributes(int Id, TypeUtil typeUtil);
+        Task<IEnumerable<TypeUtil>> GetAllEventsAsync();
+        Task<TypeUtil?> GetByIdAsync(int id);
+        Task<bool> InsertEventAsync(TypeUtil typeUtil);
+        Task<bool> UpdateEventAsync(TypeUtil typeUtil);
+        Task<bool> DeleteEventAsync(int id);
     }
 }

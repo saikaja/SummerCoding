@@ -11,6 +11,12 @@ namespace NIA.OnlineApp.InteractiveAPI.Services
         {
             _repository = repository;
         }
+
+        public async Task<IEnumerable<TypeInformation>> GetByTypeIdAsync(int typeId)
+        {
+            return await _repository.GetByTypeIdAsync(typeId);
+        }
+
         public bool DeleteAttributes(int Type_Id, TypeInformation typeInformation)
         {
             throw new NotImplementedException();
