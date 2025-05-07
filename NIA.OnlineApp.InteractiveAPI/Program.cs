@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using NIA.OnlineApp.Data.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<IntegratedDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"), 
+        b => b.MigrationsAssembly("NIA.OnlineApp.InteractiveAPI"));
+    
 }
 );
 var app = builder.Build();
