@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace NIA.OnlineApp.Data.Repositories
 {
-    public class TypeRepo : ITypeRepo
+    public class TypeInformationRepo : ITypeInformationRepo
     {
         private readonly AppDbContext _context;
 
-        public TypeRepo(AppDbContext context)
+        public TypeInformationRepo(AppDbContext context)
         {
             _context = context;
         }

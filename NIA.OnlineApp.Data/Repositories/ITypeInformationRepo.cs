@@ -8,7 +8,7 @@ using NIA.OnlineApp.Data.Entities;
 
 namespace NIA.OnlineApp.Data.Repositories
 {
-    public interface ITypeRepo
+    public interface ITypeInformationRepo
     {
         Task<IEnumerable<TypeInformation>> GetByTypeIdAsync(int typeId);
         Task AddRangeAsync(IEnumerable<TypeInformation> entries);
