@@ -4,3 +4,23 @@ bin/
 obj/
 *.user
 *.suo
+
+# Ignore EF Core Migrations folders in any project
+**/Migrations/
+
+# Ignore all appsettings.json files in all projects
+**/appsettings.json
+# Ignore user-specific files and VS cruft
+.vs/
+*.user
+*.suo
+
+# Ignore Rider/JetBrains files
+.idea/
+*.sln.iml
+
+# Ignore logs and local test data
+*.log
+*.tlog
+*.vscode/
+TestResults/
