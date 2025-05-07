@@ -1,12 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using NIA.OnlineApp.Data.Entities;
 
-namespace NIA.OnlineApp.Data.Confgurations
+namespace NIA.OnlineApp.Data.Configurations
 {
-    internal class TypeConfig
+    public class TypeConfig : IEntityTypeConfiguration<TypeUtil>
     {
+        public void Configure(EntityTypeBuilder<TypeUtil> builder)
+        {
+            builder.HasKey(t => t.Id);
+
+            builder.Property(t => t.Type)
+                   .IsRequired()
+                   .HasMaxLength(50);
+
+            builder.HasMany(t => t.TypeInformation)
+                   .WithOne(ti => ti.TypeUtil)
+                   .HasForeignKey(ti => ti.Type_Id);
+        }
     }
 }
+

@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using NIA.OnlineApp.Data.Entities;
 
-namespace NIA.OnlineApp.Data.Entities
+namespace NIA.OnlineApp.Data
 {
     public class IntegratedDbContext : DbContext
     {

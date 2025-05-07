@@ -14,9 +14,11 @@ namespace NIA.OnlineApp.Data.Entities
         public int Id { get; set; }
 
         [ForeignKey("TypeUtil")]
-        public required int Type_Id { get; set; } 
+        public required int Type_Id { get; set; }
         public required string Name { get; set; }
         public required int Value { get; set; }
-        
+        public TypeUtil TypeUtil { get; set; } = null!;
+
+
     }
 }
