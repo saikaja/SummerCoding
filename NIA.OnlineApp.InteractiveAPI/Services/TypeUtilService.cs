@@ -1,11 +1,12 @@
 ﻿using NIA.OnlineApp.Data.Entities;
+using NIA.OnlineApp.Data.Repositories;
 
 namespace NIA.OnlineApp.InteractiveAPI.Services
 {
     public class TypeUtilService : ITypeUtilService
     {
-        private readonly ITypeUtilService _repository;
-        public TypeUtilService(ITypeUtilService repository)
+        private readonly ITypeUtilRepo _repository;
+        public TypeUtilService(ITypeUtilRepo repository)
         {
             _repository = repository;
         }
