@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NIA.OnlineApp.Data.Entities
 {
-    internal class TypeDefinition
+    internal class TypeInformation
     {
     }
 }
