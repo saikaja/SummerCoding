@@ -5,10 +5,10 @@ namespace NIA.OnlineApp.InteractiveAPI.Services
 {
     public interface ITypeInformationService
     {
-        IEnumerable<TypeInformation> GetByTypeIdAsync(int Type_Id);
-        bool InsertAttributes(TypeInformation typeInformation);
-        bool UpdateAttributes(int Type_Id, TypeInformation typeInformation);
-
-        bool DeleteAttributes(int Type_Id, TypeInformation typeInformation);
+        Task<IEnumerable<TypeInformation>> GetByTypeIdAsync(int Type_Id);
+        Task<bool> InsertMultipleAsync(IEnumerable<TypeInformation> typeInformationList);
+        Task<bool> UpdateAttributesAsync(int Type_Id, TypeInformation typeInformation);
+        Task<bool> DeleteAttributesAsync(int Type_Id, TypeInformation typeInformation);
     }
+
 }

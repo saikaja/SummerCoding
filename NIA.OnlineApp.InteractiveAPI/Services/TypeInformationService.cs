@@ -5,36 +5,55 @@ namespace NIA.OnlineApp.InteractiveAPI.Services
 {
     public class TypeInformationService : ITypeInformationService
     {
-        private readonly ITypeInformationRepo _repository;
+        private readonly ITypeInformationRepo _typeRepo;
 
-        public TypeInformationService (ITypeInformationRepo repository)
+        public TypeInformationService(ITypeInformationRepo typeRepo)
         {
-            _repository = repository;
+            _typeRepo = typeRepo;
         }
 
-        public async Task<IEnumerable<TypeInformation>> GetByTypeIdAsync(int typeId)
+        public async Task<IEnumerable<TypeInformation>> GetByTypeIdAsync(int Type_Id)
         {
-            return await _repository.GetByTypeIdAsync(typeId);
+            return await _typeRepo.GetByTypeIdAsync(Type_Id);
         }
 
-        public bool DeleteAttributes(int Type_Id, TypeInformation typeInformation)
+        public async Task<bool> InsertMultipleAsync(IEnumerable<TypeInformation> typeInformationList)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _typeRepo.AddRangeAsync(typeInformationList);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public IEnumerable<TypeInformation> GetAllAttributes()
+        public async Task<bool> UpdateAttributesAsync(int Type_Id, TypeInformation typeInformation)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _typeRepo.UpdateAsync(Type_Id, typeInformation);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public bool InsertAttributes(TypeInformation typeInformation)
+        public async Task<bool> DeleteAttributesAsync(int Type_Id, TypeInformation typeInformation)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateAttributes(int Type_Id, TypeInformation typeInformation)
-        {
-            throw new NotImplementedException();
+            try
+            {
+                await _typeRepo.DeleteAsync(Type_Id, typeInformation);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
