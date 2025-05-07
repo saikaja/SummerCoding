@@ -10,22 +10,28 @@ namespace NIA.OnlineApp.InteractiveAPI.Services
         {
             _repository = repository;
         }
-        public bool DeleteAttributes(int Id, TypeUtil typeUtil)
+        public Task<bool> DeleteEventAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TypeUtil> GetAllEvents()
+        public Task<IEnumerable<TypeUtil>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public bool InsertEvent(TypeUtil typeUtil)
+        public Task<TypeUtil?> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public bool UpdateEvent(int Id, TypeUtil typeUtil)
+        public Task<bool> InsertEventAsync(TypeUtil typeUtil)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Task<bool> UpdateEventAsync(TypeUtil typeUtil)
         {
             throw new NotImplementedException();
         }
