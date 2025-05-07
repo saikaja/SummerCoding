@@ -10,3 +10,4 @@ obj/
 
 # Ignore local appsettings.json (but not appsettings.Development.json if needed)
 **/appsettings*.json
+**/appsettings.Development.json
