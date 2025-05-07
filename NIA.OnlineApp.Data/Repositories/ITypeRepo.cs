@@ -12,8 +12,8 @@ namespace NIA.OnlineApp.Data.Repositories
     {
         Task<IEnumerable<TypeInformation>> GetByTypeIdAsync(int typeId);
         Task AddRangeAsync(IEnumerable<TypeInformation> entries);
-        Task UpdateAsync(TypeInformation entry);
-        Task DeleteAsync(int id);
+        Task UpdateAsync(int typeId, TypeInformation entry);
+        Task DeleteAsync(int typeId, TypeInformation entry);
     }
 
 
