@@ -25,4 +25,8 @@
     <ProjectReference Include="..\NIA.OnlineApp.Data\NIA.OnlineApp.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
