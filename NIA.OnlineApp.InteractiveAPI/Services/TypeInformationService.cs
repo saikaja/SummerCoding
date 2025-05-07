@@ -17,16 +17,22 @@ namespace NIA.OnlineApp.InteractiveAPI.Services
             return await _typeRepo.GetByTypeIdAsync(Type_Id);
         }
 
-        public async Task<bool> InsertMultipleAsync(IEnumerable<TypeInformation> typeInformationList)
+        public async Task<IEnumerable<TypeInformation>> GetAllAsync()
+        {
+            return await _typeRepo.GetAllAsync();
+        }
+
+        public async Task<bool> InsertMultipleAsync(IEnumerable<TypeInformation> list)
         {
             try
             {
-                await _typeRepo.AddRangeAsync(typeInformationList);
+                await _typeRepo.AddRangeAsync(list);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                Console.WriteLine($"Insert failed: {ex.Message}");
+                throw; 
             }
         }
 

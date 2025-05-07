@@ -28,6 +28,10 @@ namespace NIA.OnlineApp.Data.Repositories
 
             return results;
         }
+        public async Task<IEnumerable<TypeInformation>> GetAllAsync()
+        {
+            return await _context.TypeInformations.ToListAsync();
+        }
 
         public async Task AddRangeAsync(IEnumerable<TypeInformation> entries)
         {
