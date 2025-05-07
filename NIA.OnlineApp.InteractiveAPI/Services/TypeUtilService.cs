@@ -1,4 +1,5 @@
-﻿using NIA.OnlineApp.Data.Entities;
+﻿using Microsoft.CodeAnalysis;
+using NIA.OnlineApp.Data.Entities;
 using NIA.OnlineApp.Data.Repositories;
 
 namespace NIA.OnlineApp.InteractiveAPI.Services
@@ -10,30 +11,54 @@ namespace NIA.OnlineApp.InteractiveAPI.Services
         {
             _repository = repository;
         }
-        public Task<bool> DeleteEventAsync(int id)
+        public async Task<bool> DeleteAsync(int id, TypeUtil typeUtil)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _repository.DeleteAsync(id, typeUtil);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public Task<IEnumerable<TypeUtil>> GetAllAsync()
+        public async Task<IEnumerable<TypeUtil>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _repository.GetAllAsync();
         }
 
-        public Task<TypeUtil?> GetByIdAsync(int id)
+        public async Task<TypeUtil?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _repository.GetByIdAsync(id);
         }
 
-        public Task<bool> InsertEventAsync(TypeUtil typeUtil)
+        public async Task<bool> AddAsync(int id, TypeUtil typeUtil)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _repository.AddAsync(id, typeUtil);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
 
-        public Task<bool> UpdateEventAsync(TypeUtil typeUtil)
+        public async Task<bool> UpdateAsync(int id, TypeUtil typeUtil)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _repository.UpdateAsync(id, typeUtil);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

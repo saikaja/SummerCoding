@@ -24,19 +24,19 @@ namespace NIA.OnlineApp.Data.Repositories
             return await _context.Types.FindAsync(id);
         }
 
-        public async Task AddAsync(TypeUtil typeUtil)
+        public async Task AddAsync(int id, TypeUtil typeUtil)
         {
             await _context.Types.AddAsync(typeUtil);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(TypeUtil typeUtil)
+        public async Task UpdateAsync(int id, TypeUtil typeUtil)
         {
             _context.Types.Update(typeUtil);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id, TypeUtil typeUtil)
         {
             var entity = await _context.Types.FindAsync(id);
             if (entity != null)

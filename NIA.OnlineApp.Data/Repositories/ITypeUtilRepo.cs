@@ -8,8 +8,8 @@ namespace NIA.OnlineApp.Data.Repositories
     {
         Task<IEnumerable<TypeUtil>> GetAllAsync();
         Task<TypeUtil?> GetByIdAsync(int id);
-        Task AddAsync(TypeUtil typeUtil);
-        Task UpdateAsync(TypeUtil typeUtil);
-        Task DeleteAsync(int id);
+        Task AddAsync(int id, TypeUtil typeUtil);
+        Task UpdateAsync(int id, TypeUtil typeUtil);
+        Task DeleteAsync(int id, TypeUtil typeUtil);
     }
 }

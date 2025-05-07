@@ -6,8 +6,8 @@ namespace NIA.OnlineApp.InteractiveAPI.Services
     {
         Task<IEnumerable<TypeUtil>> GetAllAsync();
         Task<TypeUtil?> GetByIdAsync(int id);
-        Task<bool> InsertEventAsync(TypeUtil typeUtil);
-        Task<bool> UpdateEventAsync(TypeUtil typeUtil);
-        Task<bool> DeleteEventAsync(int id);
+        Task<bool> AddAsync(int id, TypeUtil typeUtil);
+        Task<bool> UpdateAsync(int id, TypeUtil typeUtil);
+        Task<bool> DeleteAsync(int id, TypeUtil typeUtil);
     }
 }
