@@ -1,0 +1,54 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using NIA.OnlineApp.Data.Entities;
+using NIA.OnlineApp.BusinessAPI.Services;
+using System.Net.Http.Json;
+using NIA.OnlineApp.BusinessAPI.Models;
+using NIA.OnlineApp.Data.Repositories;
+
+namespace NIA.OnlineApp.BusinessAPI.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class BusinessController : ControllerBase
+    {
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IBusinessRepo _repo;
+
+        public BusinessController(IHttpClientFactory httpClientFactory, IBusinessRepo repo)
+        {
+            _httpClientFactory = httpClientFactory;
+            _repo = repo;
+        }
+
+        [HttpGet("fetch-and-save")]
+        public async Task<IActionResult> FetchAndSaveFromInteractive()
+        {
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.GetFromJsonAsync<List<TypeInformationDto>>("https://localhost:7200/api/TypeInformations");
+
+            if (response == null || !response.Any())
+                return BadRequest("No data received");
+
+            var entities = new List<BusinessData>();
+
+            foreach (var item in response)
+            {
+                entities.Add(new BusinessData
+                {
+                    Name = item.Name,
+                    Value = item.Value.ToString()
+                });
+            }
+
+            await _repo.AddRangeAsync(entities);
+
+            var dtoList = entities.Select(e => new TypeInformationDto
+            {
+                Name = e.Name,
+                Value = int.Parse(e.Value)
+            });
+
+            return Ok(dtoList);
+        }
+    }
+}

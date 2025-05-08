@@ -3,7 +3,7 @@
     public class TypeInformationDto
     {
         public required string Name { get; set; }
-        public decimal Value { get; set; }
+        public int Value { get; set; } 
 
     }
 }

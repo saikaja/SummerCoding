@@ -1,31 +1,41 @@
 using Microsoft.EntityFrameworkCore;
-using System;
 using NIA.OnlineApp.BusinessAPI.Services;
 using NIA.OnlineApp.Data;
+using NIA.OnlineApp.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Register HTTP client to talk to InteractiveAPI
 builder.Services.AddHttpClient<ITypeInformationService, TypeInformationService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7200/");
 });
 
+// Register BusinessDbContext and link migration assembly
 builder.Services.AddDbContext<BusinessDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"),
-        b => b.MigrationsAssembly("NIA.OnlineApp.Data"));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DbConnection"),
+        b => b.MigrationsAssembly("NIA.OnlineApp.Data")
+    );
 });
 
+// Register Repositories
+builder.Services.AddScoped<IBusinessRepo, BusinessRepo>();
+
+// Register DTO-related services (already covered via TypeInformationService above)
+
+// Build app
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -33,9 +43,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
