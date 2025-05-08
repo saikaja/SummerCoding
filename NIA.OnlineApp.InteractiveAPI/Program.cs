@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -22,6 +23,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     
 }
 );
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
 
 builder.Services.AddScoped<ITypeUtilRepo, TypeUtilRepo>();
 builder.Services.AddScoped<ITypeInformationRepo, TypeInformationRepo>();
