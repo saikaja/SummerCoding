@@ -7,151 +7,66 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NIA.OnlineApp.Data;
 using NIA.OnlineApp.Data.Entities;
+using NIA.OnlineApp.InteractiveAPI.Services;
 
 namespace NIA.OnlineApp.InteractiveAPI.Controllers
 {
     public class TypeUtilController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly ITypeUtilService _typeUtilService;
 
-        public TypeUtilController(AppDbContext context)
+        public TypeUtilController(ITypeUtilService typeUtilService)
         {
-            _context = context;
+            _typeUtilService = typeUtilService;
         }
 
-        // GET: TypeUtil
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            return View(await _context.Types.ToListAsync());
+            var attributes = await _typeUtilService.GetAllAsync();
+            return Ok(attributes);
         }
 
-        // GET: TypeUtil/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByTypeId(int id)
         {
-            if (id == null)
-            {
+            var items = await _typeUtilService.GetByIdAsync(id);
+            if (items == null )
                 return NotFound();
-            }
 
-            var typeUtil = await _context.Types
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (typeUtil == null)
-            {
-                return NotFound();
-            }
-
-            return View(typeUtil);
+            return Ok(items);
         }
 
-        // GET: TypeUtil/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: TypeUtil/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type,IsActive")] TypeUtil typeUtil)
+        public async Task<IActionResult> Create(int id, TypeUtil typeUtil)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(typeUtil);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(typeUtil);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var success = await _typeUtilService.AddAsync(id, typeUtil);
+            return success ? Ok("Created successfully") : StatusCode(500, "Insert failed");
         }
 
-        // GET: TypeUtil/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var typeUtil = await _context.Types.FindAsync(id);
-            if (typeUtil == null)
-            {
-                return NotFound();
-            }
-            return View(typeUtil);
-        }
-
-        // POST: TypeUtil/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,IsActive")] TypeUtil typeUtil)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, TypeUtil typeUtil)
         {
             if (id != typeUtil.Id)
-            {
-                return NotFound();
-            }
+                return BadRequest("ID mismatch");
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(typeUtil);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TypeUtilExists(typeUtil.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(typeUtil);
+            var success = await _typeUtilService.UpdateAsync(id, typeUtil);
+            return success ? Ok("Updated successfully") : StatusCode(500, "Update failed");
         }
 
-        // GET: TypeUtil/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
+            var items = await _typeUtilService.GetAllAsync();
+            var item = items?.FirstOrDefault();
+            if (item == null)
                 return NotFound();
-            }
 
-            var typeUtil = await _context.Types
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (typeUtil == null)
-            {
-                return NotFound();
-            }
-
-            return View(typeUtil);
-        }
-
-        // POST: TypeUtil/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var typeUtil = await _context.Types.FindAsync(id);
-            if (typeUtil != null)
-            {
-                _context.Types.Remove(typeUtil);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool TypeUtilExists(int id)
-        {
-            return _context.Types.Any(e => e.Id == id);
+            var success = await _typeUtilService.DeleteAsync(id, item);
+            return success ? Ok("Deleted successfully") : StatusCode(500, "Delete failed");
         }
     }
 }
