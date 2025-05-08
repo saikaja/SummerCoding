@@ -36,7 +36,7 @@ namespace NIA.OnlineApp.BusinessAPI.Controllers
                 entities.Add(new BusinessData
                 {
                     Name = item.Name,
-                    Value = item.Value.ToString()
+                    Value = item.Value
                 });
             }
 
@@ -45,7 +45,7 @@ namespace NIA.OnlineApp.BusinessAPI.Controllers
             var dtoList = entities.Select(e => new TypeInformationDto
             {
                 Name = e.Name,
-                Value = int.Parse(e.Value)
+                Value = e.Value
             });
 
             return Ok(dtoList);
