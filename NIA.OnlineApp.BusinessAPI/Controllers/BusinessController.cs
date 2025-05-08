@@ -50,5 +50,24 @@ namespace NIA.OnlineApp.BusinessAPI.Controllers
 
             return Ok(dtoList);
         }
+
+        [HttpPost("save")]
+        public async Task<IActionResult> SaveBusinessData([FromBody] List<BusinessData> entries)
+        {
+            if (entries == null || !entries.Any())
+                return BadRequest("No data to save");
+
+            try
+            {
+                await _repo.ClearAsync(); // Clear previous data before saving
+                await _repo.AddRangeAsync(entries);
+                return Ok("Data saved successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error saving data: {ex.Message}");
+            }
+        }
+
     }
 }
