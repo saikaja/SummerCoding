@@ -1,5 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-using NIA.OnlineApp.Data.Entities;
+﻿using NIA.OnlineApp.Data.Entities;
 using NIA.OnlineApp.Data.Repositories;
 
 namespace NIA.OnlineApp.InteractiveAPI.Services
@@ -7,21 +6,10 @@ namespace NIA.OnlineApp.InteractiveAPI.Services
     public class TypeUtilService : ITypeUtilService
     {
         private readonly ITypeUtilRepo _repository;
+
         public TypeUtilService(ITypeUtilRepo repository)
         {
             _repository = repository;
-        }
-        public async Task<bool> DeleteAsync(int id, TypeUtil typeUtil)
-        {
-            try
-            {
-                await _repository.DeleteAsync(id, typeUtil);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
         }
 
         public async Task<IEnumerable<TypeUtil>> GetAllAsync()
@@ -34,11 +22,11 @@ namespace NIA.OnlineApp.InteractiveAPI.Services
             return await _repository.GetByIdAsync(id);
         }
 
-        public async Task<bool> AddAsync(int id, TypeUtil typeUtil)
+        public async Task<bool> AddAsync(TypeUtil typeUtil)
         {
             try
             {
-                await _repository.AddAsync(id, typeUtil);
+                await _repository.AddAsync(typeUtil);
                 return true;
             }
             catch
@@ -47,12 +35,24 @@ namespace NIA.OnlineApp.InteractiveAPI.Services
             }
         }
 
-
-        public async Task<bool> UpdateAsync(int id, TypeUtil typeUtil)
+        public async Task<bool> UpdateAsync(TypeUtil typeUtil)
         {
             try
             {
-                await _repository.UpdateAsync(id, typeUtil);
+                await _repository.UpdateAsync(typeUtil);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteAsync(TypeUtil typeUtil)
+        {
+            try
+            {
+                await _repository.DeleteAsync(typeUtil);
                 return true;
             }
             catch
