@@ -1,3 +1,5 @@
+using NIA.OnlineApp.BusinessAPI.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +8,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddHttpClient<ITypeInformationService, TypeInformationService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7200/");
+});
 
 var app = builder.Build();
 
