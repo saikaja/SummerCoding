@@ -20,6 +20,13 @@ namespace NIA.OnlineApp.BusinessAPI.Controllers
             _repo = repo;
         }
 
+        [HttpGet("get-saved")]
+        public async Task<IActionResult> GetSavedBusinessData()
+        {
+            var savedEntries = await _repo.GetAllAsync();
+            return Ok(savedEntries);
+        }
+
         [HttpGet("fetch-and-save")]
         public async Task<IActionResult> FetchAndSaveFromInteractive()
         {

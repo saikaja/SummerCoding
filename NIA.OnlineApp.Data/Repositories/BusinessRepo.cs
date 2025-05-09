@@ -12,6 +12,11 @@ namespace NIA.OnlineApp.Data.Repositories
             _context = context;
         }
 
+        public async Task<List<BusinessData>> GetAllAsync()
+        {
+            return await _context.BusinessEntries.ToListAsync();
+        }
+
         public async Task AddRangeAsync(IEnumerable<BusinessData> entries)
         {
             await _context.BusinessEntries.AddRangeAsync(entries);
