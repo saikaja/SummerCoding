@@ -13,11 +13,23 @@ import { BusinessData } from '../models/business-data.model';
 })
 export class BusinessDashboardComponent implements OnInit {
   businessData: BusinessData[] = [];
+  labelMap: { [key: string]: string } = {
+    GeneralAggregateLimit: 'General Aggregate Limit',
+    ProductsOperationsAggregateLimit: 'Products Operations Aggregate Limit',
+    EachOccurenceLimit: 'Each Occurrence Limit',
+    DamagePremisesLimit: 'Damage to Premises Limit',
+    PersonalAdvertisingInjuryLimit: 'Personal & Advertising Injury Limit',
+    MedicalExpenseLimit: 'Medical Expense Limit',
+    PremOpsBiPdCombinedDeductible: 'PremOps BI/PD Combined Deductible',
+    ProductsBiPdCombinedDeductible: 'Products BI/PD Combined Deductible',
+    GLAggregateDeductible: 'GL Aggregate Deductible'
+  };
 
   constructor(private businessService: BusinessService) {}
 
   ngOnInit(): void {
     this.businessService.getBusinessData().subscribe(data => {
+      console.log('Fetched businessData:', data);
       this.businessData = data;
     });
   }

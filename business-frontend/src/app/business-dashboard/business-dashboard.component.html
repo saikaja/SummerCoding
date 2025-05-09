@@ -3,7 +3,7 @@
   <form (ngSubmit)="save()">
     <div class="grid">
       <div class="form-group" *ngFor="let item of businessData; let i = index">
-        <label>{{ item.name }}</label>
+        <label>{{ labelMap[item.name] || item.name }}</label>
         <input type="number" [(ngModel)]="businessData[i].value" name="value{{i}}" />
       </div>
     </div>
