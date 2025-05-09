@@ -29,7 +29,6 @@ export class BusinessDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.businessService.getBusinessData().subscribe(data => {
-      console.log('Fetched businessData:', data);
       this.businessData = data;
     });
   }
