@@ -22,6 +22,8 @@ export class BusinessDashboardComponent implements OnInit {
   }
 
   save(): void {
+    console.log('Sending data to API:', this.businessData);  
+  
     this.businessService.saveBusinessData(this.businessData).subscribe({
       next: () => {
         alert('Data saved successfully.');
@@ -32,4 +34,5 @@ export class BusinessDashboardComponent implements OnInit {
       }
     });
   }
+  
 }

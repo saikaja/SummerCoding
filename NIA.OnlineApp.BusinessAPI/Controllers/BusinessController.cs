@@ -61,7 +61,7 @@ namespace NIA.OnlineApp.BusinessAPI.Controllers
             {
                 await _repo.ClearAsync(); 
                 await _repo.AddRangeAsync(entries);
-                return Ok("Data saved successfully");
+                return Ok(new { message = "Data saved successfully" });
             }
             catch (Exception ex)
             {
