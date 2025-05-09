@@ -20,8 +20,8 @@ export class BusinessDashboardComponent implements OnInit {
     DamagePremisesLimit: 'Damage to Premises Limit',
     PersonalAdvertisingInjuryLimit: 'Personal & Advertising Injury Limit',
     MedicalExpenseLimit: 'Medical Expense Limit',
-    PremOpsBiPdCombinedDeductible: 'PremOps BI/PD Combined Deductible',
-    ProductsBiPdCombinedDeductible: 'Products BI/PD Combined Deductible',
+    PremOpsBiPdCombinedDeductible: 'PremOps BI or PD Combined Deductible',
+    ProductsBiPdCombinedDeductible: 'Products BI or PD Combined Deductible',
     GLAggregateDeductible: 'GL Aggregate Deductible'
   };
 
