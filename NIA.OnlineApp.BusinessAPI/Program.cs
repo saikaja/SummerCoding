@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using NIA.OnlineApp.BusinessAPI.Services;
-using NIA.OnlineApp.Data;
-using NIA.OnlineApp.Data.Repositories;
+using SY.OnlineApp.BusinessAPI.Services;
+using SY.OnlineApp.Data;
+using SY.OnlineApp.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +23,7 @@ builder.Services.AddDbContext<BusinessDbContext>(options =>
 {
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DbConnection"),
-        b => b.MigrationsAssembly("NIA.OnlineApp.Data")
+        b => b.MigrationsAssembly("SY.OnlineApp.Data")
     );
 });
 

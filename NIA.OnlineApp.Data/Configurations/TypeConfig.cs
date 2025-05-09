@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using NIA.OnlineApp.Data.Entities;
+using SY.OnlineApp.Data.Entities;
 
-namespace NIA.OnlineApp.Data.Configurations
+namespace SY.OnlineApp.Data.Configurations
 {
     public class TypeConfig : IEntityTypeConfiguration<TypeUtil>
     {

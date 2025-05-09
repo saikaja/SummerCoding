@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NIA.OnlineApp.Data.Entities;
-using NIA.OnlineApp.InteractiveAPI.Services;
+using SY.OnlineApp.Data.Entities;
+using SY.OnlineApp.InteractiveAPI.Services;
 
-namespace NIA.OnlineApp.InteractiveAPI.Controllers
+namespace SY.OnlineApp.InteractiveAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

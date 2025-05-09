@@ -1,7 +1,7 @@
-﻿using NIA.OnlineApp.Data.Entities;
-using NIA.OnlineApp.Data.Repositories;
+﻿using SY.OnlineApp.Data.Entities;
+using SY.OnlineApp.Data.Repositories;
 
-namespace NIA.OnlineApp.InteractiveAPI.Services
+namespace SY.OnlineApp.InteractiveAPI.Services
 {
     public class TypeUtilService : ITypeUtilService
     {

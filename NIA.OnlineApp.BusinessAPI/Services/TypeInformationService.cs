@@ -1,6 +1,6 @@
-﻿using NIA.OnlineApp.BusinessAPI.Models;
+﻿using SY.OnlineApp.BusinessAPI.Models;
 
-namespace NIA.OnlineApp.BusinessAPI.Services
+namespace SY.OnlineApp.BusinessAPI.Services
 {
     public class TypeInformationService : ITypeInformationService
     {

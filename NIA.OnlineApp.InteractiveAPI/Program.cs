@@ -2,10 +2,10 @@ using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using NIA.OnlineApp.Data;
-using NIA.OnlineApp.Data.Entities;
-using NIA.OnlineApp.Data.Repositories;
-using NIA.OnlineApp.InteractiveAPI.Services;
+using SY.OnlineApp.Data;
+using SY.OnlineApp.Data.Entities;
+using SY.OnlineApp.Data.Repositories;
+using SY.OnlineApp.InteractiveAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"), 
-        b => b.MigrationsAssembly("NIA.OnlineApp.InteractiveAPI"));
+        b => b.MigrationsAssembly("SY.OnlineApp.InteractiveAPI"));
     
 }
 );

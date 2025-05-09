@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata;
-using NIA.OnlineApp.Data.Entities;
+using SY.OnlineApp.Data.Entities;
 
-namespace NIA.OnlineApp.Data.Entities
+namespace SY.OnlineApp.Data.Entities
 {
     public class TypeUtil
     {

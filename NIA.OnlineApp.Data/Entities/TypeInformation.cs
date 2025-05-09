@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NIA.OnlineApp.Data.Entities
+namespace SY.OnlineApp.Data.Entities
 {
     public class TypeInformation
     {

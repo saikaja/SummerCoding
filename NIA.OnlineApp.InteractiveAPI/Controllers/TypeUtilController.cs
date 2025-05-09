@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NIA.OnlineApp.Data.Entities;
-using NIA.OnlineApp.InteractiveAPI.Services;
+using SY.OnlineApp.Data.Entities;
+using SY.OnlineApp.InteractiveAPI.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NIA.OnlineApp.InteractiveAPI.Controllers
+namespace SY.OnlineApp.InteractiveAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

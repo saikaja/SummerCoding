@@ -1,6 +1,6 @@
-﻿using NIA.OnlineApp.Data.Entities;
+﻿using SY.OnlineApp.Data.Entities;
 
-namespace NIA.OnlineApp.InteractiveAPI.Services
+namespace SY.OnlineApp.InteractiveAPI.Services
 {
     public interface ITypeUtilService
     {

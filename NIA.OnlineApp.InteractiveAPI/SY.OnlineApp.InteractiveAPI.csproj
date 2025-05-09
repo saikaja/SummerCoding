@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NIA.OnlineApp.Data\NIA.OnlineApp.Data.csproj" />
+    <ProjectReference Include="..\NIA.OnlineApp.Data\SY.OnlineApp.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

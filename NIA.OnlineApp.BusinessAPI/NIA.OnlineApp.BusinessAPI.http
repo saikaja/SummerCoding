@@ -1,6 +1,6 @@
-@NIA.OnlineApp.BusinessAPI_HostAddress = http://localhost:5254
+@SY.OnlineApp.BusinessAPI_HostAddress = http://localhost:5254
 
-GET {{NIA.OnlineApp.BusinessAPI_HostAddress}}/weatherforecast/
+GET {{SY.OnlineApp.BusinessAPI_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NIA.OnlineApp.Data.Configurations;
-using NIA.OnlineApp.Data.Entities;
+using SY.OnlineApp.Data.Configurations;
+using SY.OnlineApp.Data.Entities;
 
-namespace NIA.OnlineApp.Data
+namespace SY.OnlineApp.Data
 {
     public class BusinessDbContext : DbContext
     {

@@ -1,4 +1,4 @@
-﻿namespace NIA.OnlineApp.BusinessAPI.Models
+﻿namespace SY.OnlineApp.BusinessAPI.Models
 {
     public class TypeInformationDto
     {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NIA.OnlineApp.Data.Entities;
-using NIA.OnlineApp.BusinessAPI.Services;
+using SY.OnlineApp.Data.Entities;
+using SY.OnlineApp.BusinessAPI.Services;
 using System.Net.Http.Json;
-using NIA.OnlineApp.BusinessAPI.Models;
-using NIA.OnlineApp.Data.Repositories;
+using SY.OnlineApp.BusinessAPI.Models;
+using SY.OnlineApp.Data.Repositories;
 
-namespace NIA.OnlineApp.BusinessAPI.Controllers
+namespace SY.OnlineApp.BusinessAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -66,8 +66,22 @@ namespace NIA.OnlineApp.BusinessAPI.Controllers
 
             try
             {
-                await _repo.ClearAsync(); 
-                await _repo.AddRangeAsync(entries);
+                foreach (var entry in entries)
+                {
+                    var existing = await _repo.FindByNameAsync(entry.Name);
+
+                    if (existing != null)
+                    {
+                        existing.Value = entry.Value; // Update existing
+                    }
+                    else
+                    {
+                        await _repo.AddAsync(entry); // Add new
+                    }
+                }
+
+                await _repo.SaveChangesAsync();
+
                 return Ok(new { message = "Data saved successfully" });
             }
             catch (Exception ex)
@@ -75,6 +89,7 @@ namespace NIA.OnlineApp.BusinessAPI.Controllers
                 return StatusCode(500, $"Error saving data: {ex.Message}");
             }
         }
+
 
     }
 }

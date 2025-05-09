@@ -1,11 +1,15 @@
-﻿using NIA.OnlineApp.Data.Entities;
+﻿using SY.OnlineApp.Data.Entities;
 
-namespace NIA.OnlineApp.Data.Repositories
+namespace SY.OnlineApp.Data.Repositories
 {
     public interface IBusinessRepo
     {
         Task AddRangeAsync(IEnumerable<BusinessData> entries);
-        Task<List<BusinessData>> GetAllAsync();
         Task ClearAsync();
+        Task<List<BusinessData>> GetAllAsync();  
+        Task<BusinessData> FindByNameAsync(string name);
+        Task AddAsync(BusinessData entry);
+        Task SaveChangesAsync();
     }
+
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
-using NIA.OnlineApp.Data.Entities;
+using SY.OnlineApp.Data.Entities;
 
-namespace NIA.OnlineApp.Data.Repositories
+namespace SY.OnlineApp.Data.Repositories
 {
     public interface ITypeInformationRepo
     {

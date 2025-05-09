@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NIA.OnlineApp.Data.Entities;
+using SY.OnlineApp.Data.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NIA.OnlineApp.Data.Repositories
+namespace SY.OnlineApp.Data.Repositories
 {
     public class TypeInformationRepo : ITypeInformationRepo
     {
