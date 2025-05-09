@@ -12,7 +12,7 @@ export class BusinessService {
   constructor(private http: HttpClient) {}
 
   getBusinessData(): Observable<BusinessData[]> {
-    return this.http.get<BusinessData[]>(this.apiUrl);
+    return this.http.get<BusinessData[]>('https://localhost:7047/api/Business/get-saved');
   }
 
   saveBusinessData(data: BusinessData[]): Observable<any> {
