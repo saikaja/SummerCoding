@@ -1,1 +1,13 @@
-<p>business-dashboard works!</p>
+<div class="card p-4">
+    <h2>Limits & Deductibles</h2>
+  
+    <div class="row">
+      <div class="col-md-4 mb-3" *ngFor="let entry of businessData">
+        <label class="form-label">{{ entry.name }}:</label>
+        <input type="number" class="form-control" [(ngModel)]="entry.value" />
+      </div>
+    </div>
+  
+    <button class="btn btn-primary mt-3" (click)="save()">Save</button>
+  </div>
+  

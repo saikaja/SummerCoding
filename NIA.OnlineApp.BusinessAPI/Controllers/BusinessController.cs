@@ -59,7 +59,7 @@ namespace NIA.OnlineApp.BusinessAPI.Controllers
 
             try
             {
-                await _repo.ClearAsync(); // Clear previous data before saving
+                await _repo.ClearAsync(); 
                 await _repo.AddRangeAsync(entries);
                 return Ok("Data saved successfully");
             }
