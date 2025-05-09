@@ -1,13 +1,12 @@
-<div class="card p-4">
-    <h2>Limits & Deductibles</h2>
-  
-    <div class="row">
-      <div class="col-md-4 mb-3" *ngFor="let entry of businessData">
-        <label class="form-label">{{ entry.name }}:</label>
-        <input type="number" class="form-control" [(ngModel)]="entry.value" />
+<div class="form-container">
+  <h2>Limits & Deductibles</h2>
+  <form (ngSubmit)="save()">
+    <div class="grid">
+      <div class="form-group" *ngFor="let item of businessData; let i = index">
+        <label>{{ item.name }}</label>
+        <input type="number" [(ngModel)]="businessData[i].value" name="value{{i}}" />
       </div>
     </div>
-  
-    <button class="btn btn-primary mt-3" (click)="save()">Save</button>
-  </div>
-  
+    <button type="submit">💾 Save</button>
+  </form>
+</div>
