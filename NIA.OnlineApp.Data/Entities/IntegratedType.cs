@@ -11,5 +11,7 @@ namespace SY.OnlineApp.Data.Entities
         public int Id { get; set; }
         public required string Type { get; set; }
         public required string Description { get; set; }
+
+        public ICollection<IntegratedStatus> IntegratedStatuses { get; set; } = new List<IntegratedStatus>();
     }
 }

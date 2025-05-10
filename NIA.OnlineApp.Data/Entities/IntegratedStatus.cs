@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace SY.OnlineApp.Data.Entities
 {
-    internal class IntegratedStatus
+     public class IntegratedStatus
     {
         public int Id { get; set; }
 
-        [ForeignKey("TypeUtil")]
-        public required int Integrated_Id { get; set; }
+        [ForeignKey("IntergratedType")]
+        public required int IntegratedId { get; set; }
         public required bool IsDataIntegrated { get; set; }
         public IntegratedType? IntegratedType { get; set; } = null!;
     }
