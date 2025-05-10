@@ -7,7 +7,7 @@ using SY.OnlineApp.Data.Entities;
 
 namespace SY.OnlineApp.Repos.Repositories
 {
-    public class IIntegratedStatusRepo
+    public interface IIntegratedStatusRepo
     {
         Task<IntegratedStatus?> GetByIntegratedTypeAsync(int integratedTypeId);
         Task<bool> SetIntegrationStatusAsync(int integratedTypeId, bool isIntegrated);

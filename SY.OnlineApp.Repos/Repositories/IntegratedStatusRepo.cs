@@ -37,4 +37,3 @@ namespace SY.OnlineApp.Data.Repositories
     }
 }
 
-}
