@@ -1,0 +1,6 @@
+@SY.OnlineApp.WebApi_HostAddress = http://localhost:5038
+
+GET {{SY.OnlineApp.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

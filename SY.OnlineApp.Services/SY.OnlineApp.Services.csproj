@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NIA.OnlineApp.Data\SY.OnlineApp.Data.csproj" />
+    <ProjectReference Include="..\SY.OnlineApp.Models\SY.OnlineApp.Models.csproj" />
+    <ProjectReference Include="..\SY.OnlineApp.Repos\SY.OnlineApp.Repos.csproj" />
+  </ItemGroup>
+
+</Project>

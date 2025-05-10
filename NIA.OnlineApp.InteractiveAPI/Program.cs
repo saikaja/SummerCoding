@@ -4,8 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SY.OnlineApp.Data;
 using SY.OnlineApp.Data.Entities;
-using SY.OnlineApp.Data.Repositories;
-using SY.OnlineApp.InteractiveAPI.Services;
+using SY.OnlineApp.Repos.Repositories;
+using SY.OnlineApp.Services.BusinessServices;
+using SY.OnlineApp.Services.InteractiveServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,8 +32,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddScoped<ITypeUtilRepo, TypeUtilRepo>();
 builder.Services.AddScoped<ITypeInformationRepo, TypeInformationRepo>();
-builder.Services.AddScoped<ITypeUtilService, TypeUtilService>();
-builder.Services.AddScoped<ITypeInformationService, TypeInformationService>();
+builder.Services.AddScoped<IInteractiveTypeUtilService, InteractiveTypeUtilService>();
+builder.Services.AddScoped<IInteractiveITypeInformationService, InteractiveTypeInformationService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
