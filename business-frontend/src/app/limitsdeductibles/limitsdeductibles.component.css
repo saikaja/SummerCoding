@@ -1,13 +1,22 @@
 .form-container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 30px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
+  width: 218%;
+  max-width: 300%;
+  margin: 0;
+  padding: 30px 60px;
+  background: #fff;
+  border-radius: 0px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+.form-container.minimized {
+  width: 457%;
+  max-width: 700%;
+  margin: 0;
+  padding: 30px 60px;
+}
+
   h2 {
     text-align: center;
     margin-bottom: 25px;
