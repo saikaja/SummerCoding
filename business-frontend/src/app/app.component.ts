@@ -9,13 +9,7 @@ import { LiabilitiesComponent } from './liabilities/liabilities.component';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RouterModule, SidebarComponent, DashboardComponent, BusinessDashboardComponent, LiabilitiesComponent],
-  template: `
-    <nav>
-      <a routerLink="/dashboard">Dashboard</a> |
-      <a routerLink="/limits">Limits</a> |
-      <a routerLink="/liabilities">Liabilities</a>
-    </nav>
-    <router-outlet></router-outlet>
-  `
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {}

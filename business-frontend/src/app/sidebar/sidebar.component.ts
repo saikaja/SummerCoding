@@ -1,16 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterModule],
-  template: `
-    <nav>
-      <a routerLink="/dashboard">Dashboard</a> |
-      <a routerLink="/limits">Limits</a> |
-      <a routerLink="/liabilities">Liabilities</a>
-    </nav>
-  `
+  imports: [CommonModule, RouterModule],
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {}
