@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';  
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BusinessService } from '../services/business.service';
 import { BusinessData } from '../models/business-data.model';
 
 @Component({
   selector: 'app-business-dashboard',
-  standalone: true,  
-  imports: [CommonModule, FormsModule],  
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './business-dashboard.component.html',
   styleUrls: ['./business-dashboard.component.css']
 })
 export class BusinessDashboardComponent implements OnInit {
   businessData: BusinessData[] = [];
+  isCollapsed: boolean = false;  // Toggle state
+
   labelMap: { [key: string]: string } = {
     GeneralAggregateLimit: 'General Aggregate Limit',
     ProductsOperationsAggregateLimit: 'Products Operations Aggregate Limit',
@@ -34,8 +36,7 @@ export class BusinessDashboardComponent implements OnInit {
   }
 
   save(): void {
-    console.log('Sending data to API:', this.businessData);  
-  
+    console.log('Sending data to API:', this.businessData);
     this.businessService.saveBusinessData(this.businessData).subscribe({
       next: () => {
         alert('Data saved successfully.');
@@ -46,5 +47,8 @@ export class BusinessDashboardComponent implements OnInit {
       }
     });
   }
-  
+
+  toggleCollapse(): void {
+    this.isCollapsed = !this.isCollapsed;
+  }
 }

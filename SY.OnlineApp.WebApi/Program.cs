@@ -3,6 +3,7 @@ using Microsoft.OpenApi.Models;
 using SY.OnlineApp.Data;
 using SY.OnlineApp.Repos.Repositories;
 using SY.OnlineApp.Services.InteractiveServices;
+using SY.OnlineApp.Services.BusinessServices;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,14 +15,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"),
-        b => b.MigrationsAssembly("SY.OnlineApp.InteractiveAPI"));
-
-}
-);
-
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
@@ -29,6 +22,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddScoped<ITypeUtilRepo, TypeUtilRepo>();
 builder.Services.AddScoped<ITypeInformationRepo, TypeInformationRepo>();
+builder.Services.AddScoped<IBusinessRepo, BusinessRepo>();
 builder.Services.AddScoped<IInteractiveTypeUtilService, InteractiveTypeUtilService>();
 builder.Services.AddScoped<IInteractiveITypeInformationService, InteractiveTypeInformationService>();
 
@@ -37,14 +31,36 @@ builder.Services.AddHttpClient<IInteractiveITypeInformationService, InteractiveT
     client.BaseAddress = new Uri("https://localhost:7200/");
 });
 
+builder.Services.AddHttpClient<IBusinessTypeInformationService, BusinessTypeInformationService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7200/");
+});
+
 // Register BusinessDbContext and link migration assembly
 builder.Services.AddDbContext<BusinessDbContext>(options =>
 {
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DbConnection"),
+        builder.Configuration.GetConnectionString("BusinessDbConnection"),
         b => b.MigrationsAssembly("SY.OnlineApp.Data")
     );
 });
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("IntegratedDbConnection"),
+        b => b.MigrationsAssembly("SY.OnlineApp.InteractiveAPI")
+    );
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        policy => policy.WithOrigins("http://localhost:4200")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+});
+
 
 var app = builder.Build();
 
@@ -56,6 +72,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAngular");
 
 app.UseAuthorization();
 

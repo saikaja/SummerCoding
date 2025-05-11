@@ -7,16 +7,16 @@ import { BusinessData } from '../models/business-data.model';
   providedIn: 'root'
 })
 export class BusinessService {
-  private apiUrl = 'https://localhost:7047/api/Business/fetch-and-save'; 
+  private apiUrl = 'https://localhost:7127/api/Business/get-saved'; 
 
   constructor(private http: HttpClient) {}
 
   getBusinessData(): Observable<BusinessData[]> {
-    return this.http.get<BusinessData[]>('https://localhost:7047/api/Business/get-saved');
+    return this.http.get<BusinessData[]>(this.apiUrl);
   }
 
   saveBusinessData(data: BusinessData[]): Observable<any> {
-    const saveUrl = 'https://localhost:7047/api/Business/save'; 
+    const saveUrl = 'https://localhost:7127/api/Business/save'; 
     return this.http.post(saveUrl, data);
   }
   

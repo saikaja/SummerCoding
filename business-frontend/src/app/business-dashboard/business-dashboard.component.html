@@ -1,12 +1,32 @@
-<div class="form-container">
+<div class="form-container" style="position: relative;">
   <h2>Limits & Deductibles</h2>
-  <form (ngSubmit)="save()">
-    <div class="grid">
-      <div class="form-group" *ngFor="let item of businessData; let i = index">
-        <label>{{ labelMap[item.name] || item.name }}</label>
-        <input type="number" [(ngModel)]="businessData[i].value" name="value{{i}}" />
-      </div>
+
+ <button 
+  (click)="toggleCollapse()"
+  style="
+    position: absolute; 
+    top: 10px; 
+    right: 10px; 
+    border: none; 
+    background-color: #6a0dad; 
+    color: white; 
+    border-radius: 50%; 
+    width: 30px; 
+    height: 30px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 18px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    cursor: pointer;
+  ">
+  {{ isCollapsed ? '+' : '−' }}
+</button>
+
+  <div class="grid" *ngIf="!isCollapsed">
+    <div class="form-group" *ngFor="let item of businessData">
+      <label>{{ labelMap[item.name] || item.name }}</label>
+      <span>{{ item.value }}</span>
     </div>
-    <button type="submit">💾 Save</button>
-  </form>
+  </div>
 </div>
