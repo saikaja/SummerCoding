@@ -8,8 +8,8 @@ import { BusinessData } from '../models/business-data.model';
   selector: 'app-business-dashboard',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './business-dashboard.component.html',
-  styleUrls: ['./business-dashboard.component.css']
+  templateUrl: './limitsdeductibles.component.html',
+  styleUrls: ['./limitsdeductibles.component.css']
 })
 export class BusinessDashboardComponent implements OnInit {
   businessData: BusinessData[] = [];
