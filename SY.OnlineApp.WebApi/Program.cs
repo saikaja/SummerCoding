@@ -34,11 +34,6 @@ builder.Services.AddScoped<IIntegratedStatusRepo, IntegratedStatusRepo>();
 builder.Services.AddScoped<IIntegratedStatusService, IntegratedStatusService>();
 
 
-builder.Services.AddHttpClient<IInteractiveITypeInformationService, InteractiveTypeInformationService>(client =>
-{
-    client.BaseAddress = new Uri("https://localhost:7200/");
-});
-
 builder.Services.AddHttpClient<IBusinessTypeInformationService, BusinessTypeInformationService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7200/");
@@ -75,6 +70,13 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();  
     app.UseSwagger();
     app.UseSwaggerUI();
 }

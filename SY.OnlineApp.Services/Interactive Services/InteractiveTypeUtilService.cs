@@ -29,8 +29,9 @@ namespace SY.OnlineApp.Services.InteractiveServices
                 await _repository.AddAsync(typeUtil);
                 return true;
             }
-            catch
+            catch(Exception ex) 
             {
+                Console.WriteLine($"Error inserting TypeUtil: {ex.Message}");
                 return false;
             }
         }
