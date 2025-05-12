@@ -6,6 +6,8 @@ using SY.OnlineApp.Services.InteractiveServices;
 using SY.OnlineApp.Services.BusinessServices;
 using System.Text.Json.Serialization;
 using SY.OnlineApp.Services.Integrated_Type_Services;
+using SY.OnlineApp.Services.Integrated_Status_Services;
+using SY.OnlineApp.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +30,9 @@ builder.Services.AddScoped<IInteractiveTypeUtilService, InteractiveTypeUtilServi
 builder.Services.AddScoped<IInteractiveITypeInformationService, InteractiveTypeInformationService>();
 builder.Services.AddScoped<IIntegratedTypeRepo, IntegratedTypeRepo>();
 builder.Services.AddScoped<IIntegratedTypeService, IntegratedTypeService>();
+builder.Services.AddScoped<IIntegratedStatusRepo, IntegratedStatusRepo>();
+builder.Services.AddScoped<IIntegratedStatusService, IntegratedStatusService>();
+
 
 builder.Services.AddHttpClient<IInteractiveITypeInformationService, InteractiveTypeInformationService>(client =>
 {
