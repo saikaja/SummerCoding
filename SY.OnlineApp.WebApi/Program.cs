@@ -5,6 +5,7 @@ using SY.OnlineApp.Repos.Repositories;
 using SY.OnlineApp.Services.InteractiveServices;
 using SY.OnlineApp.Services.BusinessServices;
 using System.Text.Json.Serialization;
+using SY.OnlineApp.Services.Integrated_Type_Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,8 @@ builder.Services.AddScoped<ITypeInformationRepo, TypeInformationRepo>();
 builder.Services.AddScoped<IBusinessRepo, BusinessRepo>();
 builder.Services.AddScoped<IInteractiveTypeUtilService, InteractiveTypeUtilService>();
 builder.Services.AddScoped<IInteractiveITypeInformationService, InteractiveTypeInformationService>();
+builder.Services.AddScoped<IIntegratedTypeRepo, IntegratedTypeRepo>();
+builder.Services.AddScoped<IIntegratedTypeService, IntegratedTypeService>();
 
 builder.Services.AddHttpClient<IInteractiveITypeInformationService, InteractiveTypeInformationService>(client =>
 {
