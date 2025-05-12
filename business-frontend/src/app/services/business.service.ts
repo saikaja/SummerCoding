@@ -19,5 +19,15 @@ export class BusinessService {
     const saveUrl = 'https://localhost:7127/api/Business/save'; 
     return this.http.post(saveUrl, data);
   }
+  setIntegrationStatus(id: number, isIntegrated: boolean): Observable<any> {
+    return this.http.post(`https://localhost:7127/api/integration/update-status`, {
+      integratedTypeId: id,
+      isIntegrated
+    });
+  }
+  
+  fetchAndSaveFromIntegration(): Observable<any> {
+    return this.http.get('https://localhost:7127/api/integration/fetch-and-save');
+  }
   
 }

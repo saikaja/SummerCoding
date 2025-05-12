@@ -30,6 +30,9 @@ export class BusinessDashboardComponent implements OnInit {
   constructor(private businessService: BusinessService) {}
 
   ngOnInit(): void {
+    this.loadBusinessData();
+  }
+  loadBusinessData(): void {
     this.businessService.getBusinessData().subscribe(data => {
       this.businessData = data;
     });
@@ -51,4 +54,33 @@ export class BusinessDashboardComponent implements OnInit {
   toggleCollapse(): void {
     this.isCollapsed = !this.isCollapsed;
   }
+  confirmIntegration = false;
+showConfirmation = false;
+
+onIntegrationCheck() {
+  if (this.confirmIntegration) {
+    this.showConfirmation = true;
+  }
+}
+
+cancelIntegration() {
+  this.confirmIntegration = false;
+  this.showConfirmation = false;
+}
+
+confirmIntegrationAction() {
+  this.showConfirmation = false;
+
+  this.businessService.setIntegrationStatus(1, true).subscribe({
+    next: () => {
+      console.log('Integration status updated.');
+      this.businessService.fetchAndSaveFromIntegration().subscribe({
+        next: () => {
+          alert('Data integrated successfully.');
+          this.loadBusinessData(); // Reload updated results
+        }
+      });
+    }
+  });
+}
 }

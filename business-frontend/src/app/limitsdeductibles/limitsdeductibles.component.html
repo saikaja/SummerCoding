@@ -1,3 +1,19 @@
+<div class="integration-check">
+  <label>
+    <input type="checkbox" [(ngModel)]="confirmIntegration" (change)="onIntegrationCheck()" />
+    Integrate Data?
+  </label>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal" *ngIf="showConfirmation">
+  <div class="modal-content">
+    <p>Do you want to integrate the data?</p>
+    <button (click)="confirmIntegrationAction()">Yes</button>
+    <button (click)="cancelIntegration()">No</button>
+  </div>
+</div>
+
 <div class="form-container" [class.minimized]="isCollapsed" style="position: relative;">
   <h2>Limits & Deductibles</h2>
 
