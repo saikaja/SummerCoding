@@ -20,10 +20,10 @@ export class BusinessService {
     return this.http.post(saveUrl, data);
   }
   setIntegrationStatus(id: number, isIntegrated: boolean): Observable<any> {
-    return this.http.post(`https://localhost:7127/api/integration/update-status`, {
-      integratedTypeId: id,
-      isIntegrated
-    });
+    return this.http.put(
+      `https://localhost:7127/api/IntegratedStatus/${id}/update-status?isIntegrated=${isIntegrated}`,
+      null 
+    );
   }
   
   fetchAndSaveFromIntegration(): Observable<any> {
