@@ -11,5 +11,6 @@ namespace SY.OnlineApp.Repos.Repositories
     {
         Task<IntegratedStatus?> GetByIntegratedTypeAsync(int integratedTypeId);
         Task<bool> SetIntegrationStatusAsync(int integratedTypeId, bool isIntegrated);
+        Task AddStatusAsync(IntegratedStatus status);
     }
 }

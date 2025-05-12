@@ -26,5 +26,11 @@ namespace SY.OnlineApp.Services.Integrated_Status_Services
         {
             return await _statusRepo.SetIntegrationStatusAsync(integratedTypeId, isIntegrated);
         }
+
+        public async Task AddStatusAsync(IntegratedStatus status)
+        {
+            await _statusRepo.AddStatusAsync(status);
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SY.OnlineApp.Data.Entities;
 using SY.OnlineApp.Services.Integrated_Status_Services;
 
 namespace SY.OnlineApp.WebApi.Integrated_Status_Controller
@@ -12,6 +13,16 @@ namespace SY.OnlineApp.WebApi.Integrated_Status_Controller
         public IntegratedStatusController(IIntegratedStatusService statusService)
         {
             _statusService = statusService;
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> CreateStatus([FromBody] IntegratedStatus status)
+        {
+            if (status == null || status.IntegratedId <= 0)
+                return BadRequest("Invalid status data.");
+
+            await _statusService.AddStatusAsync(status);
+            return Ok(status);
         }
 
         // GET: api/IntegratedStatus/{integratedTypeId}

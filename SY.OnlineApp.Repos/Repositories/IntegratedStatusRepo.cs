@@ -34,6 +34,13 @@ namespace SY.OnlineApp.Data.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task AddStatusAsync(IntegratedStatus status)
+        {
+            _context.IntegratedStatuses.Add(status);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }
 

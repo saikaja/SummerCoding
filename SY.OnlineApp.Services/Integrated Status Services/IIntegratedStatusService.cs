@@ -11,5 +11,6 @@ namespace SY.OnlineApp.Services.Integrated_Status_Services
     {
         Task<IntegratedStatus?> GetStatusByTypeAsync(int integratedTypeId);
         Task<bool> UpdateIntegrationStatusAsync(int integratedTypeId, bool isIntegrated);
+        Task AddStatusAsync(IntegratedStatus status);
     }
 }
