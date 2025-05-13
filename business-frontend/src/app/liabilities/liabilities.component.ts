@@ -17,6 +17,13 @@ export class LiabilitiesComponent implements OnInit {
   confirmIntegration = false;
   showConfirmation = false;
 
+   labelMap: { [key: string]: string } = {
+    InjuryLiability: 'Injury Liability',
+    PropertyDamageLiability: 'Property Damage Liability',
+    ProductLiability: 'Product Liability',
+    CyberLiability: 'Cyber Liability'
+  };
+
   constructor(private liabilityService: LiabilitiesService) {}
 
   ngOnInit(): void {
