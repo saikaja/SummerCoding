@@ -1,5 +1,5 @@
 .form-container {
-  width: 166%;
+  width: 235%;
   max-width: 500%;
   margin: 0;
   padding: 30px 60px;
@@ -11,7 +11,7 @@
 }
 
 .form-container.minimized {
-  width: 351%;
+  width: 551%;
   max-width: 700%;
   margin: 0;
   padding: 30px 60px;

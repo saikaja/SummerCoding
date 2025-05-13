@@ -6,8 +6,8 @@
   min-height: calc(100vh - 60px);
   text-align: center;
   padding: 20px;
-  margin: 0 auto 0 350px;  /* Push content to the right by 250px */
-  width: calc(100% - 250px);  /* Optional: Shrink width so it stays balanced */
+  margin: 0 auto 0 270px;  
+  width: calc(100% - 250px); 
   box-sizing: border-box;
   font-family: 'Segoe UI', sans-serif;
 }
