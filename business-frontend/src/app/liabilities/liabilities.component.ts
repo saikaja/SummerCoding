@@ -25,12 +25,7 @@ export class LiabilitiesComponent implements OnInit {
   };
 
   constructor(private liabilityService: LiabilitiesService) {}
-labelMap: { [key: string]: string } = {
-    InjuryLiability: 'Injury Liability',
-    PropertyDamageLiability: 'Property Damage Liability',
-    ProductLiability: 'Product Liability',
-    CyberLiability: 'Cyber Liability',
-  };
+  
   liabilities: any[] = [];
   ngOnInit(): void {
     this.loadBusinessData();
