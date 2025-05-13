@@ -1,1 +1,28 @@
-<p>liabilities works!</p>
+<div class="integration-check">
+  <label>
+    <input type="checkbox" [(ngModel)]="confirmIntegration" (change)="onIntegrationCheck()" />
+    Integrate Data?
+  </label>
+</div>
+
+<div class="modal" *ngIf="showConfirmation">
+  <div class="modal-content">
+    <p style="font-family: sans-serif;">Do you want to integrate the data?</p>
+    <button (click)="confirmIntegrationAction()">Yes</button>
+    <button (click)="cancelIntegration()">No</button>
+  </div>
+</div>
+
+<div class="form-container" [class.minimized]="isCollapsed" style="position: relative;">
+  <h2>Liabilities</h2>
+
+  <button (click)="toggleCollapse()" style="position: absolute; top: 10px; right: 10px; border: none; background-color: #6a0dad; color: white; border-radius: 50%; width: 20px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); cursor: pointer;">
+    {{ isCollapsed ? '+' : '−' }}
+  </button>
+
+  <div class="grid" *ngIf="!isCollapsed">
+    <div class="form-group" *ngFor="let item of liabilityData">
+      <span>{{ item.value }}</span>
+    </div>
+  </div>
+</div>
