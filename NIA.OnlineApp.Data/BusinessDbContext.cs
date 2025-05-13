@@ -10,6 +10,7 @@ namespace SY.OnlineApp.Data
         public DbSet<BusinessData> BusinessEntries { get; set; }
         public DbSet<IntegratedType> IntegratedTypes { get; set; }
         public DbSet<IntegratedStatus> IntegratedStatuses { get; set; }
+        public DbSet<Liability> Liabilities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -5,23 +5,23 @@ using System.Net.Http.Json;
 using SY.OnlineApp.Models.Models;
 using SY.OnlineApp.Repos.Repositories;
 
-namespace SY.OnlineApp.BusinessAPI.Controllers
+namespace SY.OnlineApp.WebApi.Business_Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class BusinessController : ControllerBase
+    public class LiabilitiesController : ControllerBase
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IBusinessRepo _repo;
+        private readonly ILiabilityRepo _repo;
 
-        public BusinessController(IHttpClientFactory httpClientFactory, IBusinessRepo repo)
+        public LiabilitiesController(IHttpClientFactory httpClientFactory, ILiabilityRepo repo)
         {
             _httpClientFactory = httpClientFactory;
             _repo = repo;
         }
 
         [HttpGet("get-saved")]
-        public async Task<IActionResult> GetSavedBusinessData()
+        public async Task<IActionResult> GetSavedLiabilities()
         {
             var savedEntries = await _repo.GetAllAsync();
             return Ok(savedEntries);
@@ -31,22 +31,12 @@ namespace SY.OnlineApp.BusinessAPI.Controllers
         public async Task<IActionResult> FetchAndSaveFromInteractive()
         {
             var client = _httpClientFactory.CreateClient();
+            var response = await client.GetFromJsonAsync<List<TypeInformationDto>>("https://localhost:7127/api/TypeInformations/3");
 
-            // Fetch Type 1 data
-            var response1 = await client.GetFromJsonAsync<List<TypeInformationDto>>("https://localhost:7127/api/TypeInformations/1");
-
-            // Fetch Type 2 data
-            var response2 = await client.GetFromJsonAsync<List<TypeInformationDto>>("https://localhost:7127/api/TypeInformations/2");
-
-            // Combine both responses
-            var combinedResponse = (response1 ?? new List<TypeInformationDto>())
-                .Concat(response2 ?? new List<TypeInformationDto>())
-                .ToList();
-
-            if (!combinedResponse.Any())
+            if (response == null || !response.Any())
                 return BadRequest("No data received");
 
-            var entities = combinedResponse.Select(item => new BusinessData
+            var entities = response.Select(item => new Liability
             {
                 Name = item.Name,
                 Value = item.Value
@@ -64,7 +54,7 @@ namespace SY.OnlineApp.BusinessAPI.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<IActionResult> SaveBusinessData([FromBody] List<BusinessData> entries)
+        public async Task<IActionResult> SaveLiabilities([FromBody] List<Liability> entries)
         {
             if (entries == null || !entries.Any())
                 return BadRequest("No data to save");
@@ -87,14 +77,12 @@ namespace SY.OnlineApp.BusinessAPI.Controllers
 
                 await _repo.SaveChangesAsync();
 
-                return Ok(new { message = "Data saved successfully" });
+                return Ok(new { message = "Liabilities saved successfully" });
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error saving data: {ex.Message}");
             }
         }
-
-
     }
 }

@@ -23,7 +23,7 @@ builder.Services.AddHttpClient<IInteractiveITypeInformationService, InteractiveT
 builder.Services.AddDbContext<BusinessDbContext>(options =>
 {
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("BusinessDbConnection"),
+        builder.Configuration.GetConnectionString("DbConnection"),
         b => b.MigrationsAssembly("SY.OnlineApp.Data")
     );
 });

@@ -8,6 +8,7 @@ using System.Text.Json.Serialization;
 using SY.OnlineApp.Services.Integrated_Type_Services;
 using SY.OnlineApp.Services.Integrated_Status_Services;
 using SY.OnlineApp.Data.Repositories;
+using SY.OnlineApp.Services.Business_Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,13 @@ builder.Services.AddScoped<IIntegratedTypeRepo, IntegratedTypeRepo>();
 builder.Services.AddScoped<IIntegratedTypeService, IntegratedTypeService>();
 builder.Services.AddScoped<IIntegratedStatusRepo, IntegratedStatusRepo>();
 builder.Services.AddScoped<IIntegratedStatusService, IntegratedStatusService>();
+builder.Services.AddScoped<ILiabilityRepo, LiabilityRepo>();
+builder.Services.AddScoped<ILiabilityService, LiabilityService>();
 
+builder.Services.AddHttpClient<ILiabilityService, LiabilityService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7200/");
+});
 
 builder.Services.AddHttpClient<IBusinessTypeInformationService, BusinessTypeInformationService>(client =>
 {
