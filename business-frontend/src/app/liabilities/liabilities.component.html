@@ -22,6 +22,7 @@
 
   <div class="grid" *ngIf="!isCollapsed">
     <div class="form-group" *ngFor="let item of liabilityData">
+      <label>{{labelMap[item.name]}}</label>
       <span>{{ item.value }}</span>
     </div>
   </div>

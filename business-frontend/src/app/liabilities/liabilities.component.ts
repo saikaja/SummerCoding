@@ -18,7 +18,13 @@ export class LiabilitiesComponent implements OnInit {
   showConfirmation = false;
 
   constructor(private liabilityService: LiabilitiesService) {}
-
+labelMap: { [key: string]: string } = {
+    InjuryLiability: 'Injury Liability',
+    PropertyDamageLiability: 'Property Damage Liability',
+    ProductLiability: 'Product Liability',
+    CyberLiability: 'Cyber Liability',
+  };
+  liabilities: any[] = [];
   ngOnInit(): void {
     this.loadBusinessData();
   }
@@ -26,9 +32,11 @@ export class LiabilitiesComponent implements OnInit {
   loadBusinessData(): void {
     this.liabilityService.getLiabilitiesData().subscribe(data => {
       this.liabilityData = data;
+      console.log(this.liabilities);
     });
   }
 
+  
   save(): void {
     this.liabilityService.saveLiabilitiesData(this.liabilityData).subscribe({
       next: () => alert('Data saved successfully.'),
