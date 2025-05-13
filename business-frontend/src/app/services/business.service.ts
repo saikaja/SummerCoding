@@ -26,8 +26,4 @@ export class BusinessService {
     );
   }
   
-  fetchAndSaveFromIntegration(): Observable<any> {
-    return this.http.get('https://localhost:7127/api/integration/fetch-and-save');
-  }
-  
 }

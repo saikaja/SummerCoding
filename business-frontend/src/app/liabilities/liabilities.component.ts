@@ -28,7 +28,6 @@ export class LiabilitiesComponent implements OnInit {
   
   liabilities: any[] = [];
   ngOnInit(): void {
-    this.loadBusinessData();
   }
 
   loadBusinessData(): void {
@@ -69,7 +68,7 @@ export class LiabilitiesComponent implements OnInit {
 
     this.liabilityService.setIntegrationStatus(2, true).subscribe({
       next: () => {
-        this.liabilityService.fetchAndSaveFromIntegration().subscribe({
+        this.liabilityService.getLiabilitiesData().subscribe({
           next: () => {
             alert('Data integrated successfully.');
             this.loadBusinessData();

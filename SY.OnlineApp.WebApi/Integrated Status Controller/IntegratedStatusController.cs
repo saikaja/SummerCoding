@@ -44,7 +44,7 @@ namespace SY.OnlineApp.WebApi.Integrated_Status_Controller
             if (!result)
                 return NotFound("Status update failed or record not found.");
 
-            return Ok("Status updated successfully.");
+            return Ok(new { message = "Status updated successfully." });
         }
     }
 }

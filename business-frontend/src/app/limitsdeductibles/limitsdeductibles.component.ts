@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BusinessService } from '../services/business.service';
 import { BusinessData } from '../models/business-data.model';
 
+
 @Component({
   selector: 'app-business-dashboard',
   standalone: true,
@@ -30,7 +31,6 @@ export class BusinessDashboardComponent implements OnInit {
   constructor(private businessService: BusinessService) {}
 
   ngOnInit(): void {
-    this.loadBusinessData();
   }
   loadBusinessData(): void {
     this.businessService.getBusinessData().subscribe(data => {
@@ -74,7 +74,7 @@ confirmIntegrationAction() {
   this.businessService.setIntegrationStatus(1, true).subscribe({
     next: () => {
       console.log('Integration status updated.');
-      this.businessService.fetchAndSaveFromIntegration().subscribe({
+      this.businessService.getBusinessData().subscribe({
         next: () => {
           alert('Data integrated successfully.');
           this.loadBusinessData(); // Reload updated results

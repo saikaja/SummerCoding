@@ -1,6 +1,6 @@
 .form-container {
-  width: 166%;
-  max-width: 500%;
+  width: 1250px;
+  max-width: 90vw;
   margin: 0;
   padding: 30px 60px;
   background: #fff;
@@ -8,13 +8,6 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', sans-serif;
   box-sizing: border-box; /* Ensures padding doesn't break width */
-}
-
-.form-container.minimized {
-  width: 351%;
-  max-width: 700%;
-  margin: 0;
-  padding: 30px 60px;
 }
 
   h2 {
