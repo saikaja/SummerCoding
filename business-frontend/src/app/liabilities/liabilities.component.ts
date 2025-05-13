@@ -25,7 +25,8 @@ export class LiabilitiesComponent implements OnInit {
   };
 
   constructor(private liabilityService: LiabilitiesService) {}
-
+  
+  liabilities: any[] = [];
   ngOnInit(): void {
     this.loadBusinessData();
   }
@@ -33,9 +34,11 @@ export class LiabilitiesComponent implements OnInit {
   loadBusinessData(): void {
     this.liabilityService.getLiabilitiesData().subscribe(data => {
       this.liabilityData = data;
+      console.log(this.liabilities);
     });
   }
 
+  
   save(): void {
     this.liabilityService.saveLiabilitiesData(this.liabilityData).subscribe({
       next: () => alert('Data saved successfully.'),
