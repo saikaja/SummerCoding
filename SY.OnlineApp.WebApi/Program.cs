@@ -51,6 +51,8 @@ builder.Services.AddHttpClient<IBusinessTypeInformationService, BusinessTypeInfo
     client.BaseAddress = new Uri(apiBaseUrl);
 });
 
+builder.Logging.AddProvider(new DatabaseLoggerProvider(builder.Services.BuildServiceProvider()));
+
 // Register BusinessDbContext and link migration assembly
 builder.Services.AddDbContext<BusinessDbContext>(options =>
 {
