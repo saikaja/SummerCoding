@@ -4,6 +4,7 @@ using SY.OnlineApp.Services.BusinessServices;
 using System.Net.Http.Json;
 using SY.OnlineApp.Models.Models;
 using SY.OnlineApp.Repos.Repositories.Interfaces;
+using SY.OnlineApp.Services.Business_Services;
 
 namespace SY.OnlineApp.WebApi.Business_Controllers
 {
@@ -11,73 +12,42 @@ namespace SY.OnlineApp.WebApi.Business_Controllers
     [Route("api/[controller]")]
     public class LiabilitiesController : ControllerBase
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-        private readonly ILiabilityRepo _repo;
+        private readonly ILiabilityService _service;
 
-        public LiabilitiesController(IHttpClientFactory httpClientFactory, ILiabilityRepo repo)
+        public LiabilitiesController(ILiabilityService service)
         {
-            _httpClientFactory = httpClientFactory;
-            _repo = repo;
+            _service = service;
         }
 
         [HttpGet("get-saved")]
         public async Task<IActionResult> GetSavedLiabilities()
         {
-            var savedEntries = await _repo.GetAllAsync();
+            var savedEntries = await _service.GetSavedLiabilitiesAsync();
             return Ok(savedEntries);
         }
 
         [HttpGet("fetch-and-save")]
         public async Task<IActionResult> FetchAndSaveFromInteractive()
         {
-            var client = _httpClientFactory.CreateClient();
-            var response = await client.GetFromJsonAsync<List<TypeInformationDto>>("https://localhost:7127/api/TypeInformations/3");
+            var result = await _service.FetchAndStoreLiabilitiesAsync();
 
-            if (response == null || !response.Any())
+            if (!result.Any())
                 return BadRequest("No data received");
 
-            var entities = response.Select(item => new Liability
-            {
-                Name = item.Name,
-                Value = item.Value
-            }).ToList();
-
-            await _repo.AddRangeAsync(entities);
-
-            var dtoList = entities.Select(e => new TypeInformationDto
-            {
-                Name = e.Name,
-                Value = e.Value
-            });
-
-            return Ok(dtoList);
+            return Ok(result);
         }
 
         [HttpPost("save")]
         public async Task<IActionResult> SaveLiabilities([FromBody] List<Liability> entries)
         {
-            if (entries == null || !entries.Any())
-                return BadRequest("No data to save");
-
             try
             {
-                foreach (var entry in entries)
-                {
-                    var existing = await _repo.FindByNameAsync(entry.Name);
-
-                    if (existing != null)
-                    {
-                        existing.Value = entry.Value; // Update existing
-                    }
-                    else
-                    {
-                        await _repo.AddAsync(entry); // Add new
-                    }
-                }
-
-                await _repo.SaveChangesAsync();
-
+                await _service.SaveLiabilitiesAsync(entries);
                 return Ok(new { message = "Liabilities saved successfully" });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
