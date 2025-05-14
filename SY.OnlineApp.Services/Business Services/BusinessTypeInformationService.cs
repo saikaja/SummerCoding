@@ -22,9 +22,18 @@ namespace SY.OnlineApp.Services.BusinessServices
 
         public async Task<List<TypeInformationDto>> FetchTypeInformationsAsync()
         {
-            var response = await _httpClient.GetFromJsonAsync<List<TypeInformationDto>>("api/TypeInformations");
-            return response ?? new List<TypeInformationDto>();
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<List<TypeInformationDto>>("api/TypeInformations");
+                return response ?? new List<TypeInformationDto>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching type information from the API.");
+                throw new ApplicationException("Failed to fetch type information.", ex);
+            }
         }
+
 
         public async Task<List<TypeInformationDto>> FetchAndCombineTypesAsync()
         {
@@ -39,7 +48,7 @@ namespace SY.OnlineApp.Services.BusinessServices
             }
             catch (Exception ex)
             {
-                _logger.LogError("An error occurred while fetching and combining type information.");
+                _logger.LogError(ex, "An error occurred while fetching and combining type information.");
                 throw new ApplicationException("Failed to fetch combined type information.", ex);
             }
         }
