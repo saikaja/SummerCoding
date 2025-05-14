@@ -1,25 +1,44 @@
 ﻿using SY.OnlineApp.Data.Entities;
 using SY.OnlineApp.Repos.Repositories.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace SY.OnlineApp.Services.InteractiveServices
 {
     public class InteractiveTypeUtilService : IInteractiveTypeUtilService
     {
         private readonly ITypeUtilRepo _repository;
+        private readonly ILogger<InteractiveTypeUtilService> _logger;
 
-        public InteractiveTypeUtilService(ITypeUtilRepo repository)
+        public InteractiveTypeUtilService(ITypeUtilRepo repository, ILogger<InteractiveTypeUtilService> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<TypeUtil>> GetAllAsync()
         {
-            return await _repository.GetAllAsync();
+            try
+            {
+                return await _repository.GetAllAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving all TypeUtil records.");
+                throw new ApplicationException("Error retrieving all TypeUtil entries.", ex);
+            }
         }
 
         public async Task<TypeUtil?> GetByIdAsync(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            try
+            {
+                return await _repository.GetByIdAsync(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving TypeUtil with ID {Id}.", id);
+                throw new ApplicationException($"Error retrieving TypeUtil by ID {id}.", ex);
+            }
         }
 
         public async Task<bool> AddAsync(TypeUtil typeUtil)
@@ -29,9 +48,9 @@ namespace SY.OnlineApp.Services.InteractiveServices
                 await _repository.AddAsync(typeUtil);
                 return true;
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
-                Console.WriteLine($"Error inserting TypeUtil: {ex.Message}");
+                _logger.LogError(ex, "Error inserting TypeUtil with ID {Id}.", typeUtil?.Id);
                 return false;
             }
         }
@@ -43,8 +62,9 @@ namespace SY.OnlineApp.Services.InteractiveServices
                 await _repository.UpdateAsync(typeUtil);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Error updating TypeUtil with ID {Id}.", typeUtil?.Id);
                 return false;
             }
         }
@@ -56,8 +76,9 @@ namespace SY.OnlineApp.Services.InteractiveServices
                 await _repository.DeleteAsync(typeUtil);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Error deleting TypeUtil with ID {Id}.", typeUtil?.Id);
                 return false;
             }
         }
