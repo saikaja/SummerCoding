@@ -9,9 +9,9 @@ namespace SY.OnlineApp.Data.Entities
     public class LogEntry
     {
         public int Id { get; set; }
-        public string StackTrace { get; set; } = null!;
-        public string Message { get; set; } = null!;
-        public string Source { get; set; } = null;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public string ExceptionMessage { get; set; } = string.Empty;
+        public string StackTrace { get; set; } = string.Empty;
+        public string Source { get; set; } = string.Empty;
+        public DateTime LoggedAt { get; set; } = DateTime.UtcNow;
     }
 }
