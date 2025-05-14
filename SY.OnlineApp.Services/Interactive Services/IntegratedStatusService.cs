@@ -1,15 +1,18 @@
 ﻿using SY.OnlineApp.Data.Entities;
 using SY.OnlineApp.Repos.Repositories.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace SY.OnlineApp.Services.Integrated_Status_Services
 {
     public class IntegratedStatusService : IIntegratedStatusService
     {
         private readonly IIntegratedStatusRepo _statusRepo;
+        private readonly ILogger<IntegratedStatusService> _logger;
 
-        public IntegratedStatusService(IIntegratedStatusRepo statusRepo)
+        public IntegratedStatusService(IIntegratedStatusRepo statusRepo, ILogger<IntegratedStatusService> logger)
         {
             _statusRepo = statusRepo;
+            _logger = logger;
         }
 
         public async Task<IntegratedStatus> GetStatusByTypeAsync(int integratedTypeId)
@@ -25,10 +28,10 @@ namespace SY.OnlineApp.Services.Integrated_Status_Services
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error retrieving status for IntegratedTypeId {IntegratedTypeId}.", integratedTypeId);
                 throw new ApplicationException("Error retrieving status.", ex);
             }
         }
-
         public async Task UpdateStatusAsync(int integratedTypeId, bool isIntegrated)
         {
             try
@@ -40,6 +43,7 @@ namespace SY.OnlineApp.Services.Integrated_Status_Services
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error updating status for IntegratedTypeId {IntegratedTypeId} with value {IsIntegrated}.", integratedTypeId, isIntegrated);
                 throw new ApplicationException("Error updating status.", ex);
             }
         }
@@ -55,6 +59,7 @@ namespace SY.OnlineApp.Services.Integrated_Status_Services
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error creating status for IntegratedId {IntegratedId}.", status?.IntegratedId);
                 throw new ApplicationException("Error creating status.", ex);
             }
         }
