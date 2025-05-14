@@ -5,6 +5,8 @@ namespace SY.OnlineApp.Services.BusinessServices
 {
     public interface IBusinessTypeInformationService
     {
-        Task<List<TypeInformationDto>> GetTypeInformationsAsync();
+        Task<List<TypeInformationDto>> FetchTypeInformationsAsync();
+        Task<List<TypeInformationDto>> FetchAndCombineTypesAsync();
+        Task<List<TypeInformationDto>> FetchStoreAndReturnTypeInformationsAsync();
     }
 }

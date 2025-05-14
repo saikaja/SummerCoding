@@ -25,6 +25,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
 
+var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"];
+
 builder.Services.AddScoped<ITypeUtilRepo, TypeUtilRepo>();
 builder.Services.AddScoped<ITypeInformationRepo, TypeInformationRepo>();
 builder.Services.AddScoped<IBusinessRepo, BusinessRepo>();
@@ -39,12 +41,12 @@ builder.Services.AddScoped<ILiabilityService, LiabilityService>();
 
 builder.Services.AddHttpClient<ILiabilityService, LiabilityService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7200/");
+    client.BaseAddress = new Uri(apiBaseUrl);
 });
 
 builder.Services.AddHttpClient<IBusinessTypeInformationService, BusinessTypeInformationService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7200/");
+    client.BaseAddress = new Uri(apiBaseUrl);
 });
 
 // Register BusinessDbContext and link migration assembly
