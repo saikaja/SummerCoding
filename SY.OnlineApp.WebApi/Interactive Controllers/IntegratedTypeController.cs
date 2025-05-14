@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SY.OnlineApp.Data.Entities;
-using System.Net.Http.Json;
-using SY.OnlineApp.Models.Models;
-using SY.OnlineApp.Repos.Repositories;
 using SY.OnlineApp.Services.Integrated_Type_Services;
 
 namespace SY.OnlineApp.WebApi.Integrated_Type_Controllers
@@ -28,14 +25,9 @@ namespace SY.OnlineApp.WebApi.Integrated_Type_Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] IntegratedType type)
         {
-            if (string.IsNullOrWhiteSpace(type.Type))
-                return BadRequest("Type is required.");
-
             var success = await _service.CreateTypeAsync(type);
-            if (!success)
-                return Conflict("Type already exists.");
-
-            return Ok(type);
+            return success ? Ok(type) : Conflict("Type already exists.");
         }
     }
 }
+
