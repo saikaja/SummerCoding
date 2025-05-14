@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SY.OnlineApp.Data.Entities
 {
-    internal class LogEntry
+    public class LogEntry
     {
         public int Id { get; set; }
         public string StackTrace { get; set; } = null!;

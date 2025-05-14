@@ -11,7 +11,7 @@ namespace SY.OnlineApp.Data
         public DbSet<IntegratedType> IntegratedTypes { get; set; }
         public DbSet<IntegratedStatus> IntegratedStatuses { get; set; }
         public DbSet<Liability> Liabilities { get; set; }
-
+        public DbSet<LogEntry> Logs { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<IntegratedType>()
