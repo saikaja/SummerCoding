@@ -1,4 +1,5 @@
-﻿using SY.OnlineApp.Data.Entities;
+﻿using Microsoft.Extensions.Logging;
+using SY.OnlineApp.Data.Entities;
 using SY.OnlineApp.Models.Models;
 using SY.OnlineApp.Repos.Repositories.Interfaces;
 using System.Net.Http.Json;
@@ -9,11 +10,14 @@ namespace SY.OnlineApp.Services.BusinessServices
     {
         private readonly HttpClient _httpClient;
         private readonly IBusinessRepo _repo;
+        private readonly ILogger<BusinessTypeInformationService> _logger;
 
-        public BusinessTypeInformationService(HttpClient httpClient, IBusinessRepo repo)
+        public BusinessTypeInformationService(HttpClient httpClient, IBusinessRepo repo, 
+            ILogger<BusinessTypeInformationService> logger)
         {
             _httpClient = httpClient;
             _repo = repo;
+            _logger = logger;
         }
 
         public async Task<List<TypeInformationDto>> FetchTypeInformationsAsync()
@@ -35,30 +39,44 @@ namespace SY.OnlineApp.Services.BusinessServices
             }
             catch (Exception ex)
             {
+                _logger.LogError("An error occurred while fetching and combining type information.");
                 throw new ApplicationException("Failed to fetch combined type information.", ex);
             }
         }
 
-        public async Task<List<TypeInformationDto>> FetchStoreAndReturnTypeInformationsAsync()
+       public async Task<List<TypeInformationDto>> FetchStoreAndReturnTypeInformationsAsync()
         {
-            var combinedResponse = await FetchAndCombineTypesAsync();
-
-            if (!combinedResponse.Any())
-                return new List<TypeInformationDto>();
-
-            var entities = combinedResponse.Select(item => new BusinessData
+            try
             {
-                Name = item.Name,
-                Value = item.Value
-            }).ToList();
+                var combinedResponse = await FetchAndCombineTypesAsync();
 
-            await _repo.AddRangeAsync(entities);
+                if (!combinedResponse.Any())
+                {
+                    return new List<TypeInformationDto>();
+                }
 
-            return entities.Select(e => new TypeInformationDto
+                var entities = combinedResponse.Select(item => new BusinessData
+                {
+                    Name = item.Name,
+                    Value = item.Value
+                }).ToList();
+
+                await _repo.AddRangeAsync(entities);
+                
+                var result = entities.Select(e => new TypeInformationDto
+                {
+                    Name = e.Name,
+                    Value = e.Value
+                }).ToList();
+
+                return result;
+            }
+            catch (Exception ex)
             {
-                Name = e.Name,
-                Value = e.Value
-            }).ToList();
+                _logger.LogError(ex, "An error occurred while fetching, storing, and returning type information.");
+                throw new ApplicationException("Failed to fetch and store type information.", ex);
+            }
         }
+
     }
 }
