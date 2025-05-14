@@ -26,6 +26,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"];
+if (string.IsNullOrEmpty(apiBaseUrl))
+    throw new InvalidOperationException("API Base URL is not configured.");
 
 builder.Services.AddScoped<ITypeUtilRepo, TypeUtilRepo>();
 builder.Services.AddScoped<ITypeInformationRepo, TypeInformationRepo>();
