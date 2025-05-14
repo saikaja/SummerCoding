@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SY.OnlineApp.Data;
 using SY.OnlineApp.Data.Entities;
+using SY.OnlineApp.Repos.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

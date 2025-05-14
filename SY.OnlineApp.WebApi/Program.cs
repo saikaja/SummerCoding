@@ -9,6 +9,7 @@ using SY.OnlineApp.Services.Integrated_Type_Services;
 using SY.OnlineApp.Services.Integrated_Status_Services;
 using SY.OnlineApp.Data.Repositories;
 using SY.OnlineApp.Services.Business_Services;
+using SY.OnlineApp.Repos.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SY.OnlineApp.Data.Entities;
 using SY.OnlineApp.Data;
+using SY.OnlineApp.Repos.Repositories.Interfaces;
 
 namespace SY.OnlineApp.Repos.Repositories
 {

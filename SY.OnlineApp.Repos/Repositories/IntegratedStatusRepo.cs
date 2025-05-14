@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SY.OnlineApp.Data.Entities;
-using SY.OnlineApp.Repos.Repositories;
+using SY.OnlineApp.Repos.Repositories.Interfaces;
 
 namespace SY.OnlineApp.Data.Repositories
 {

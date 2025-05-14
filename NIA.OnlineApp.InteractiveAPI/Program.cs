@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using SY.OnlineApp.Data;
 using SY.OnlineApp.Data.Entities;
 using SY.OnlineApp.Repos.Repositories;
+using SY.OnlineApp.Repos.Repositories.Interfaces;
 using SY.OnlineApp.Services.BusinessServices;
 using SY.OnlineApp.Services.InteractiveServices;
 

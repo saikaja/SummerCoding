@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SY.OnlineApp.Repos.Repositories
+namespace SY.OnlineApp.Repos.Repositories.Interfaces
 {
     public interface ITypeUtilRepo
     {

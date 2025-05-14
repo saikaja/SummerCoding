@@ -1,5 +1,5 @@
 ﻿using SY.OnlineApp.Data.Entities;
-using SY.OnlineApp.Repos.Repositories;
+using SY.OnlineApp.Repos.Repositories.Interfaces;
 
 namespace SY.OnlineApp.Services.InteractiveServices
 {

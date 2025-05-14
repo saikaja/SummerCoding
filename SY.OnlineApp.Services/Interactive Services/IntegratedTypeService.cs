@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SY.OnlineApp.Data.Entities;
-using SY.OnlineApp.Repos.Repositories;
+using SY.OnlineApp.Repos.Repositories.Interfaces;
 
 namespace SY.OnlineApp.Services.Integrated_Type_Services
 {

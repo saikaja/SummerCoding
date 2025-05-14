@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SY.OnlineApp.Data.Entities;
 
-namespace SY.OnlineApp.Repos.Repositories
+namespace SY.OnlineApp.Repos.Repositories.Interfaces
 {
     public interface ITypeInformationRepo
     {

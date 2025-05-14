@@ -3,6 +3,7 @@ using SY.OnlineApp.Services.BusinessServices;
 using SY.OnlineApp.Data;
 using SY.OnlineApp.Repos.Repositories;
 using SY.OnlineApp.Services.InteractiveServices;
+using SY.OnlineApp.Repos.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
