@@ -4,6 +4,7 @@ using SY.OnlineApp.Data;
 using SY.OnlineApp.Repos.Repositories;
 using SY.OnlineApp.Services.InteractiveServices;
 using SY.OnlineApp.Repos.Repositories.Interfaces;
+using SY.OnlineApp.Repos.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,8 @@ builder.Services.AddDbContext<BusinessDbContext>(options =>
         b => b.MigrationsAssembly("SY.OnlineApp.Data")
     );
 });
+
+builder.Logging.AddProvider(new DatabaseLoggerProvider(builder.Services.BuildServiceProvider()));
 
 // Register Repositories
 builder.Services.AddScoped<IBusinessRepo, BusinessRepo>();
