@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SY.OnlineApp.Data.Entities;
+﻿using SY.OnlineApp.Data.Entities;
 using SY.OnlineApp.Repos.Repositories.Interfaces;
 
 namespace SY.OnlineApp.Services.Integrated_Status_Services
@@ -17,20 +12,51 @@ namespace SY.OnlineApp.Services.Integrated_Status_Services
             _statusRepo = statusRepo;
         }
 
-        public async Task<IntegratedStatus?> GetStatusByTypeAsync(int integratedTypeId)
+        public async Task<IntegratedStatus> GetStatusByTypeAsync(int integratedTypeId)
         {
-            return await _statusRepo.GetByIntegratedTypeAsync(integratedTypeId);
+            try
+            {
+                var status = await _statusRepo.GetByIntegratedTypeAsync(integratedTypeId);
+
+                if (status == null)
+                    throw new KeyNotFoundException("Status not found.");
+
+                return status;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error retrieving status.", ex);
+            }
         }
 
-        public async Task<bool> UpdateIntegrationStatusAsync(int integratedTypeId, bool isIntegrated)
+        public async Task UpdateStatusAsync(int integratedTypeId, bool isIntegrated)
         {
-            return await _statusRepo.SetIntegrationStatusAsync(integratedTypeId, isIntegrated);
+            try
+            {
+                var updated = await _statusRepo.SetIntegrationStatusAsync(integratedTypeId, isIntegrated);
+
+                if (!updated)
+                    throw new KeyNotFoundException("Status update failed or record not found.");
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error updating status.", ex);
+            }
         }
 
-        public async Task AddStatusAsync(IntegratedStatus status)
+        public async Task CreateStatusAsync(IntegratedStatus status)
         {
-            await _statusRepo.AddStatusAsync(status);
-        }
+            try
+            {
+                if (status == null || status.IntegratedId <= 0)
+                    throw new ArgumentException("Invalid status data.");
 
+                await _statusRepo.AddStatusAsync(status);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error creating status.", ex);
+            }
+        }
     }
 }
