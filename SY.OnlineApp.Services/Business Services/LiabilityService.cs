@@ -26,19 +26,25 @@ namespace SY.OnlineApp.Services.Business_Services
 
         public async Task<List<Liability>> GetSavedLiabilitiesAsync()
         {
-            return await _repo.GetAllAsync();
+            try
+            {
+                return await _repo.GetAllAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving saved liabilities.");
+                throw new ApplicationException("Failed to retrieve saved liabilities.", ex);
+            }
         }
 
         public async Task<List<TypeInformationDto>> FetchAndStoreLiabilitiesAsync()
         {
             try
             {
-                _logger.LogInformation("Fetching liabilities from external API...");
                 var response = await _httpClient.GetFromJsonAsync<List<TypeInformationDto>>("api/TypeInformations/type/3");
 
                 if (response == null || !response.Any())
                 {
-                    _logger.LogWarning("No data received from external API.");
                     return new List<TypeInformationDto>();
                 }
 
@@ -50,8 +56,6 @@ namespace SY.OnlineApp.Services.Business_Services
 
                 await _repo.AddRangeAsync(entities);
 
-                _logger.LogInformation("Liabilities saved to database: {Count}", entities.Count);
-
                 return entities.Select(e => new TypeInformationDto
                 {
                     Name = e.Name,
@@ -60,8 +64,8 @@ namespace SY.OnlineApp.Services.Business_Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error fetching and storing liabilities.");
-                throw;
+                _logger.LogError(ex, "An error occurred while fetching and storing liabilities.");
+                throw new ApplicationException("Failed to fetch and store liabilities.", ex);
             }
         }
 
@@ -69,8 +73,7 @@ namespace SY.OnlineApp.Services.Business_Services
         {
             if (entries == null || !entries.Any())
             {
-                _logger.LogWarning("Attempted to save empty liabilities list.");
-                throw new ArgumentException("No data to save");
+                throw new ArgumentException("No data to save.");
             }
 
             try
@@ -89,13 +92,11 @@ namespace SY.OnlineApp.Services.Business_Services
                 }
 
                 await _repo.SaveChangesAsync();
-
-                _logger.LogInformation("Liabilities saved successfully.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error saving liabilities.");
-                throw;
+                _logger.LogError(ex, "An error occurred while saving liabilities.");
+                throw new ApplicationException("Failed to save liabilities.", ex);
             }
         }
     }
