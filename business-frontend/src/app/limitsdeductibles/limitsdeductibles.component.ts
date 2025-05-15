@@ -15,6 +15,7 @@ import { BusinessData } from '../models/business-data.model';
 export class BusinessDashboardComponent implements OnInit {
   businessData: BusinessData[] = [];
   isCollapsed: boolean = false;  // Toggle state
+  integrationMessage: string | null = null;
 
   labelMap: { [key: string]: string } = {
     GeneralAggregateLimit: 'General Aggregate Limit',
@@ -76,7 +77,7 @@ confirmIntegrationAction() {
       console.log('Integration status updated.');
       this.businessService.getBusinessData().subscribe({
         next: () => {
-          alert('Data integrated successfully.');
+          this.integrationMessage = 'Data integrated successfully.';
           this.loadBusinessData(); // Reload updated results
         }
       });

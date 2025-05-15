@@ -1,27 +1,29 @@
 using Microsoft.EntityFrameworkCore;
-using SY.OnlineApp.Services.BusinessServices;
 using SY.OnlineApp.Data;
 using SY.OnlineApp.Repos.Repositories;
-using SY.OnlineApp.Services.InteractiveServices;
 using SY.OnlineApp.Repos.Repositories.Interfaces;
-using SY.OnlineApp.Repos.Repositories;
+using SY.OnlineApp.Services.BusinessServices;
+using SY.OnlineApp.Services.InteractiveServices;
 
+// Create builder
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
 builder.Services.AddControllers();
-
-// Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Register HTTP client to talk to InteractiveAPI
+// Read Configuration Settings
+var interactiveApiBaseUrl = builder.Configuration.GetValue<string>("ApiSettings:InteractiveApiBaseUrl");
+var allowedOrigin = builder.Configuration.GetValue<string>("CorsSettings:AllowedOrigin");
+
+// Register HTTP Client with Configured Base URL
 builder.Services.AddHttpClient<IInteractiveITypeInformationService, InteractiveTypeInformationService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7200/");
+    client.BaseAddress = new Uri(interactiveApiBaseUrl);
 });
 
-// Register BusinessDbContext and link migration assembly
+// Register DbContext with Configured Connection String
 builder.Services.AddDbContext<BusinessDbContext>(options =>
 {
     options.UseSqlServer(
@@ -30,28 +32,36 @@ builder.Services.AddDbContext<BusinessDbContext>(options =>
     );
 });
 
+// Register Custom Database Logger
 builder.Logging.AddProvider(new DatabaseLoggerProvider(builder.Services.BuildServiceProvider()));
 
 // Register Repositories
 builder.Services.AddScoped<IBusinessRepo, BusinessRepo>();
 
+// Register Services
+builder.Services.AddScoped<IBusinessTypeInformationService, BusinessTypeInformationService>();
+
+// Configure CORS with Configured Allowed Origin
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngular",
-        policy => policy.WithOrigins("http://localhost:4200")
-                        .AllowAnyMethod()
-                        .AllowAnyHeader());
+    options.AddPolicy("AllowAngular", policy =>
+    {
+        policy.WithOrigins(allowedOrigin)
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
 });
 
 // Build app
 var app = builder.Build();
 
-// Middleware
+// Middleware Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseCors("AllowAngular");
 app.UseHttpsRedirection();
 app.UseAuthorization();

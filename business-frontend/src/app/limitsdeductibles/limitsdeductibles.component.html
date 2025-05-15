@@ -1,5 +1,5 @@
 <div class="integration-check">
-  <label>
+  <label style = "font-family: sans-serif;">
     <input type="checkbox" [(ngModel)]="confirmIntegration" (change)="onIntegrationCheck()" />
     Integrate Data?
   </label>
@@ -12,6 +12,10 @@
     <button (click)="confirmIntegrationAction()">Yes</button>
     <button (click)="cancelIntegration()">No</button>
   </div>
+</div>
+<div *ngIf="integrationMessage" class="confirmation-message">
+  {{ integrationMessage }}
+  <button (click)="integrationMessage = null" style="margin-left: 10px;">×</button>
 </div>
 
 <div class="form-container" [class.minimized]="isCollapsed" style="position: relative;">

@@ -16,6 +16,8 @@ export class LiabilitiesComponent implements OnInit {
   isCollapsed: boolean = false;
   confirmIntegration = false;
   showConfirmation = false;
+  integrationMessage: string | null = null;
+
 
    labelMap: { [key: string]: string } = {
     InjuryLiability: 'Injury Liability',
@@ -70,7 +72,7 @@ export class LiabilitiesComponent implements OnInit {
       next: () => {
         this.liabilityService.getLiabilitiesData().subscribe({
           next: () => {
-            alert('Data integrated successfully.');
+            this.integrationMessage = 'Data integrated successfully.';
             this.loadBusinessData();
           }
         });
