@@ -1,15 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SY.OnlineApp.Models.Dtos;
+using SY.OnlineApp.Services.Interfaces;
 using SY.OnlineApp.Services.Services;
 
-namespace SY.OnlineApp.WebAPI.Controllers
+namespace SY.OnlineApp.AuthenticationAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class RegisterController : ControllerBase
     {
-        private readonly RegisterService _service;
+        private readonly IRegisterService _service;
 
-        public RegisterController(RegisterService service)
+        public RegisterController(IRegisterService service)
         {
             _service = service;
         }
@@ -36,9 +38,4 @@ namespace SY.OnlineApp.WebAPI.Controllers
         }
     }
 }
-namespace AuthenticationAPI.Controllers
-{
-    public class RegisterController
-    {
-    }
-}
+

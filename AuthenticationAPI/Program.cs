@@ -4,25 +4,26 @@ using SY.OnlineApp.Repos.Repositories.Interfaces;
 using SY.OnlineApp.Repos.Repositories;
 using SY.OnlineApp.Services.Interfaces;
 using SY.OnlineApp.Services.Services;
-using SY.OnlineApp.Models.Dtos;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Add controllers & Swagger
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Load API Base URL
 var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"];
 if (string.IsNullOrEmpty(apiBaseUrl))
     throw new InvalidOperationException("API Base URL is not configured.");
 
-builder.Services.AddScoped<IRegisterService, RegisterService>();
+// Add Repositories
 builder.Services.AddScoped<IRegisterRepo, RegisterRepo>();
 
-// Register BusinessDbContext and link migration assembly
+// Add Services
+builder.Services.AddScoped<IRegisterService, RegisterService>();
+
+// Add DbContexts with Migration Assembly Binding
 builder.Services.AddDbContext<BusinessDbContext>(options =>
 {
     options.UseSqlServer(
@@ -39,27 +40,26 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     );
 });
 
+// Add CORS Policy for Angular or other clients
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular",
-      policy => policy.AllowAnyOrigin()
-                      .AllowAnyMethod()
-                      .AllowAnyHeader());
+        policy => policy.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure HTTP Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAngular");
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
