@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NIA.OnlineApp.Data\SY.OnlineApp.Data.csproj" />
+    <ProjectReference Include="..\SY.OnlineApp.Models\SY.OnlineApp.Models.csproj" />
+    <ProjectReference Include="..\SY.OnlineApp.Repos\SY.OnlineApp.Repos.csproj" />
+    <ProjectReference Include="..\SY.OnlineApp.Services\SY.OnlineApp.Services.csproj" />
+  </ItemGroup>
+
+</Project>

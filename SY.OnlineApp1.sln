@@ -9,13 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SY.OnlineApp.InteractiveAPI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SY.OnlineApp.BusinessAPI", "NIA.OnlineApp.BusinessAPI\SY.OnlineApp.BusinessAPI.csproj", "{A0A9CD5C-F573-4B18-BA61-CB2079B05978}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SY.OnlineApp.Repos", "SY.OnlineApp.Repos\SY.OnlineApp.Repos.csproj", "{134FF66F-219E-48FF-AB3D-76F510B93E4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SY.OnlineApp.Repos", "SY.OnlineApp.Repos\SY.OnlineApp.Repos.csproj", "{134FF66F-219E-48FF-AB3D-76F510B93E4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SY.OnlineApp.Models", "SY.OnlineApp.Models\SY.OnlineApp.Models.csproj", "{CBF13554-A54D-4B1F-A18B-1895961951AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SY.OnlineApp.Models", "SY.OnlineApp.Models\SY.OnlineApp.Models.csproj", "{CBF13554-A54D-4B1F-A18B-1895961951AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SY.OnlineApp.Services", "SY.OnlineApp.Services\SY.OnlineApp.Services.csproj", "{7635FDDE-4B42-4DE4-B2A8-4EC871373B68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SY.OnlineApp.Services", "SY.OnlineApp.Services\SY.OnlineApp.Services.csproj", "{7635FDDE-4B42-4DE4-B2A8-4EC871373B68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SY.OnlineApp.WebApi", "SY.OnlineApp.WebApi\SY.OnlineApp.WebApi.csproj", "{842D6BEA-C1AD-4280-B464-905961EEEE6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SY.OnlineApp.WebApi", "SY.OnlineApp.WebApi\SY.OnlineApp.WebApi.csproj", "{842D6BEA-C1AD-4280-B464-905961EEEE6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationAPI", "AuthenticationAPI\AuthenticationAPI.csproj", "{27EDBD6B-BF26-4A19-8C64-DAC4F30249DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{842D6BEA-C1AD-4280-B464-905961EEEE6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{842D6BEA-C1AD-4280-B464-905961EEEE6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{842D6BEA-C1AD-4280-B464-905961EEEE6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27EDBD6B-BF26-4A19-8C64-DAC4F30249DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27EDBD6B-BF26-4A19-8C64-DAC4F30249DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27EDBD6B-BF26-4A19-8C64-DAC4F30249DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27EDBD6B-BF26-4A19-8C64-DAC4F30249DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
