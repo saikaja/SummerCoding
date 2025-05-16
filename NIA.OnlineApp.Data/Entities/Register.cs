@@ -46,6 +46,10 @@ namespace SY.OnlineApp.Data.Entities
         [MaxLength(20)]
         public string PostalCode { get; set; }
 
+        public string? PasswordHash { get; set; }
+
+        public string Status { get; set; } = "New";
+
         public static ValidationResult? ValidateAge(DateTime dateOfBirth, ValidationContext context)
         {
             var age = DateTime.Today.Year - dateOfBirth.Year;

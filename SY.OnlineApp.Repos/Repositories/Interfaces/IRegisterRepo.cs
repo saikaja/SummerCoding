@@ -12,5 +12,6 @@ namespace SY.OnlineApp.Repos.Repositories.Interfaces
         Task AddAsync(Register register);
         Task SaveAsync();
         Task<bool> UserNameExistsAsync(string username);
+        Task<Register?> GetByUserNameAsync(string userName);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SY.OnlineApp.Models.Dtos;
+using SY.OnlineApp.Models.Models;
 using SY.OnlineApp.Services.Business_Services.Interfaces;
 using SY.OnlineApp.Services.Interfaces;
 using SY.OnlineApp.Services.Services;
@@ -41,5 +42,18 @@ namespace SY.OnlineApp.AuthenticationAPI.Controllers
             return Ok("OTP sent to your email.");
         }
 
+        [HttpPost("create-password")]
+        public async Task<IActionResult> CreatePassword([FromBody] CreatePasswordDto dto)
+        {
+            try
+            {
+                await _registerService.SetPasswordAsync(dto);
+                return Ok("Password created successfully. Account activated.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

@@ -28,5 +28,11 @@ namespace SY.OnlineApp.Repos.Repositories
         {
             return await _context.Set<Register>().AnyAsync(r => r.UserName == username);
         }
+
+        public async Task<Register?> GetByUserNameAsync(string userName)
+        {
+            return await _context.Set<Register>().FirstOrDefaultAsync(r => r.UserName == userName);
+        }
+
     }
 }
