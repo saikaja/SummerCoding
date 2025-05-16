@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SY.OnlineApp.Services", "SY
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SY.OnlineApp.WebApi", "SY.OnlineApp.WebApi\SY.OnlineApp.WebApi.csproj", "{842D6BEA-C1AD-4280-B464-905961EEEE6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationAPI", "AuthenticationAPI\AuthenticationAPI.csproj", "{27EDBD6B-BF26-4A19-8C64-DAC4F30249DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SY.OnlineApp.AuthenticationAPI", "AuthenticationAPI\SY.OnlineApp.AuthenticationAPI.csproj", "{27EDBD6B-BF26-4A19-8C64-DAC4F30249DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
