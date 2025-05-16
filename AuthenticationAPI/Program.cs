@@ -4,6 +4,8 @@ using SY.OnlineApp.Repos.Repositories.Interfaces;
 using SY.OnlineApp.Repos.Repositories;
 using SY.OnlineApp.Services.Interfaces;
 using SY.OnlineApp.Services.Services;
+using SY.OnlineApp.Services.Business_Services;
+using SY.OnlineApp.Services.Business_Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,9 +21,13 @@ if (string.IsNullOrEmpty(apiBaseUrl))
 
 // Add Repositories
 builder.Services.AddScoped<IRegisterRepo, RegisterRepo>();
+builder.Services.AddScoped<ILastLoginRepo, LastLoginRepo>();
+builder.Services.AddScoped<IOneTimePassCodeRepo, OneTimePassCodeRepo>();
 
 // Add Services
 builder.Services.AddScoped<IRegisterService, RegisterService>();
+builder.Services.AddScoped<ILastLoginService, LastLoginService>();
+builder.Services.AddScoped<IOneTimePassCodeService, OneTimePassCodeService>();
 
 // Add DbContexts with Migration Assembly Binding
 builder.Services.AddDbContext<BusinessDbContext>(options =>

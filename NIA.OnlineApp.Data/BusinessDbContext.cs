@@ -14,6 +14,8 @@ namespace SY.OnlineApp.Data
         public DbSet<LogEntry> Logs { get; set; }
         public DbSet<Register> Registrations { get; set; }
         public DbSet<OneTimePassCode> OneTimePassCodes { get; set; }
+        public DbSet<LastLogin> LastLogins { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<IntegratedType>()
