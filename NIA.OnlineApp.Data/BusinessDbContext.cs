@@ -13,6 +13,7 @@ namespace SY.OnlineApp.Data
         public DbSet<Liability> Liabilities { get; set; }
         public DbSet<LogEntry> Logs { get; set; }
         public DbSet<Register> Registrations { get; set; }
+        public DbSet<OneTimePassCode> OneTimePassCodes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<IntegratedType>()
