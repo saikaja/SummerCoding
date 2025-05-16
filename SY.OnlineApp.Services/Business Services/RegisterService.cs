@@ -10,20 +10,29 @@ namespace SY.OnlineApp.Services.Services
     {
         private readonly IRegisterRepo _repo;
         private readonly ILogger<RegisterService> _logger;
+        private readonly EmailService _emailService;
+        private readonly SftpService _sftpService;
 
-        public RegisterService(IRegisterRepo repo, ILogger<RegisterService> logger)
+        public RegisterService(IRegisterRepo repo, ILogger<RegisterService> logger, EmailService emailService, SftpService sftpService)
         {
             _repo = repo;
             _logger = logger;
+            _emailService = emailService;
+            _sftpService = sftpService;
         }
 
         public async Task RegisterUserAsync(RegisterDto dto)
         {
             try
             {
-                var usernameTaken = await _repo.UserNameExistsAsync(dto.UserName);
-                if (usernameTaken)
+                if (await _repo.UserNameExistsAsync(dto.UserName))
                     throw new ArgumentException("Username already exists.");
+
+                var otp = OtpGenerator.GenerateOtp();
+                var template = _sftpService.GetEmailTemplate("/otp_templates/otp_email.html");
+                var body = template.Replace("{{OTP}}", otp);
+
+                await _emailService.SendOtpEmail(dto.Email, "Your OTP Code", body);
 
                 var register = new Register
                 {
@@ -43,8 +52,8 @@ namespace SY.OnlineApp.Services.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while registering user: {Username}", dto.UserName);
-                throw new ApplicationException("Registration failed. Please try again.", ex);
+                _logger.LogError(ex, "Error during registration for {Email}", dto.Email);
+                throw new ApplicationException("Registration failed.", ex);
             }
         }
     }

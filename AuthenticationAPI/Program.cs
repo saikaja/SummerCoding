@@ -28,6 +28,8 @@ builder.Services.AddScoped<IOneTimePassCodeRepo, OneTimePassCodeRepo>();
 builder.Services.AddScoped<IRegisterService, RegisterService>();
 builder.Services.AddScoped<ILastLoginService, LastLoginService>();
 builder.Services.AddScoped<IOneTimePassCodeService, OneTimePassCodeService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<ISftpService, SftpService>();
 
 // Add DbContexts with Migration Assembly Binding
 builder.Services.AddDbContext<BusinessDbContext>(options =>
