@@ -1,10 +1,11 @@
 ﻿using SY.OnlineApp.Models.Dtos;
 using SY.OnlineApp.Data.Entities;
 using SY.OnlineApp.Repos.Repositories.Interfaces;
+using SY.OnlineApp.Services.Interfaces;
 
 namespace SY.OnlineApp.Services.Services
 {
-    public class RegisterService
+    public class RegisterService : IRegisterService
     {
         private readonly IRegisterRepo _repo;
 

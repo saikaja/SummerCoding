@@ -1,5 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using SY.OnlineApp.Data;
+using SY.OnlineApp.Repos.Repositories.Interfaces;
+using SY.OnlineApp.Repos.Repositories;
+using SY.OnlineApp.Services.Interfaces;
+using SY.OnlineApp.Services.Services;
+using SY.OnlineApp.Models.Dtos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +18,9 @@ builder.Services.AddSwaggerGen();
 var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"];
 if (string.IsNullOrEmpty(apiBaseUrl))
     throw new InvalidOperationException("API Base URL is not configured.");
+
+builder.Services.AddScoped<IRegisterService, RegisterService>();
+builder.Services.AddScoped<IRegisterRepo, RegisterRepo>();
 
 // Register BusinessDbContext and link migration assembly
 builder.Services.AddDbContext<BusinessDbContext>(options =>
