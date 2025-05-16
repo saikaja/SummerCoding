@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="SSH.NET" Version="2025.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NIA.OnlineApp.Data\SY.OnlineApp.Data.csproj" />
     <ProjectReference Include="..\SY.OnlineApp.Models\SY.OnlineApp.Models.csproj" />
     <ProjectReference Include="..\SY.OnlineApp.Repos\SY.OnlineApp.Repos.csproj" />
