@@ -6,6 +6,7 @@ using SY.OnlineApp.Services.Interfaces;
 using SY.OnlineApp.Services.Services;
 using SY.OnlineApp.Services.Business_Services;
 using SY.OnlineApp.Services.Business_Services.Interfaces;
+using SY.OnlineApp.Data.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +30,10 @@ builder.Services.AddScoped<IRegisterService, RegisterService>();
 builder.Services.AddScoped<ILastLoginService, LastLoginService>();
 builder.Services.AddScoped<IOneTimePassCodeService, OneTimePassCodeService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddScoped<ISftpService, SftpService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
 
 // Add DbContexts with Migration Assembly Binding
 builder.Services.AddDbContext<BusinessDbContext>(options =>

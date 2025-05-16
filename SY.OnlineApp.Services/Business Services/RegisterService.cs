@@ -11,20 +11,17 @@ namespace SY.OnlineApp.Services.Services
     {
         private readonly IRegisterRepo _repo;
         private readonly IOneTimePassCodeService _otpService;
-        private readonly ISftpService _sftpService;
         private readonly IEmailService _emailService;
         private readonly ILogger<RegisterService> _logger;
 
         public RegisterService(
             IRegisterRepo repo,
             IOneTimePassCodeService otpService,
-            ISftpService sftpService,
             IEmailService emailService,
             ILogger<RegisterService> logger)
         {
             _repo = repo;
             _otpService = otpService;
-            _sftpService = sftpService;
             _emailService = emailService;
             _logger = logger;
         }
@@ -51,23 +48,24 @@ namespace SY.OnlineApp.Services.Services
                     PostalCode = dto.PostalCode
                 };
 
-                // Save to DB
+                // Save registration to DB
                 await _repo.AddAsync(register);
                 await _repo.SaveAsync();
 
-                // Generate OTP and email it
+                // Generate OTP and Save it
                 var otp = await _otpService.GenerateAndSaveOtpAsync(register.Id);
-                var template = _sftpService.GetEmailTemplate("/templates/otp_email.html");
 
-                var emailBody = template
-                    .Replace("{{OTP}}", otp)
-                    .Replace("{{UserName}}", dto.UserName);
+                // Prepare email body with OTP
+                var emailBody = $"Hello {dto.UserName}, your one-time passcode is: {otp}. It expires in 5 minutes.";
 
-                await _emailService.SendOtpEmail(register.Email, "Your One-Time Password", emailBody);
+                // Send OTP email
+                await _emailService.SendEmailAsync(dto.Email, "Your One-Time Passcode", emailBody);
+
+                _logger.LogInformation("Registration successful. OTP sent to {Email}", dto.Email);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error registering user: {Email}", dto.Email);
+                _logger.LogError(ex, "Registration failed for {Email}", dto.Email);
                 throw new ApplicationException("Registration failed. Please try again.", ex);
             }
         }

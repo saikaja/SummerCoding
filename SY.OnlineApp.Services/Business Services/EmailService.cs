@@ -1,30 +1,31 @@
-﻿using System.Net.Mail;
-using System.Net;
+﻿using MailKit.Net.Smtp;
+using MimeKit;
+using Microsoft.Extensions.Options;
+using SY.OnlineApp.Data.Configurations;
 using SY.OnlineApp.Services.Interfaces;
+using System.Net.Mail;
 
 public class EmailService : IEmailService
 {
-    private readonly SmtpClient _smtp;
+    private readonly EmailSettings _settings;
 
-    public EmailService()
+    public EmailService(IOptions<EmailSettings> settings)
     {
-        _smtp = new SmtpClient("smtp.yourhost.com")
-        {
-            Port = 587,
-            Credentials = new NetworkCredential("your@email.com", "password"),
-            EnableSsl = true
-        };
+        _settings = settings.Value;
     }
 
-    public async Task SendOtpEmail(string toEmail, string subject, string htmlBody)
+    public async Task SendEmailAsync(string toEmail, string subject, string body)
     {
-        var message = new MailMessage("your@email.com", toEmail)
-        {
-            Subject = subject,
-            Body = htmlBody,
-            IsBodyHtml = true
-        };
+        var message = new MimeMessage();
+        message.From.Add(new MailboxAddress(_settings.SenderName, _settings.SenderEmail));
+        message.To.Add(MailboxAddress.Parse(toEmail));
+        message.Subject = subject;
+        message.Body = new TextPart("plain") { Text = body };
 
-        await _smtp.SendMailAsync(message);
+        using var smtp = new MailKit.Net.Smtp.SmtpClient();  
+        await smtp.ConnectAsync(_settings.SmtpServer, _settings.Port, MailKit.Security.SecureSocketOptions.StartTls);
+        await smtp.AuthenticateAsync(_settings.Username, _settings.Password);
+        await smtp.SendAsync(message);
+        await smtp.DisconnectAsync(true);
     }
 }

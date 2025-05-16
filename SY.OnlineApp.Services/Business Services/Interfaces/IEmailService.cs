@@ -4,6 +4,6 @@ namespace SY.OnlineApp.Services.Interfaces
 {
     public interface IEmailService
     {
-        Task SendOtpEmail(string toEmail, string subject, string htmlBody);
+        Task SendEmailAsync(string toEmail, string subject, string body);
     }
 }
