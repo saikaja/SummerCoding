@@ -40,11 +40,11 @@ namespace SY.OnlineApp.Data.Entities
 
         [Required]
         [MaxLength(50)]
-        public string? City { get; set; }
+        public string City { get; set; }
 
         [Required]
         [MaxLength(20)]
-        public string? PostalCode { get; set; }
+        public string PostalCode { get; set; }
 
         public static ValidationResult? ValidateAge(DateTime dateOfBirth, ValidationContext context)
         {

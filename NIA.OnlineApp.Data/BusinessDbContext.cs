@@ -12,12 +12,19 @@ namespace SY.OnlineApp.Data
         public DbSet<IntegratedStatus> IntegratedStatuses { get; set; }
         public DbSet<Liability> Liabilities { get; set; }
         public DbSet<LogEntry> Logs { get; set; }
+        public DbSet<Register> Registrations { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<IntegratedType>()
                 .HasMany(t => t.IntegratedStatuses)
                 .WithOne(s => s.IntegratedType)
                 .HasForeignKey(s => s.IntegratedId);
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Register>()
+                .HasIndex(r => r.UserName)
+                .IsUnique();
+
         }
     }
 }
