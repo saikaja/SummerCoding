@@ -1,4 +1,4 @@
-﻿using SY.OnlineApp.Models;
+﻿using SY.OnlineApp.Models.Dtos;
 using SY.OnlineApp.Data.Entities;
 using SY.OnlineApp.Repos.Repositories.Interfaces;
 
