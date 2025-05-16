@@ -20,6 +20,8 @@ namespace SY.OnlineApp.Data.Entities
         [Required]
         public DateTime ExpirationTime { get; set; }
 
+        public bool Used { get; set; } = false;
+
         public Register Registration { get; set; } = null!;
     }
 }

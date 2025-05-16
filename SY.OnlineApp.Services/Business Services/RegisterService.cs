@@ -1,39 +1,43 @@
-﻿using SY.OnlineApp.Models.Dtos;
+﻿using Microsoft.Extensions.Logging;
 using SY.OnlineApp.Data.Entities;
+using SY.OnlineApp.Models.Dtos;
 using SY.OnlineApp.Repos.Repositories.Interfaces;
+using SY.OnlineApp.Services.Business_Services.Interfaces;
 using SY.OnlineApp.Services.Interfaces;
-using Microsoft.Extensions.Logging;
 
 namespace SY.OnlineApp.Services.Services
 {
     public class RegisterService : IRegisterService
     {
         private readonly IRegisterRepo _repo;
+        private readonly IOneTimePassCodeService _otpService;
+        private readonly ISftpService _sftpService;
+        private readonly IEmailService _emailService;
         private readonly ILogger<RegisterService> _logger;
-        private readonly EmailService _emailService;
-        private readonly SftpService _sftpService;
 
-        public RegisterService(IRegisterRepo repo, ILogger<RegisterService> logger, EmailService emailService, SftpService sftpService)
+        public RegisterService(
+            IRegisterRepo repo,
+            IOneTimePassCodeService otpService,
+            ISftpService sftpService,
+            IEmailService emailService,
+            ILogger<RegisterService> logger)
         {
             _repo = repo;
-            _logger = logger;
-            _emailService = emailService;
+            _otpService = otpService;
             _sftpService = sftpService;
+            _emailService = emailService;
+            _logger = logger;
         }
 
         public async Task RegisterUserAsync(RegisterDto dto)
         {
             try
             {
+                // Check if username is already taken
                 if (await _repo.UserNameExistsAsync(dto.UserName))
                     throw new ArgumentException("Username already exists.");
 
-                var otp = OtpGenerator.GenerateOtp();
-                var template = _sftpService.GetEmailTemplate("/otp_templates/otp_email.html");
-                var body = template.Replace("{{OTP}}", otp);
-
-                await _emailService.SendOtpEmail(dto.Email, "Your OTP Code", body);
-
+                // Map DTO to entity
                 var register = new Register
                 {
                     UserName = dto.UserName,
@@ -47,13 +51,24 @@ namespace SY.OnlineApp.Services.Services
                     PostalCode = dto.PostalCode
                 };
 
+                // Save to DB
                 await _repo.AddAsync(register);
                 await _repo.SaveAsync();
+
+                // Generate OTP and email it
+                var otp = await _otpService.GenerateAndSaveOtpAsync(register.Id);
+                var template = _sftpService.GetEmailTemplate("/templates/otp_email.html");
+
+                var emailBody = template
+                    .Replace("{{OTP}}", otp)
+                    .Replace("{{UserName}}", dto.UserName);
+
+                await _emailService.SendOtpEmail(register.Email, "Your One-Time Password", emailBody);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error during registration for {Email}", dto.Email);
-                throw new ApplicationException("Registration failed.", ex);
+                _logger.LogError(ex, "Error registering user: {Email}", dto.Email);
+                throw new ApplicationException("Registration failed. Please try again.", ex);
             }
         }
     }

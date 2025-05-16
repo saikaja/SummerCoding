@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using SY.OnlineApp.Data.Entities;
 using SY.OnlineApp.Repos.Repositories.Interfaces;
 using SY.OnlineApp.Services.Business_Services.Interfaces;
@@ -20,18 +17,17 @@ namespace SY.OnlineApp.Services.Business_Services
 
         public async Task<string> GenerateAndSaveOtpAsync(int registrationId)
         {
-            var random = new Random();
-            var otp = random.Next(10000000, 99999999).ToString();
+            var otp = GenerateSecureOtp(8); // 8-digit secure code
 
             var code = new OneTimePassCode
             {
                 RegistrationId = registrationId,
                 OneCode = otp,
-                ExpirationTime = DateTime.UtcNow.AddMinutes(5)
+                ExpirationTime = DateTime.UtcNow.AddMinutes(5),
+                Used = false
             };
 
             await _repo.AddAsync(code);
-
             return otp;
         }
 
@@ -39,6 +35,19 @@ namespace SY.OnlineApp.Services.Business_Services
         {
             var otp = await _repo.GetValidCodeAsync(registrationId, code);
             return otp != null;
+        }
+
+        private string GenerateSecureOtp(int length)
+        {
+            var bytes = new byte[length];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(bytes);
+
+            var sb = new StringBuilder();
+            foreach (var b in bytes)
+                sb.Append(b % 10); // Only digits
+
+            return sb.ToString();
         }
     }
 }
