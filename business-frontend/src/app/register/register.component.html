@@ -1,1 +1,16 @@
-<p>register works!</p>
+<div class="register-container">
+  <h2>Register</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <input formControlName="userName" placeholder="Username" />
+    <input formControlName="firstName" placeholder="First Name" />
+    <input formControlName="lastName" placeholder="Last Name" />
+    <input formControlName="email" placeholder="Email" type="email" />
+    <input formControlName="dateOfBirth" type="date" />
+    <input formControlName="addressLine1" placeholder="Address Line 1" />
+    <input formControlName="addressLine2" placeholder="Address Line 2" />
+    <input formControlName="city" placeholder="City" />
+    <input formControlName="postalCode" placeholder="Postal Code" />
+    <button type="submit">Register</button>
+    </form>
+</div>
+

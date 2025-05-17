@@ -6,7 +6,7 @@ namespace SY.OnlineApp.Services.Interfaces
 {
     public interface IRegisterService
     {
-        Task RegisterUserAsync(RegisterDto dto);
+        Task <string> RegisterUserAsync(RegisterDto dto);
         Task SetPasswordAsync(CreatePasswordDto dto);
 
     }

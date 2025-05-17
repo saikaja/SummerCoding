@@ -24,12 +24,12 @@ namespace SY.OnlineApp.AuthenticationAPI.Controllers
 
             try
             {
-                await _service.RegisterUserAsync(dto);
-                return Ok("User registered successfully.");
+                var resultMessage = await _service.RegisterUserAsync(dto);
+                return Ok(new { message = resultMessage });
             }
             catch (ArgumentException ex)
             {
-                return Conflict(new { message = ex.Message }); // 409 Conflict
+                return Conflict(new { message = ex.Message });
             }
             catch (Exception)
             {
@@ -38,4 +38,3 @@ namespace SY.OnlineApp.AuthenticationAPI.Controllers
         }
     }
 }
-

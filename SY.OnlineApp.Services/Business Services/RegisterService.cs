@@ -29,15 +29,13 @@ namespace SY.OnlineApp.Services.Services
             _logger = logger;
         }
 
-        public async Task RegisterUserAsync(RegisterDto dto)
+        public async Task<string> RegisterUserAsync(RegisterDto dto)
         {
             try
             {
-                // Check if username is already taken
                 if (await _repo.UserNameExistsAsync(dto.UserName))
                     throw new ArgumentException("Username already exists.");
 
-                // Map DTO to entity
                 var register = new Register
                 {
                     UserName = dto.UserName,
@@ -51,29 +49,24 @@ namespace SY.OnlineApp.Services.Services
                     PostalCode = dto.PostalCode
                 };
 
-                // Save registration to DB
                 await _repo.AddAsync(register);
                 await _repo.SaveAsync();
 
-                // Generate OTP and Save it
                 var otp = await _otpService.GenerateAndSaveOtpAsync(register.Id);
-
-                // Prepare email body with OTP
                 var emailBody = $"Hello {dto.UserName}, your one-time passcode is: {otp}. It expires in 5 minutes.";
-
-                // Send OTP email
                 await _emailService.SendEmailAsync(dto.Email, "Your One-Time Passcode", emailBody);
 
                 _logger.LogInformation("Registration successful. OTP sent to {Email}", dto.Email);
+
+                return "Registration successful. OTP sent to email.";
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Registration failed for {Email}", dto.Email);
                 throw new ApplicationException("Registration failed. Please try again.", ex);
             }
-
-
         }
+
 
         public async Task SetPasswordAsync(CreatePasswordDto dto)
         {

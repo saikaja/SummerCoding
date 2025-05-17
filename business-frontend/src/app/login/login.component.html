@@ -1,13 +1,12 @@
 <div class="login-container">
   <h2>Login</h2>
-  <form>
-    <input type="email" placeholder="Email" />
-    <input type="password" placeholder="Password" />
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <input formControlName="userName" placeholder="User Name" />
+    <input formControlName="password" type="password" placeholder="Password" />
     <button type="submit">Login</button>
   </form>
   <div class="links">
-    <a routerLink="/register" routerLinkActive="active-link">Register</a> | 
+    <a routerLink="/register" routerLinkActive="active-link">Register</a> |
     <a routerLink="/forgot-password" routerLinkActive="active-link">Forgot Password?</a>
   </div>
 </div>
-
