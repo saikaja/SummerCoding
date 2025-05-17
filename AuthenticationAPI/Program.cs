@@ -7,6 +7,10 @@ using SY.OnlineApp.Services.Services;
 using SY.OnlineApp.Services.Business_Services;
 using SY.OnlineApp.Services.Business_Services.Interfaces;
 using SY.OnlineApp.Data.Configurations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using SY.OnlineApp.Models.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,9 +35,35 @@ builder.Services.AddScoped<ILastLoginService, LastLoginService>();
 builder.Services.AddScoped<IOneTimePassCodeService, OneTimePassCodeService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddScoped<ILoginService, LoginService>();
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
+var jwtSection = builder.Configuration.GetSection("JwtSettings");
+builder.Services.Configure<JwtSettings>(jwtSection);
+
+var jwtSettings = jwtSection.Get<JwtSettings>();
+var key = Encoding.ASCII.GetBytes(jwtSettings.Key);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings.Issuer,
+        ValidAudience = jwtSettings.Audience,
+        IssuerSigningKey = new SymmetricSecurityKey(key)
+    };
+});
 
 // Add DbContexts with Migration Assembly Binding
 builder.Services.AddDbContext<BusinessDbContext>(options =>
@@ -72,6 +102,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowAngular");
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

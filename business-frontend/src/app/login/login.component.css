@@ -1,0 +1,35 @@
+.login-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: sans-serif;
+}
+
+.login-container h2 {
+  text-align: center;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+}
+
+.login-container input {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  font-family: sans-serif;
+}
+
+.login-container button {
+  padding: 0.5rem;
+  font-family: sans-serif;
+}
+
+.login-container .links {
+  text-align: center;
+  margin-top: 1rem;
+  font-family: sans-serif;
+}
