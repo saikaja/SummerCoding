@@ -3,16 +3,18 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { RegisterService } from '../services/register.service';
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule],
+  imports: [ReactiveFormsModule, RouterModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
 
   constructor(private fb: FormBuilder, private registerService: RegisterService, private router: Router) {
     this.registerForm = this.fb.group({
@@ -34,16 +36,14 @@ export class RegisterComponent {
       this.registerService.sendRegistration(formData).subscribe({
         next: (response) => {
           console.log('OTP sent:', response);
-          alert('OTP sent to your email.');
-          this.router.navigate(['/set-password']);
+          this.successMessage = 'OTP sent. Please check your email for the link and OTP.';
         },
         error: (err) => {
           console.error('Registration failed', err);
           if (err.status === 200) {
-            alert('OTP sent to your email.');
-            this.router.navigate(['/set-password']);
+            this.successMessage = 'OTP sent. Please check your email for the link and OTP.';
           } else {
-            alert('Registration failed.');
+            this.errorMessage = 'Registration failed.';
           }
         }
       });

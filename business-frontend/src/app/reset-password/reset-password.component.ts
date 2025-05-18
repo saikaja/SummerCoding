@@ -4,6 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RegisterService } from '../services/register.service';
 
+
 @Component({
   selector: 'app-reset-password',
   standalone: true,
@@ -13,6 +14,8 @@ import { RegisterService } from '../services/register.service';
 })
 export class ResetPasswordComponent {
   resetPasswordForm: FormGroup;
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
 
   constructor(private fb: FormBuilder, private registerService: RegisterService, private router: Router) {
     this.resetPasswordForm = this.fb.group({
@@ -28,16 +31,16 @@ export class ResetPasswordComponent {
       const formData = this.resetPasswordForm.value;
       this.registerService.setPassword(formData).subscribe({
         next: () => {
-          alert('Password reset successful. You can now log in.');
+          this.successMessage = 'Password reset successful. You can now log in.';
           this.router.navigate(['/login']);
         },
         error: (err) => {
           console.error('Reset failed', err);
-          alert('Failed to reset password.');
+          this.errorMessage = 'Failed to reset password.';
         }
       });
     } else {
-      alert('Please fill out all required fields.');
+      this.errorMessage = 'Please fill out all required fields.';
     }
   }
 }

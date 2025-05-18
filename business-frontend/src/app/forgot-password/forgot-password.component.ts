@@ -14,6 +14,8 @@ import { RegisterService } from '../services/register.service';
 })
 export class ForgotPasswordComponent {
   forgotPasswordForm: FormGroup;
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
 
   constructor(private fb: FormBuilder, private registerService: RegisterService, private router: Router) {  
     this.forgotPasswordForm = this.fb.group({
@@ -25,12 +27,11 @@ export class ForgotPasswordComponent {
     if (this.forgotPasswordForm.valid) {
       this.registerService.sendPasswordResetOtp(this.forgotPasswordForm.value).subscribe({
         next: () => {
-          alert('OTP sent to your email.');
-          this.router.navigate(['/reset-password']); 
+          this.successMessage = 'OTP sent. Please check your email for the link and OTP.'
         },
         error: (err) => {
           console.error('Failed to send OTP', err);
-          alert('Failed to send OTP.');
+          this.errorMessage = 'Failed to send OTP.';
         }
       });
     }

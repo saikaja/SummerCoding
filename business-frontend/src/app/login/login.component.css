@@ -33,3 +33,13 @@
   margin-top: 1rem;
   font-family: sans-serif;
 }
+
+.error-message {
+  color: red;
+  background-color: #e6ffed;
+  border: 1px solid #b5e7c3;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-family: sans-serif;
+}

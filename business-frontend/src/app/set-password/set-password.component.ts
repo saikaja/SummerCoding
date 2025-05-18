@@ -3,16 +3,18 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { OtpService } from '../services/otp.service';
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-set-password',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule],
+  imports: [ReactiveFormsModule, RouterModule, CommonModule],
   templateUrl: './set-password.component.html',
   styleUrl: './set-password.component.css'
 })
 export class SetPasswordComponent {
   otpForm: FormGroup;
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
 
   constructor(private fb: FormBuilder, private otpService: OtpService, private router: Router) {
     this.otpForm = this.fb.group({
@@ -27,17 +29,16 @@ export class SetPasswordComponent {
     if (this.otpForm.valid) {
       this.otpService.setPassword(this.otpForm.value).subscribe({
         next: () => {
-          alert('Password set successfully. You can now log in.');
+          this.successMessage = 'Password set successfully. You can now log in.';
           this.router.navigate(['/login']); 
         },
         error: (err) => {
           console.error(err);
-          alert('Failed to set password. Please try again.');
           if (err.status === 200) {
-            alert('Password set successfully. You can now log in.');
+            this.successMessage = 'Password set successfully. You can now log in.';
             this.router.navigate(['/login']);
           } else {
-            alert('Failed to set password. Please try again.');
+            this.errorMessage = 'Failed to set password. Please try again.';
           }
         }
       });

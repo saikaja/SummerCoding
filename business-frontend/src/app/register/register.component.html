@@ -1,5 +1,11 @@
 <div class="register-container">
   <h2>Register</h2>
+  <div *ngIf="successMessage" class="success-message">
+  {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+  </div>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <input formControlName="userName" placeholder="Username" />
     <input formControlName="firstName" placeholder="First Name" />

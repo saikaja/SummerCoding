@@ -13,6 +13,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  errorMessage: string | null = null;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.loginForm = this.fb.group({
@@ -26,12 +27,11 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response: { token: string; }) => {
           localStorage.setItem('token', response.token);  // Save JWT
-          alert('Login successful.');
           this.router.navigate(['/dashboard']);  // Redirect to dashboard
         },
         error: (err: any) => {
           console.error('Login failed', err);
-          alert('Invalid credentials.');
+          this.errorMessage = 'Invalid username or password.';
         }
       });
     }

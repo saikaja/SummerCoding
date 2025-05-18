@@ -29,7 +29,14 @@ namespace SY.OnlineApp.Services.Business_Services
             if (user == null) throw new KeyNotFoundException("User not found.");
 
             var otp = await _otpService.GenerateAndSaveOtpAsync(user.Id);
-            var emailBody = $"Your OTP is {otp}. It expires in 5 minutes.";
+            var emailBody = $@"
+                    Hello {dto.UserName}, your one-time passcode is: {otp}. It expires in 5 minutes.
+
+                    You can reset your password by clicking the link below:
+                    http://localhost:4200/reset-password
+
+                    Thank you.
+                    ";
             await _emailService.SendEmailAsync(user.Email, "Password Reset OTP", emailBody);
         }
 
