@@ -78,22 +78,30 @@ namespace SY.OnlineApp.Services.Services
 
         public async Task SetPasswordAsync(CreatePasswordDto dto)
         {
-            if (dto.NewPassword != dto.ConfirmPassword)
-                throw new ArgumentException("Passwords do not match.");
+            try
+            {
+                if (dto.NewPassword != dto.ConfirmPassword)
+                    throw new ArgumentException("Passwords do not match.");
 
-            var user = await _repo.GetByUserNameAsync(dto.UserName);
-            if (user == null)
-                throw new KeyNotFoundException("User not found.");
+                var user = await _repo.GetByUserNameAsync(dto.UserName);
+                if (user == null)
+                    throw new KeyNotFoundException("User not found.");
 
-            var isValidOtp = await _otpService.ValidateOtpAsync(user.Id, dto.OneTimePassCode);
-            if (!isValidOtp)
-                throw new ArgumentException("Invalid or expired OTP.");
+                var isValidOtp = await _otpService.ValidateOtpAsync(user.Id, dto.OneTimePassCode);
+                if (!isValidOtp)
+                    throw new ArgumentException("Invalid or expired OTP.");
 
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
-            user.Status = "Active";
+                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
+                user.Status = "Active";
 
-            await _repo.SaveAsync();
+                await _repo.SaveAsync();
+
+                _logger.LogInformation("Password set successfully for user {UserName}.", dto.UserName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error setting password for user {UserName}.", dto.UserName);
+            }
         }
-
     }
 }
