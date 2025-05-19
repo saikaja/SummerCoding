@@ -13,12 +13,14 @@ namespace SY.OnlineApp.Services.Business_Services
         private readonly IRegisterRepo _registerRepo;
         private readonly IJwtTokenService _jwtTokenService;
         private readonly ILogger<LoginService> _logger;
+        private readonly ILastLoginService _lastLoginService;
 
-        public LoginService(IRegisterRepo registerRepo, IJwtTokenService jwtTokenService, ILogger<LoginService> logger)
+        public LoginService(IRegisterRepo registerRepo, IJwtTokenService jwtTokenService, ILogger<LoginService> logger, ILastLoginService lastLoginService)
         {
             _registerRepo = registerRepo;
             _jwtTokenService = jwtTokenService;
             _logger = logger;
+            _lastLoginService = lastLoginService;
         }
 
         public async Task<string> AuthenticateAsync(LoginRequestDto dto)
@@ -34,6 +36,8 @@ namespace SY.OnlineApp.Services.Business_Services
 
                 if (!isValidPassword)
                     return null;
+
+                await _lastLoginService.RecordLoginAsync(user.Id);
 
                 return _jwtTokenService.GenerateToken(user.UserName);
             }

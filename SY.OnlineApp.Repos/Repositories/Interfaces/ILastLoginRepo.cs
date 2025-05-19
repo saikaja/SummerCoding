@@ -7,5 +7,7 @@ namespace SY.OnlineApp.Repos.Repositories.Interfaces
     {
         Task AddAsync(LastLogin login);
         Task<LastLogin?> GetLastLoginAsync(int registrationId);
+        Task UpdateAsync(LastLogin login);
+
     }
 }
