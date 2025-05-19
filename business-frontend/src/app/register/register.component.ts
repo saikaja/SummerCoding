@@ -39,7 +39,6 @@ export class RegisterComponent {
           this.successMessage = 'OTP sent. Please check your email for the link and OTP.';
         },
         error: (err) => {
-          console.error('Registration failed', err);
           if (err.status === 200) {
             this.successMessage = 'OTP sent. Please check your email for the link and OTP.';
           } else {
