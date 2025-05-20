@@ -22,13 +22,8 @@ namespace SY.OnlineApp.Services.Business_Services
         {
             try
             {
-                var login = new LastLogin
-                {
-                    RegistrationId = registrationId,
-                    LoginTimestamp = DateTime.UtcNow
-                };
-
-                await _repo.AddAsync(login);
+                await _repo.AddOrUpdateAsync(registrationId);
+                _logger.LogInformation("✅ Last login recorded or updated for RegistrationId: {RegistrationId}", registrationId);
             }
             catch (Exception ex)
             {
@@ -40,8 +35,7 @@ namespace SY.OnlineApp.Services.Business_Services
         {
             try
             {
-                var lastLogin = await _repo.GetLastLoginAsync(registrationId);
-                return lastLogin;
+                return await _repo.GetLastLoginAsync(registrationId);
             }
             catch (Exception ex)
             {

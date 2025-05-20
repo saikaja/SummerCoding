@@ -1,10 +1,12 @@
-﻿using SY.OnlineApp.Models.Dtos;
+﻿using System;
+using System.Threading.Tasks;
+using SY.OnlineApp.Models.Dtos;
 using SY.OnlineApp.Repos.Repositories.Interfaces;
 using SY.OnlineApp.Services.Interfaces;
-using BCrypt.Net;
-using Microsoft.Extensions.Logging;
-using SY.OnlineApp.Models.Models;
 using SY.OnlineApp.Services.Business_Services.Interfaces;
+using Microsoft.Extensions.Logging;
+using BCrypt.Net;
+using SY.OnlineApp.Models.Models;
 
 namespace SY.OnlineApp.Services.Business_Services
 {
@@ -12,12 +14,18 @@ namespace SY.OnlineApp.Services.Business_Services
     {
         private readonly IRegisterRepo _registerRepo;
         private readonly IJwtTokenService _jwtTokenService;
+        private readonly ILastLoginService _lastLoginService;
         private readonly ILogger<LoginService> _logger;
 
-        public LoginService(IRegisterRepo registerRepo, IJwtTokenService jwtTokenService, ILogger<LoginService> logger)
+        public LoginService(
+            IRegisterRepo registerRepo,
+            IJwtTokenService jwtTokenService,
+            ILastLoginService lastLoginService,
+            ILogger<LoginService> logger)
         {
             _registerRepo = registerRepo;
             _jwtTokenService = jwtTokenService;
+            _lastLoginService = lastLoginService;
             _logger = logger;
         }
 
@@ -34,6 +42,8 @@ namespace SY.OnlineApp.Services.Business_Services
 
                 if (!isValidPassword)
                     return null;
+
+                await _lastLoginService.RecordLoginAsync(user.Id);
 
                 return _jwtTokenService.GenerateToken(user.UserName);
             }
