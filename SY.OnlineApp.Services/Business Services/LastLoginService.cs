@@ -22,8 +22,24 @@ namespace SY.OnlineApp.Services.Business_Services
         {
             try
             {
-                await _repo.AddOrUpdateAsync(registrationId);
-                _logger.LogInformation("✅ Last login recorded or updated for RegistrationId: {RegistrationId}", registrationId);
+                var existingLogin = await _repo.GetLastLoginAsync(registrationId);
+
+                if (existingLogin != null)
+                {
+                    existingLogin.LoginTimestamp = DateTime.UtcNow;
+                    await _repo.UpdateAsync(existingLogin);
+                    _logger.LogInformation("Updated existing last login for RegistrationId: {RegistrationId}", registrationId);
+                }
+                else
+                {
+                    var newLogin = new LastLogin
+                    {
+                        RegistrationId = registrationId,
+                        LoginTimestamp = DateTime.UtcNow
+                    };
+                    await _repo.AddAsync(newLogin);
+                    _logger.LogInformation("Created new last login record for RegistrationId: {RegistrationId}", registrationId);
+                }
             }
             catch (Exception ex)
             {

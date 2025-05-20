@@ -38,6 +38,12 @@ namespace SY.OnlineApp.Repos.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateAsync(LastLogin login)
+        {
+            _context.LastLogins.Update(login);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<LastLogin?> GetLastLoginAsync(int registrationId)
         {
             return await _context.LastLogins

@@ -17,5 +17,7 @@ namespace SY.OnlineApp.Repos.Repositories.Interfaces
         /// <param name="registrationId">The RegistrationId to search for.</param>
         /// <returns>The LastLogin record if found, otherwise null.</returns>
         Task<LastLogin?> GetLastLoginAsync(int registrationId);
+        Task UpdateAsync(LastLogin login);
+
     }
 }

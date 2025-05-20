@@ -16,17 +16,15 @@ namespace SY.OnlineApp.Services.Business_Services
         private readonly IJwtTokenService _jwtTokenService;
         private readonly ILastLoginService _lastLoginService;
         private readonly ILogger<LoginService> _logger;
+        private readonly ILastLoginService _lastLoginService;
 
-        public LoginService(
-            IRegisterRepo registerRepo,
-            IJwtTokenService jwtTokenService,
-            ILastLoginService lastLoginService,
-            ILogger<LoginService> logger)
+        public LoginService(IRegisterRepo registerRepo, IJwtTokenService jwtTokenService, ILogger<LoginService> logger, ILastLoginService lastLoginService)
         {
             _registerRepo = registerRepo;
             _jwtTokenService = jwtTokenService;
             _lastLoginService = lastLoginService;
             _logger = logger;
+            _lastLoginService = lastLoginService;
         }
 
         public async Task<string> AuthenticateAsync(LoginRequestDto dto)
