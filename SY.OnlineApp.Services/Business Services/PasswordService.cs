@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using SY.OnlineApp.Data;
+using SY.OnlineApp.Data.Entities;
 using SY.OnlineApp.Models.Models;
 using SY.OnlineApp.Repos.Repositories.Interfaces;
 using SY.OnlineApp.Services.Business_Services.Interfaces;
@@ -12,17 +15,20 @@ namespace SY.OnlineApp.Services.Business_Services
         private readonly IOneTimePassCodeService _otpService;
         private readonly IEmailService _emailService;
         private readonly ILogger<PasswordService> _logger;
+        private readonly BusinessDbContext _context;
 
         public PasswordService(
             IRegisterRepo repo,
             IOneTimePassCodeService otpService,
             IEmailService emailService,
-            ILogger<PasswordService> logger)
+            ILogger<PasswordService> logger,
+            BusinessDbContext context)
         {
             _repo = repo;
             _otpService = otpService;
             _emailService = emailService;
             _logger = logger;
+            _context = context;
         }
 
         public async Task SendPasswordResetOtpAsync(ForgotPasswordDto dto)
@@ -79,6 +85,28 @@ namespace SY.OnlineApp.Services.Business_Services
                     return;
                 }
 
+                // Check if new password was used recently
+                var lastTwo = await _context.PasswordHistories
+                    .Where(ph => ph.RegistrationId == user.Id)
+                    .OrderByDescending(ph => ph.ChangedAt)
+                    .Take(2)
+                    .ToListAsync();
+
+                if (lastTwo.Any(ph => BCrypt.Net.BCrypt.Verify(dto.NewPassword, ph.PasswordHash)))
+                {
+                    _logger.LogWarning("Password reuse attempt for user {UserName}.", dto.UserName);
+                    return;
+                }
+
+                // Save current password to history
+                await _context.PasswordHistories.AddAsync(new PasswordHistory
+                {
+                    RegistrationId = user.Id,
+                    PasswordHash = user.PasswordHash,
+                    ChangedAt = DateTime.UtcNow
+                });
+
+                // Update to new password
                 user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
                 await _repo.SaveAsync();
 
