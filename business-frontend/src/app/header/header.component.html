@@ -1,12 +1,25 @@
-<header class="header" style="display: flex; justify-content: space-between; align-items: center;">
+<header class="header">
   <h1>{{ 'APP_TITLE' | translate }}</h1>
 
-  <div style="display: flex; flex-direction: column; align-items: flex-end;">
-    <button (click)="logout()" style="font-family: sans-serif;">{{ 'LOGOUT' | translate }}</button>
+  <div class="header-actions">
+    <!-- Language buttons -->
+    <button (click)="switchLanguage('fr')">FR</button>
+    <button (click)="switchLanguage('en')">EN</button>
 
-    <div style="margin-top: 4px;">
-      <button (click)="switchLanguage('fr')" style="margin-right: 5px;">FR</button>
-      <button (click)="switchLanguage('en')">EN</button>
+    <!-- Profile toggle -->
+    <div (click)="toggleProfileDropdown()" class="profile-button">
+      User Profile
+    </div>
+
+    <!-- Profile dropdown -->
+    <div *ngIf="showProfile" class="profile-dropdown">
+      <div class="profile-name">{{ fullName }}</div>
+      <div class="profile-meta">
+        Last login:<br />
+        {{ lastLogin | date:'short' }}
+      </div>
+      <button class="profile-btn" (click)="goToProfile()">View Profile</button>
+      <button class="profile-btn" (click)="logout()">Logout</button>
     </div>
   </div>
 </header>
