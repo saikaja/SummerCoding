@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -15,10 +15,17 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
-  constructor(private translate: TranslateService) {
-    const lang = localStorage.getItem('lang');
-    if (lang && lang !== this.translate.currentLang) {
-      this.translate.use(lang);
-    }
+  constructor(
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef
+  ) {
+    const lang = localStorage.getItem('lang') || 'en';
+    this.translate.setDefaultLang(lang);
+    this.translate.use(lang);
+
+    // ✅ This makes the sidebar react when language is toggled
+    this.translate.onLangChange.subscribe(() => {
+      this.cdr.detectChanges();
+    });
   }
 }
