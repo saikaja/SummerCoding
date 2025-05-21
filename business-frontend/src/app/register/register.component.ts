@@ -5,6 +5,22 @@ function canadianPostalCodeValidator(control: AbstractControl): ValidationErrors
   return regex.test(value) ? null : { invalidPostalCode: true };
 }
 
+function minimumAgeValidator(minAge: number) {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const birthDate = new Date(control.value);
+    const today = new Date();
+
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    const day = today.getDate() - birthDate.getDate();
+
+    const isTooYoung =
+      age < minAge || (age === minAge && (m < 0 || (m === 0 && day < 0)));
+
+    return isTooYoung ? { underage: true } : null;
+  };
+}
+
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -31,7 +47,7 @@ export class RegisterComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      dateOfBirth: ['', Validators.required],
+      dateOfBirth: ['', [Validators.required, minimumAgeValidator(18)]],
       addressLine1: ['', Validators.required],
       addressLine2: [''],
       city: ['', Validators.required],

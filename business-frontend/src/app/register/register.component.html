@@ -27,6 +27,14 @@
     </div>
 
     <input formControlName="dateOfBirth" type="date" />
+    <div *ngIf="registerForm.get('dateOfBirth')?.invalid && registerForm.get('dateOfBirth')?.dirty" class="error-message">
+      <div *ngIf="registerForm.get('dateOfBirth')?.errors?.['required']">
+        Date of birth is required.
+      </div>
+      <div *ngIf="registerForm.get('dateOfBirth')?.errors?.['underage']">
+        You must be at least 18 years old to register.
+      </div>
+    </div>
     <input formControlName="addressLine1" placeholder="Address Line 1" />
     <input formControlName="addressLine2" placeholder="Address Line 2" />
     <input formControlName="city" placeholder="City" />

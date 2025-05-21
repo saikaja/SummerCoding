@@ -79,7 +79,7 @@ confirmIntegrationAction() {
       this.businessService.getBusinessData().subscribe({
         next: () => {
           this.translate.get('INTEGRATION_SUCCESS').subscribe((msg: string) => {
-            this.integrationMessage = msg;
+            this.integrationMessage = 'INTEGRATION_SUCCESS';
           });
           this.loadBusinessData();
         }

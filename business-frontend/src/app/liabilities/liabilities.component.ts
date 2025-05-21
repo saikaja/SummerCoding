@@ -73,7 +73,7 @@ labelMap: { [key: string]: string } = {
       this.liabilityService.getLiabilitiesData().subscribe({
         next: () => {
           this.translate.get('INTEGRATION_SUCCESS').subscribe((msg: string) => {
-            this.integrationMessage = msg;
+            this.integrationMessage = 'INTEGRATION_SUCCESS';
           });
           this.loadBusinessData();
         }

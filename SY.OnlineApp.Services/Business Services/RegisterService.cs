@@ -51,20 +51,12 @@ namespace SY.OnlineApp.Services.Services
                 await _repo.AddAsync(register);
                 await _repo.SaveAsync();
 
-                if (register.Id == 0)
-                {
-                    _logger.LogError("Register ID was not generated after saving.");
-                    throw new ApplicationException("Internal error: Unable to generate user ID.");
-                }
-
-                _logger.LogInformation("Saved Register entity with ID: {Id}", register.Id);
-
                 var otp = await _otpService.GenerateAndSaveOtpAsync(register.Id);
                 var emailBody = $@"
-            Hello {dto.UserName}, your one-time passcode is: {otp}. It expires in 5 minutes.
+                    Hello {dto.UserName}, your one-time passcode is: {otp}. It expires in 5 minutes.
 
-            You can reset your password by clicking the link below:
-            http://localhost:4200/set-password
+                    You can reset your password by clicking the link below:
+                    http://localhost:4200/set-password
 
                     Thank you.
                     ";
@@ -72,11 +64,8 @@ namespace SY.OnlineApp.Services.Services
                 await _emailService.SendEmailAsync(dto.Email, "Your One-Time Passcode", emailBody);
 
                 _logger.LogInformation("Registration successful. OTP sent to {Email}", dto.Email);
+
                 return "Registration successful. OTP sent to email.";
-            }
-            catch (ArgumentException)
-            {
-                throw;
             }
             catch (Exception ex)
             {

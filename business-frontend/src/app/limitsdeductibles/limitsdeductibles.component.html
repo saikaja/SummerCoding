@@ -15,7 +15,7 @@
 </div>
 
 <div *ngIf="integrationMessage" class="confirmation-message">
-  {{ integrationMessage }}
+  {{ integrationMessage | translate }}
   <button (click)="integrationMessage = null" style="margin-left: 10px;">×</button>
 </div>
 
