@@ -62,6 +62,7 @@ namespace SY.OnlineApp.Services.Business_Services
             {
                 _logger.LogError(ex, "Error validating OTP for RegistrationId: {RegistrationId}", registrationId);
                 return false;
+                throw;
             }
         }
 

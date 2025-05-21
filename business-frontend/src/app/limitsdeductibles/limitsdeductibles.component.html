@@ -1,53 +1,53 @@
 <div class="integration-check">
-  <label style = "font-family: sans-serif;">
+  <label style="font-family: sans-serif;">
     <input type="checkbox" [(ngModel)]="confirmIntegration" (change)="onIntegrationCheck()" />
-    Integrate Data?
+    {{ 'INTEGRATE_DATA' | translate }}
   </label>
 </div>
 
 <!-- Confirmation Modal -->
 <div class="modal" *ngIf="showConfirmation">
   <div class="modal-content">
-<p style="font-family: sans-serif;">Do you want to integrate the data?</p>
-    <button (click)="confirmIntegrationAction()">Yes</button>
-    <button (click)="cancelIntegration()">No</button>
+    <p style="font-family: sans-serif;">{{ 'CONFIRM_INTEGRATION' | translate }}</p>
+    <button (click)="confirmIntegrationAction()">{{ 'YES' | translate }}</button>
+    <button (click)="cancelIntegration()">{{ 'NO' | translate }}</button>
   </div>
 </div>
+
 <div *ngIf="integrationMessage" class="confirmation-message">
   {{ integrationMessage }}
   <button (click)="integrationMessage = null" style="margin-left: 10px;">×</button>
 </div>
 
 <div class="form-container" [class.minimized]="isCollapsed" style="position: relative;">
-  <h2>Limits & Deductibles</h2>
+  <h2>{{ 'LIMITS_TITLE' | translate }}</h2>
 
- <button 
-  (click)="toggleCollapse()"
-  style="
-    position: absolute; 
-    top: 10px; 
-    right: 10px; 
-    border: none; 
-    background-color: #6a0dad; 
-    color: white; 
-    border-radius: 50%; 
-    width: 20px; 
-    height: 30px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    font-size: 18px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    cursor: pointer;
-  ">
-  {{ isCollapsed ? '+' : '−' }}
-</button>
+  <button 
+    (click)="toggleCollapse()"
+    style="
+      position: absolute; 
+      top: 10px; 
+      right: 10px; 
+      border: none; 
+      background-color: #6a0dad; 
+      color: white; 
+      border-radius: 50%; 
+      width: 20px; 
+      height: 30px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-size: 18px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      cursor: pointer;
+    ">
+    {{ isCollapsed ? '+' : '−' }}
+  </button>
 
   <div class="grid" *ngIf="!isCollapsed">
     <div class="form-group" *ngFor="let item of businessData">
-      <label>{{ labelMap[item.name] || item.name }}</label>
+      <label>{{ labelMap[item.name] ? (labelMap[item.name] | translate) : item.name }}</label>
       <span>{{ item.value }}</span>
     </div>
   </div>
 </div>
-

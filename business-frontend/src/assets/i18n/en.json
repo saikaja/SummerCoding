@@ -7,5 +7,30 @@
   "DASHBOARD_WELCOME": "Welcome to Your Insurance Dashboard",
   "DASHBOARD_SUB": "Everything you need to manage your policies, coverage, and claims is right here.",
   "SELECT_PROMPT": "Select an option from the menu to get started.",
-  "MENU": "Menu"
+  "MENU": "Menu",
+  "INTEGRATE_DATA": "Integrate Data?",
+  "CONFIRM_INTEGRATION": "Do you want to integrate the data?",
+  "YES": "Yes",
+  "NO": "No",
+  "LIMITS_TITLE": "Limits & Deductibles",
+  "INTEGRATION_SUCCESS": "Data integrated successfully.",
+  "LIABILITIES_TITLE": "Liabilities",
+  
+  "LIMITSDEDUCTIBLES": {
+    "GENERAL_AGG": "General Aggregate Limit",
+    "PRODUCTS_OPS_AGG": "Products Operations Aggregate Limit",
+    "EACH_OCCURRENCE": "Each Occurrence Limit",
+    "DAMAGE_PREMISES": "Damage to Premises Limit",
+    "PERSONAL_ADVERTISING": "Personal & Advertising Injury Limit",
+    "MEDICAL_EXPENSE": "Medical Expense Limit",
+    "PREMOPS_COMBINED_DED": "PremOps BI or PD Combined Deductible",
+    "PRODUCTS_COMBINED_DED": "Products BI or PD Combined Deductible",
+    "GL_AGG_DED": "GL Aggregate Deductible"
+  },
+  "LIABILITIESMAP": {
+    "INJURY": "Injury Liability",
+    "PROPERTY": "Property Damage Liability",
+    "PRODUCT": "Product Liability",
+    "CYBER": "Cyber Liability"
+  }
 }

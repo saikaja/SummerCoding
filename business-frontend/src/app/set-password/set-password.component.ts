@@ -15,6 +15,8 @@ export class SetPasswordComponent {
   otpForm: FormGroup;
   successMessage: string | null = null;
   errorMessage: string | null = null;
+  passwordStrength: string = '';
+  passwordStrengthClass: string = '';
 
   constructor(private fb: FormBuilder, private otpService: OtpService, private router: Router) {
     this.otpForm = this.fb.group({
@@ -25,23 +27,58 @@ export class SetPasswordComponent {
     });
   }
 
+  checkPasswordStrength(): void {
+    const password = this.otpForm.get('newPassword')?.value || '';
+    let strength = 0;
+
+    if (password.length >= 8) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+    if (strength <= 1) {
+      this.passwordStrength = 'Weak';
+      this.passwordStrengthClass = 'text-danger';
+    } else if (strength === 2 || strength === 3) {
+      this.passwordStrength = 'Medium';
+      this.passwordStrengthClass = 'text-warning';
+    } else {
+      this.passwordStrength = 'Strong';
+      this.passwordStrengthClass = 'text-success';
+    }
+  }
+
   onSubmit() {
     if (this.otpForm.valid) {
+      const { newPassword, confirmPassword } = this.otpForm.value;
+
+      if (newPassword !== confirmPassword) {
+        this.errorMessage = 'Passwords do not match.';
+        this.successMessage = '';
+        return;
+      }
+
       this.otpService.setPassword(this.otpForm.value).subscribe({
         next: () => {
           this.successMessage = 'Password set successfully. You can now log in.';
-          this.router.navigate(['/login']); 
+          this.errorMessage = '';
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000);
         },
         error: (err) => {
           console.error(err);
-          if (err.status === 200) {
-            this.successMessage = 'Password set successfully. You can now log in.';
-            this.router.navigate(['/login']);
+          this.successMessage = '';
+          if (err.status === 400 && err.error?.message) {
+            this.errorMessage = err.error.message;
           } else {
             this.errorMessage = 'Failed to set password. Please try again.';
           }
         }
       });
+    } else {
+      this.errorMessage = 'Please fill out all required fields.';
+      this.successMessage = '';
     }
   }
 }
