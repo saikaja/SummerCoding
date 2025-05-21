@@ -15,7 +15,7 @@ namespace SY.OnlineApp.Data
         public DbSet<Register> Registrations { get; set; }
         public DbSet<OneTimePassCode> OneTimePassCodes { get; set; }
         public DbSet<LastLogin> LastLogins { get; set; }
-
+        public DbSet<PasswordHistory> PasswordHistories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<IntegratedType>()
@@ -29,7 +29,7 @@ namespace SY.OnlineApp.Data
 
             modelBuilder.Entity<Register>()
                 .Property(r => r.Id)
-                .ValueGeneratedOnAdd(); // ✅ Ensures Register.Id is treated as an identity column
+                .ValueGeneratedOnAdd(); // Ensures Register.Id is treated as an identity column
 
             base.OnModelCreating(modelBuilder);
         }

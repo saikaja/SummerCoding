@@ -59,5 +59,7 @@ namespace SY.OnlineApp.Data.Entities
                 ? ValidationResult.Success
                 : new ValidationResult("Minimum age is 18.");
         }
+        public ICollection<PasswordHistory> PasswordHistories { get; set; } = new List<PasswordHistory>();
+
     }
 }

@@ -25,9 +25,23 @@ namespace SY.OnlineApp.AuthenticationAPI.Controllers
         [HttpPost("reset")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
         {
-            await _service.ResetPasswordAsync(dto);
-            return Ok("Password reset successful.");
+            try
+            {
+                await _service.ResetPasswordAsync(dto);
+                return Ok("Password reset successful.");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error.");
+            }
         }
     }
-
 }
