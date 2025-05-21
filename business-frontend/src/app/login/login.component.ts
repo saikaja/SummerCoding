@@ -15,19 +15,30 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
       userName: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
-        next: (response: { token: string; }) => {
-          localStorage.setItem('token', response.token);  // Save JWT
-          this.router.navigate(['/dashboard']);  // Redirect to dashboard
+        next: (response: {
+          token: string;
+          username: string;
+          lastLogin?: string;
+        }) => {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('username', response.username);
+          localStorage.setItem('lastLogin', response.lastLogin || new Date().toISOString());
+
+          this.router.navigate(['/dashboard']);
         },
         error: (err: any) => {
           console.error('Login failed', err);

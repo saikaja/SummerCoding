@@ -53,7 +53,7 @@ export const routes: Routes = [
       {
         path: 'user-profile',
         loadComponent: () => import('./userprofile/userprofile.component')
-          .then(m => m.UserprofileComponent)
+          .then(m => m.UserProfileComponent)
       }
     ]
   }

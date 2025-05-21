@@ -1,1 +1,11 @@
-<p>userprofile works!</p>
+<div class="profile-container">
+  <h2>User Profile</h2>
+
+  <div class="profile-item">
+    <strong>Username:</strong> {{ username }}
+  </div>
+
+  <div class="profile-item">
+    <strong>Last login:</strong> {{ lastLogin | date: 'medium' }}
+  </div>
+</div>
