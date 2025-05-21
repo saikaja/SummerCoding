@@ -36,7 +36,11 @@ export class ResetPasswordComponent {
         },
         error: (err) => {
           console.error('Reset failed', err);
-          this.errorMessage = 'Failed to reset password.';
+          if (err.status === 400 && err.error?.message) {
+          this.errorMessage = err.error.message; // Show message from backend
+          } else {
+          this.errorMessage = 'Failed to reset password. Please try again.';
+        }
         }
       });
     } else {

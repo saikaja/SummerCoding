@@ -1,22 +1,47 @@
 <div class="register-container">
   <h2>Register</h2>
-  <div *ngIf="successMessage" class="success-message">
-  {{ successMessage }}
+
+  <!-- Success and Error Messages -->
+  <div *ngIf="successMessage" class="success-message" (click)="successMessage = ''">
+    {{ successMessage }}
   </div>
-  <div *ngIf="errorMessage" class="error-message">
-  {{ errorMessage }}
+  <div *ngIf="errorMessage" class="error-message" (click)="errorMessage = ''">
+    {{ errorMessage }}
   </div>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
     <input formControlName="userName" placeholder="Username" />
     <input formControlName="firstName" placeholder="First Name" />
     <input formControlName="lastName" placeholder="Last Name" />
+
+    <!-- Email Field with Real-Time Validation -->
     <input formControlName="email" placeholder="Email" type="email" />
+    <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.dirty" class="error-message">
+      <div *ngIf="registerForm.get('email')?.errors?.['required']">
+        Email is required.
+      </div>
+      <div *ngIf="registerForm.get('email')?.errors?.['email']">
+        Please enter a valid email address.
+      </div>
+    </div>
+
     <input formControlName="dateOfBirth" type="date" />
     <input formControlName="addressLine1" placeholder="Address Line 1" />
     <input formControlName="addressLine2" placeholder="Address Line 2" />
     <input formControlName="city" placeholder="City" />
-    <input formControlName="postalCode" placeholder="Postal Code" />
-    <button type="submit">Register</button>
-    </form>
-</div>
 
+    <!-- Postal Code Field with Validation -->
+    <input formControlName="postalCode" placeholder="Postal Code" />
+    <div *ngIf="registerForm.get('postalCode')?.invalid && registerForm.get('postalCode')?.dirty" class="error-message">
+      <div *ngIf="registerForm.get('postalCode')?.errors?.['required']">
+        Postal code is required.
+      </div>
+      <div *ngIf="registerForm.get('postalCode')?.errors?.['invalidPostalCode']">
+        Please enter a valid Canadian postal code (e.g., A1A 1A1).
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid">Register</button>
+  </form>
+</div>
