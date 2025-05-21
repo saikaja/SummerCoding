@@ -1,11 +1,15 @@
 <div class="profile-container">
-  <h2>User Profile</h2>
+  <h2>{{ 'USER_PROFILE_TITLE' | translate }}</h2>
 
   <div class="profile-item">
-    <strong>Username:</strong> {{ username }}
+    <strong>{{ 'FIRST_NAME' | translate }}:</strong> {{ firstName }}
   </div>
 
   <div class="profile-item">
-    <strong>Last login:</strong> {{ lastLogin | date: 'medium' }}
+    <strong>{{ 'LAST_NAME' | translate }}:</strong> {{ lastName }}
+  </div>
+
+  <div class="profile-item">
+    <strong>{{ 'LAST_LOGIN' | translate }}:</strong> {{ lastLogin | date: 'medium' }}
   </div>
 </div>

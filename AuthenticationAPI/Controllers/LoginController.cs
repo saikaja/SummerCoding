@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using SY.OnlineApp.Models.Models;
 using SY.OnlineApp.Services.Business_Services.Interfaces;
 
@@ -18,12 +19,12 @@ namespace SY.OnlineApp.AuthenticationAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto dto)
         {
-            var token = await _loginService.AuthenticateAsync(dto);
+            var response = await _loginService.AuthenticateAsync(dto);
 
-            if (string.IsNullOrEmpty(token))
+            if (response == null)
                 return Unauthorized(new { message = "Invalid username or password." });
 
-            return Ok(new { Token = token });
+            return Ok(response); // includes token, firstName, lastName, etc.
         }
     }
 

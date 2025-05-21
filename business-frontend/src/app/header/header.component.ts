@@ -14,9 +14,8 @@ import { CommonModule, DatePipe } from '@angular/common';
 })
 export class HeaderComponent {
   showProfile = false;
-
-  firstName = 'Jane';
-  lastName = 'Doe';
+  firstName: string = localStorage.getItem('firstName') || '';
+  lastName: string = localStorage.getItem('lastName') || '';
   lastLogin = new Date();
 
   get fullName(): string {

@@ -8,18 +8,20 @@
 
     <!-- Profile toggle -->
     <div (click)="toggleProfileDropdown()" class="profile-button">
-      User Profile
+      {{ 'USER_PROFILE' | translate }}
     </div>
 
-    <!-- Profile dropdown -->
+        <!-- Profile dropdown -->
     <div *ngIf="showProfile" class="profile-dropdown">
       <div class="profile-name">{{ fullName }}</div>
       <div class="profile-meta">
-        Last login:<br />
+        {{ 'LAST_LOGIN' | translate }}:<br />
         {{ lastLogin | date:'short' }}
       </div>
-      <button class="profile-btn" (click)="goToProfile()">View Profile</button>
-      <button class="profile-btn" (click)="logout()">Logout</button>
+      <button class="profile-btn" (click)="goToProfile()">
+        {{ 'VIEW_PROFILE' | translate }}
+      </button>
+      <button class="profile-btn" (click)="logout()">
+        {{ 'LOGOUT' | translate }}
+      </button>
     </div>
-  </div>
-</header>

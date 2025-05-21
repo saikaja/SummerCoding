@@ -9,6 +9,7 @@ namespace SY.OnlineApp.Services.Business_Services.Interfaces
 {
     public interface ILoginService
     {
-        Task<string> AuthenticateAsync(LoginRequestDto dto);
+        Task<LoginResponseDto?> AuthenticateAsync(LoginRequestDto dto);
+
     }
 }

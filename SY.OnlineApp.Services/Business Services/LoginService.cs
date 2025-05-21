@@ -25,7 +25,7 @@ namespace SY.OnlineApp.Services.Business_Services
             _logger = logger;
         }
 
-        public async Task<string> AuthenticateAsync(LoginRequestDto dto)
+        public async Task<LoginResponseDto?> AuthenticateAsync(LoginRequestDto dto)
         {
             try
             {
@@ -41,7 +41,13 @@ namespace SY.OnlineApp.Services.Business_Services
 
                 await _lastLoginService.RecordLoginAsync(user.Id);
 
-                return _jwtTokenService.GenerateToken(user.UserName);
+                return new LoginResponseDto
+                {
+                    Token = _jwtTokenService.GenerateToken(user.UserName),
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    RegistrationId = user.Id
+                };
             }
             catch (Exception ex)
             {

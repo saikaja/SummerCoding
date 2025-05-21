@@ -1,6 +1,8 @@
 {
   "APP_TITLE": "Insurance Online App",
   "LOGOUT": "Logout",
+  "VIEW_PROFILE": "View Profile",
+  "USER_PROFILE": "User Profile",
   "DASHBOARD": "Dashboard",
   "LIMITS": "Limits & Deductibles",
   "LIABILITIES": "Liabilities",
@@ -32,5 +34,10 @@
     "PROPERTY": "Property Damage Liability",
     "PRODUCT": "Product Liability",
     "CYBER": "Cyber Liability"
-  }
+
+  },
+  "USER_PROFILE_TITLE": "User Profile",
+  "FIRST_NAME": "First Name",
+  "LAST_NAME": "Last Name",
+  "LAST_LOGIN": "Last Login"
 }

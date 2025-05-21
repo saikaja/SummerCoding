@@ -31,11 +31,13 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response: {
           token: string;
-          username: string;
+          firstName: string;
+          lastName: string;
           lastLogin?: string;
         }) => {
           localStorage.setItem('token', response.token);
-          localStorage.setItem('username', response.username);
+          localStorage.setItem('firstName', response.firstName);
+          localStorage.setItem('lastName', response.lastName);
           localStorage.setItem('lastLogin', response.lastLogin || new Date().toISOString());
 
           this.router.navigate(['/dashboard']);

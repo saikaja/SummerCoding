@@ -1,6 +1,8 @@
 {
   "APP_TITLE": "Application d’Assurance en Ligne",
   "LOGOUT": "Se déconnecter",
+  "VIEW_PROFILE": "Voir le profil",
+  "USER_PROFILE": "Profil de l'utilisateur",
   "DASHBOARD": "Tableau de bord",
   "LIMITS": "Plafonds et franchises",
   "LIABILITIES": "Responsabilités",
@@ -33,5 +35,10 @@
     "PROPERTY": "Responsabilité pour dommages matériels",
     "PRODUCT": "Responsabilité du produit",
     "CYBER": "Responsabilité cybernétique"
-  }
+  },
+  "USER_PROFILE_TITLE": "Profil de l'utilisateur",
+  "FIRST_NAME": "Prénom",
+  "LAST_NAME": "Nom de famille",
+  "LAST_LOGIN": "Dernière connexion"
 }
+
