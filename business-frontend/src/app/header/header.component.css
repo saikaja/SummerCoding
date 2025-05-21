@@ -2,7 +2,76 @@
   background: #4a148c;
   color: white;
   padding: 1rem;
-  text-align: center;
   font-family: 'Segoe UI', sans-serif;
   font-size: 14px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+/* Profile pill-style button */
+.profile-button {
+  padding: 6px 12px;
+  background-color: white;
+  color: #4a148c;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px #ccc;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.profile-button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Dropdown */
+.profile-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  color: black;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  width: 180px;
+  z-index: 10;
+  border-radius: 4px;
+}
+
+.profile-name {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.profile-meta {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.profile-btn {
+  width: 100%;
+  margin-bottom: 6px;
+  padding: 6px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.profile-btn:hover {
+  background-color: #f0f0f0;
 }
