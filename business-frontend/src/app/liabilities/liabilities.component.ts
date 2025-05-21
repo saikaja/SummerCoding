@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LiabilitiesService } from '../services/liabilities.service';
 import { LiabilityData } from '../models/liability-data.model';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-liabilities',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './liabilities.component.html',
   styleUrls: ['./liabilities.component.css']
 })
@@ -18,15 +19,14 @@ export class LiabilitiesComponent implements OnInit {
   showConfirmation = false;
   integrationMessage: string | null = null;
 
+labelMap: { [key: string]: string } = {
+  InjuryLiability: 'LIABILITIESMAP.INJURY',
+  PropertyDamageLiability: 'LIABILITIESMAP.PROPERTY',
+  ProductLiability: 'LIABILITIESMAP.PRODUCT',
+  CyberLiability: 'LIABILITIESMAP.CYBER'
+};
 
-   labelMap: { [key: string]: string } = {
-    InjuryLiability: 'Injury Liability',
-    PropertyDamageLiability: 'Property Damage Liability',
-    ProductLiability: 'Product Liability',
-    CyberLiability: 'Cyber Liability'
-  };
-
-  constructor(private liabilityService: LiabilitiesService) {}
+  constructor(private liabilityService: LiabilitiesService, private translate: TranslateService) {}
   
   liabilities: any[] = [];
   ngOnInit(): void {
@@ -65,18 +65,20 @@ export class LiabilitiesComponent implements OnInit {
     this.showConfirmation = false;
   }
 
-  confirmIntegrationAction() {
-    this.showConfirmation = false;
+ confirmIntegrationAction() {
+  this.showConfirmation = false;
 
-    this.liabilityService.setIntegrationStatus(2, true).subscribe({
-      next: () => {
-        this.liabilityService.getLiabilitiesData().subscribe({
-          next: () => {
-            this.integrationMessage = 'Data integrated successfully.';
-            this.loadBusinessData();
-          }
-        });
-      }
-    });
-  }
+  this.liabilityService.setIntegrationStatus(2, true).subscribe({
+    next: () => {
+      this.liabilityService.getLiabilitiesData().subscribe({
+        next: () => {
+          this.translate.get('INTEGRATION_SUCCESS').subscribe((msg: string) => {
+            this.integrationMessage = msg;
+          });
+          this.loadBusinessData();
+        }
+      });
+    }
+  });
+}
 }

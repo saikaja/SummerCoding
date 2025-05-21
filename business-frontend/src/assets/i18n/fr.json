@@ -7,5 +7,31 @@
   "DASHBOARD_WELCOME": "Bienvenue dans votre tableau de bord d'assurance",
   "DASHBOARD_SUB": "Tout ce dont vous avez besoin pour gérer vos polices, votre couverture et vos réclamations est ici.",
   "SELECT_PROMPT": "Sélectionnez une option dans le menu pour commencer.",
-  "MENU": "Menu"
+  "MENU": "Menu",
+  "INTEGRATE_DATA": "Intégrer les données ?",
+  "CONFIRM_INTEGRATION": "Souhaitez-vous intégrer les données ?",
+  "YES": "Oui",
+  "NO": "Non",
+  "LIMITS_TITLE": "Plafonds et franchises",
+  "INTEGRATION_SUCCESS": "Les données ont été intégrées avec succès.",
+  "LIABILITIES_TITLE": "Responsabilités",
+
+  "LIMITSDEDUCTIBLES": {
+    "GENERAL_AGG": "Limite générale globale",
+    "PRODUCTS_OPS_AGG": "Limite globale produits et opérations",
+    "EACH_OCCURRENCE": "Limite par événement",
+    "DAMAGE_PREMISES": "Dommages aux locaux loués",
+    "PERSONAL_ADVERTISING": "Blessures personnelles et publicitaires",
+    "MEDICAL_EXPENSE": "Frais médicaux",
+    "PREMOPS_COMBINED_DED": "Franchise combinée BI ou PD (Opérations locales)",
+    "PRODUCTS_COMBINED_DED": "Franchise combinée BI ou PD (Produits)",
+    "GL_AGG_DED": "Franchise globale GL"
+  },
+
+  "LIABILITIESMAP": {
+    "INJURY": "Responsabilité pour blessures",
+    "PROPERTY": "Responsabilité pour dommages matériels",
+    "PRODUCT": "Responsabilité du produit",
+    "CYBER": "Responsabilité cybernétique"
+  }
 }

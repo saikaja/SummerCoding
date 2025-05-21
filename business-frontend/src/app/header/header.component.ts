@@ -15,7 +15,7 @@ export class HeaderComponent {
     private translate: TranslateService
   ) {
     const savedLang = localStorage.getItem('lang') || 'en';
-    this.translate.use(savedLang); // ✅ No setDefaultLang here
+    this.translate.use(savedLang); // No setDefaultLang here
   }
 
   logout(): void {

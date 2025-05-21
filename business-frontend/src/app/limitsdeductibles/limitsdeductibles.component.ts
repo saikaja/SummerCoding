@@ -3,12 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BusinessService } from '../services/business.service';
 import { BusinessData } from '../models/business-data.model';
-
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-business-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './limitsdeductibles.component.html',
   styleUrls: ['./limitsdeductibles.component.css']
 })
@@ -18,18 +18,19 @@ export class BusinessDashboardComponent implements OnInit {
   integrationMessage: string | null = null;
 
   labelMap: { [key: string]: string } = {
-    GeneralAggregateLimit: 'General Aggregate Limit',
-    ProductsOperationsAggregateLimit: 'Products Operations Aggregate Limit',
-    EachOccurenceLimit: 'Each Occurrence Limit',
-    DamagePremisesLimit: 'Damage to Premises Limit',
-    PersonalAdvertisingInjuryLimit: 'Personal & Advertising Injury Limit',
-    MedicalExpenseLimit: 'Medical Expense Limit',
-    PremOpsBiPdCombinedDeductible: 'PremOps BI or PD Combined Deductible',
-    ProductsBiPdCombinedDeductible: 'Products BI or PD Combined Deductible',
-    GLAggregateDeductible: 'GL Aggregate Deductible'
-  };
+    GeneralAggregateLimit: 'LIMITSDEDUCTIBLES.GENERAL_AGG',
+    ProductsOperationsAggregateLimit: 'LIMITSDEDUCTIBLES.PRODUCTS_OPS_AGG',
+    EachOccurenceLimit: 'LIMITSDEDUCTIBLES.EACH_OCCURRENCE',
+    DamagePremisesLimit: 'LIMITSDEDUCTIBLES.DAMAGE_PREMISES',
+    PersonalAdvertisingInjuryLimit: 'LIMITSDEDUCTIBLES.PERSONAL_ADVERTISING',
+    MedicalExpenseLimit: 'LIMITSDEDUCTIBLES.MEDICAL_EXPENSE',
+    PremOpsBiPdCombinedDeductible: 'LIMITSDEDUCTIBLES.PREMOPS_COMBINED_DED',
+    ProductsBiPdCombinedDeductible: 'LIMITSDEDUCTIBLES.PRODUCTS_COMBINED_DED',
+    GLAggregateDeductible: 'LIMITSDEDUCTIBLES.GL_AGG_DED'
+};
 
-  constructor(private businessService: BusinessService) {}
+  constructor(private businessService: BusinessService, private translate: TranslateService
+  ) {}
 
   ngOnInit(): void {
   }
@@ -77,8 +78,10 @@ confirmIntegrationAction() {
       console.log('Integration status updated.');
       this.businessService.getBusinessData().subscribe({
         next: () => {
-          this.integrationMessage = 'Data integrated successfully.';
-          this.loadBusinessData(); // Reload updated results
+          this.translate.get('INTEGRATION_SUCCESS').subscribe((msg: string) => {
+            this.integrationMessage = msg;
+          });
+          this.loadBusinessData();
         }
       });
     }
