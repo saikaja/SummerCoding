@@ -14,12 +14,22 @@ namespace SY.OnlineApp.AuthenticationAPI.Controllers
         {
             _service = service;
         }
-
         [HttpPost("forgot")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
         {
-            await _service.SendPasswordResetOtpAsync(dto);
-            return Ok("OTP sent to your email.");
+            try
+            {
+                await _service.SendPasswordResetOtpAsync(dto);
+                return Ok(new { message = "OTP sent to your email." });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred. Please try again." });
+            }
         }
 
         [HttpPost("validate/{registrationId}")]

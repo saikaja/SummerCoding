@@ -24,16 +24,37 @@ export class ForgotPasswordComponent {
   }
 
   onSubmit() {
-    if (this.forgotPasswordForm.valid) {
-      this.registerService.sendPasswordResetOtp(this.forgotPasswordForm.value).subscribe({
-        next: () => {
-          this.successMessage = 'OTP sent. Please check your email for the link and OTP.'
-        },
-        error: (err) => {
-          console.error('Failed to send OTP', err);
-          this.errorMessage = 'Failed to send OTP.';
+  if (this.forgotPasswordForm.valid) {
+    this.registerService.sendPasswordResetOtp(this.forgotPasswordForm.value).subscribe({
+      next: () => {
+        this.successMessage = 'OTP sent. Please check your email for the link and OTP.';
+        this.errorMessage = '';
+      },
+      error: (err) => {
+        console.error('Failed to send OTP', err);
+        this.successMessage = '';
+
+        if (err.status === 400 || err.status === 404) {
+          if (typeof err.error === 'string') {
+            try {
+              const parsed = JSON.parse(err.error);
+              this.errorMessage = parsed.message || 'Invalid request. Please check your input.';
+            } catch {
+              this.errorMessage = err.error;
+            }
+          } else if (err.error?.message) {
+            this.errorMessage = err.error.message;
+          } else {
+            this.errorMessage = 'Invalid input. Please try again.';
+          }
+        } else {
+          this.errorMessage = 'Failed to send OTP. Please try again later.';
         }
-      });
-    }
+      }
+    });
+  } else {
+    this.errorMessage = 'Please fill out all required fields.';
+    this.successMessage = '';
   }
+}
 }

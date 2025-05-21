@@ -33,33 +33,27 @@ namespace SY.OnlineApp.Services.Business_Services
 
         public async Task SendPasswordResetOtpAsync(ForgotPasswordDto dto)
         {
-            try
+            var user = await _repo.GetByUserNameAsync(dto.UserName);
+            if (user == null)
             {
-                var user = await _repo.GetByUserNameAsync(dto.UserName);
-                if (user == null)
-                {
-                    _logger.LogWarning("User not found: {UserName}", dto.UserName);
-                    return;
-                }
-
-                var otp = await _otpService.GenerateAndSaveOtpAsync(user.Id);
-                var emailBody = $@"
-                    Hello {dto.UserName}, your one-time passcode is: {otp}. It expires in 5 minutes.
-
-                    You can reset your password by clicking the link below:
-                    http://localhost:4200/reset-password
-
-                    Thank you.
-                    ";
-
-                await _emailService.SendEmailAsync(user.Email, "Password Reset OTP", emailBody);
-                _logger.LogInformation("Password reset OTP sent to {UserEmail}.", user.Email);
+                _logger.LogWarning("User not found: {UserName}", dto.UserName);
+                throw new KeyNotFoundException("This username does not exist.");
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to send password reset OTP for {UserName}.", dto.UserName);
-            }
+
+            var otp = await _otpService.GenerateAndSaveOtpAsync(user.Id);
+            var emailBody = $@"
+                Hello {dto.UserName}, your one-time passcode is: {otp}. It expires in 5 minutes.
+
+                You can reset your password by clicking the link below:
+                http://localhost:4200/reset-password
+
+                Thank you.
+                ";
+
+            await _emailService.SendEmailAsync(user.Email, "Password Reset OTP", emailBody);
+            _logger.LogInformation("Password reset OTP sent to {UserEmail}.", user.Email);
         }
+
         public async Task<bool> ValidateOtpAsync(int registrationId, string code)
         {
             try

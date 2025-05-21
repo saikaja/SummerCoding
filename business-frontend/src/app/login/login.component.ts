@@ -14,6 +14,7 @@ import { AuthService } from '../services/auth.service';
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string | null = null;
+  successMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -47,6 +48,9 @@ export class LoginComponent {
           this.errorMessage = 'Invalid username or password.';
         }
       });
+      } else {
+      this.errorMessage = 'Please fill out all required fields.';
+      this.successMessage = '';
     }
   }
 }
