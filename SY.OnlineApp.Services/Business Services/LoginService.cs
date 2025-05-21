@@ -14,7 +14,6 @@ namespace SY.OnlineApp.Services.Business_Services
     {
         private readonly IRegisterRepo _registerRepo;
         private readonly IJwtTokenService _jwtTokenService;
-        private readonly ILastLoginService _lastLoginService;
         private readonly ILogger<LoginService> _logger;
         private readonly ILastLoginService _lastLoginService;
 
@@ -24,7 +23,6 @@ namespace SY.OnlineApp.Services.Business_Services
             _jwtTokenService = jwtTokenService;
             _lastLoginService = lastLoginService;
             _logger = logger;
-            _lastLoginService = lastLoginService;
         }
 
         public async Task<string> AuthenticateAsync(LoginRequestDto dto)

@@ -32,12 +32,8 @@ namespace SY.OnlineApp.Services.Business_Services
                 }
                 else
                 {
-                    var newLogin = new LastLogin
-                    {
-                        RegistrationId = registrationId,
-                        LoginTimestamp = DateTime.UtcNow
-                    };
-                    await _repo.AddAsync(newLogin);
+                    // Use AddOrUpdateAsync instead of AddAsync as per the ILastLoginRepo interface
+                    await _repo.AddOrUpdateAsync(registrationId);
                     _logger.LogInformation("Created new last login record for RegistrationId: {RegistrationId}", registrationId);
                 }
             }
