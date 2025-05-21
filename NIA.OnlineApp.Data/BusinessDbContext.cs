@@ -22,12 +22,16 @@ namespace SY.OnlineApp.Data
                 .HasMany(t => t.IntegratedStatuses)
                 .WithOne(s => s.IntegratedType)
                 .HasForeignKey(s => s.IntegratedId);
-            base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Register>()
                 .HasIndex(r => r.UserName)
                 .IsUnique();
 
+            modelBuilder.Entity<Register>()
+                .Property(r => r.Id)
+                .ValueGeneratedOnAdd(); // ✅ Ensures Register.Id is treated as an identity column
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
