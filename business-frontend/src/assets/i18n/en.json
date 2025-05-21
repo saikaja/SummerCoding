@@ -1,0 +1,11 @@
+{
+  "APP_TITLE": "Insurance Online App",
+  "LOGOUT": "Logout",
+  "DASHBOARD": "Dashboard",
+  "LIMITS": "Limits & Deductibles",
+  "LIABILITIES": "Liabilities",
+  "DASHBOARD_WELCOME": "Welcome to Your Insurance Dashboard",
+  "DASHBOARD_SUB": "Everything you need to manage your policies, coverage, and claims is right here.",
+  "SELECT_PROMPT": "Select an option from the menu to get started.",
+  "MENU": "Menu"
+}

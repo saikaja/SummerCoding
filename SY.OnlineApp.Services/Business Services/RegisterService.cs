@@ -1,12 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
-using Org.BouncyCastle.Crypto.Generators;
 using BCrypt.Net;
 using SY.OnlineApp.Data.Entities;
 using SY.OnlineApp.Models.Dtos;
-using SY.OnlineApp.Models.Models;
 using SY.OnlineApp.Repos.Repositories.Interfaces;
 using SY.OnlineApp.Services.Business_Services.Interfaces;
 using SY.OnlineApp.Services.Interfaces;
+using SY.OnlineApp.Models.Models;
 
 namespace SY.OnlineApp.Services.Services
 {
@@ -52,6 +51,14 @@ namespace SY.OnlineApp.Services.Services
                 await _repo.AddAsync(register);
                 await _repo.SaveAsync();
 
+                if (register.Id == 0)
+                {
+                    _logger.LogError("Register ID was not generated after saving.");
+                    throw new ApplicationException("Internal error: Unable to generate user ID.");
+                }
+
+                _logger.LogInformation("Saved Register entity with ID: {Id}", register.Id);
+
                 var otp = await _otpService.GenerateAndSaveOtpAsync(register.Id);
                 var emailBody = $@"
                     Hello {dto.UserName}, your one-time passcode is: {otp}. It expires in 5 minutes.
@@ -59,8 +66,7 @@ namespace SY.OnlineApp.Services.Services
                     You can reset your password by clicking the link below:
                     http://localhost:4200/set-password
 
-                    Thank you.
-                    ";
+                    Thank you.";
 
                 await _emailService.SendEmailAsync(dto.Email, "Your One-Time Passcode", emailBody);
 
@@ -74,7 +80,6 @@ namespace SY.OnlineApp.Services.Services
                 throw new ApplicationException("Registration failed. Please try again.", ex);
             }
         }
-
 
         public async Task SetPasswordAsync(CreatePasswordDto dto)
         {

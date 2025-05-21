@@ -1,0 +1,11 @@
+{
+  "APP_TITLE": "Application d’Assurance en Ligne",
+  "LOGOUT": "Se déconnecter",
+  "DASHBOARD": "Tableau de bord",
+  "LIMITS": "Plafonds et franchises",
+  "LIABILITIES": "Responsabilités",
+  "DASHBOARD_WELCOME": "Bienvenue dans votre tableau de bord d'assurance",
+  "DASHBOARD_SUB": "Tout ce dont vous avez besoin pour gérer vos polices, votre couverture et vos réclamations est ici.",
+  "SELECT_PROMPT": "Sélectionnez une option dans le menu pour commencer.",
+  "MENU": "Menu"
+}

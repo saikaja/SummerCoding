@@ -1,4 +1,12 @@
 <header class="header" style="display: flex; justify-content: space-between; align-items: center;">
-  <h1>Insurance Online App</h1>
-  <button (click)="logout()" style="font-family: sans-serif;">Logout</button>
+  <h1>{{ 'APP_TITLE' | translate }}</h1>
+
+  <div style="display: flex; flex-direction: column; align-items: flex-end;">
+    <button (click)="logout()" style="font-family: sans-serif;">{{ 'LOGOUT' | translate }}</button>
+
+    <div style="margin-top: 4px;">
+      <button (click)="switchLanguage('fr')" style="margin-right: 5px;">FR</button>
+      <button (click)="switchLanguage('en')">EN</button>
+    </div>
+  </div>
 </header>
