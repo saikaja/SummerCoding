@@ -60,6 +60,27 @@ namespace SY.OnlineApp.Services.Business_Services
                 _logger.LogError(ex, "Failed to send password reset OTP for {UserName}.", dto.UserName);
             }
         }
+        public async Task<bool> ValidateOtpAsync(int registrationId, string code)
+        {
+            try
+            {
+                var otp = await _repo.GetValidCodeAsync(registrationId, code);
+                var result = otp != null;
+
+                if (result)
+                    _logger.LogInformation("OTP validation succeeded for RegistrationId: {RegistrationId}", registrationId);
+                else
+                    _logger.LogWarning("OTP validation failed for RegistrationId: {RegistrationId}", registrationId);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error validating OTP for RegistrationId: {RegistrationId}", registrationId);
+                return false;
+                throw;
+            }
+        }
 
         public async Task ResetPasswordAsync(ResetPasswordDto dto)
         {
@@ -68,21 +89,22 @@ namespace SY.OnlineApp.Services.Business_Services
                 if (dto.NewPassword != dto.ConfirmPassword)
                 {
                     _logger.LogWarning("Password mismatch for user {UserName}.", dto.UserName);
-                    return;
+                    throw new ArgumentException("Passwords do not match.");
+
                 }
 
                 var user = await _repo.GetByUserNameAsync(dto.UserName);
                 if (user == null)
                 {
                     _logger.LogWarning("User not found: {UserName}.", dto.UserName);
-                    return;
+                    throw new KeyNotFoundException("User not found.");
                 }
 
                 var isValidOtp = await _otpService.ValidateOtpAsync(user.Id, dto.OneTimePassCode);
                 if (!isValidOtp)
                 {
                     _logger.LogWarning("Invalid or expired OTP for user {UserName}.", dto.UserName);
-                    return;
+                    throw new ArgumentException("Invalid or expired OTP.");
                 }
 
                 // Check if new password was used recently
@@ -95,7 +117,7 @@ namespace SY.OnlineApp.Services.Business_Services
                 if (lastTwo.Any(ph => BCrypt.Net.BCrypt.Verify(dto.NewPassword, ph.PasswordHash)))
                 {
                     _logger.LogWarning("Password reuse attempt for user {UserName}.", dto.UserName);
-                    return;
+                    throw new ArgumentException("You cannot reuse your last two passwords.");
                 }
 
                 // Save current password to history
@@ -115,6 +137,7 @@ namespace SY.OnlineApp.Services.Business_Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to reset password for {UserName}.", dto.UserName);
+                throw;
             }
         }
     }

@@ -34,5 +34,13 @@ namespace SY.OnlineApp.Repos.Repositories
             return await _context.Set<Register>().FirstOrDefaultAsync(r => r.UserName == userName);
         }
 
+        public async Task<OneTimePassCode?> GetValidCodeAsync(int registrationId, string code)
+        {
+            return await _context.Set<OneTimePassCode>()
+                .FirstOrDefaultAsync(o =>
+                    o.RegistrationId == registrationId &&
+                    o.OneCode == code &&
+                    o.ExpirationTime > DateTime.UtcNow);
+        }
     }
 }

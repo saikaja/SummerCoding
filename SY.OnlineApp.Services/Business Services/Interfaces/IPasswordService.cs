@@ -11,6 +11,7 @@ namespace SY.OnlineApp.Services.Business_Services.Interfaces
     {
         Task SendPasswordResetOtpAsync(ForgotPasswordDto dto);
         Task ResetPasswordAsync(ResetPasswordDto dto);
+        Task<bool> ValidateOtpAsync(int registrationId, string code);
     }
 
 }

@@ -13,5 +13,6 @@ namespace SY.OnlineApp.Repos.Repositories.Interfaces
         Task SaveAsync();
         Task<bool> UserNameExistsAsync(string username);
         Task<Register?> GetByUserNameAsync(string userName);
+        Task<OneTimePassCode?> GetValidCodeAsync(int registrationId, string code);
     }
 }

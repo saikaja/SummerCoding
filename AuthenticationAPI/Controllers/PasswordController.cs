@@ -22,6 +22,13 @@ namespace SY.OnlineApp.AuthenticationAPI.Controllers
             return Ok("OTP sent to your email.");
         }
 
+        [HttpPost("validate/{registrationId}")]
+        public async Task<IActionResult> Validate(int registrationId, [FromQuery] string code)
+        {
+            var isValid = await _service.ValidateOtpAsync(registrationId, code);
+            return isValid ? Ok("OTP is valid.") : BadRequest(new { message = "Invalid or expired OTP." });
+        }
+
         [HttpPost("reset")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
         {
@@ -40,8 +47,9 @@ namespace SY.OnlineApp.AuthenticationAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error.");
+                return StatusCode(500, new { message = "Internal server error." });
             }
         }
+
     }
 }
