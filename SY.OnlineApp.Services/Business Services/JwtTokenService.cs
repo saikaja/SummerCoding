@@ -1,55 +1,70 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Logging;
 using SY.OnlineApp.Models.Models;
 using SY.OnlineApp.Services.Business_Services.Interfaces;
 
-namespace SY.OnlineApp.Services.Business_Services
+public class JwtTokenService : IJwtTokenService
 {
-    public class JwtTokenService : IJwtTokenService
+    private readonly JwtSettings _settings;
+
+    public JwtTokenService(IOptions<JwtSettings> settings)
     {
-        private readonly JwtSettings _settings;
-        private readonly ILogger<JwtTokenService> _logger;
+        _settings = settings.Value;
+    }
 
-        public JwtTokenService(IOptions<JwtSettings> settings, ILogger<JwtTokenService> logger)
+    public TokenResponseDto GenerateTokens(string userName)
+    {
+        var accessToken = GenerateJwtToken(userName, TimeSpan.FromMinutes(_settings.ExpiresInMinutes));
+        var refreshToken = GenerateJwtToken(userName, TimeSpan.FromDays(7)); // Refresh token valid 7 days
+
+        return new TokenResponseDto
         {
-            _settings = settings.Value;
-            _logger = logger;
-        }
+            AccessToken = accessToken,
+            RefreshToken = refreshToken
+        };
+    }
 
-        public string GenerateToken(string userName)
+    private string GenerateJwtToken(string userName, TimeSpan expiry)
+    {
+        var claims = new[]
         {
-            try
-            {
-                var claims = new[]
-                {
-                    new Claim(JwtRegisteredClaimNames.Sub, userName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                };
+            new Claim(JwtRegisteredClaimNames.Sub, userName),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.Name, userName)
+        };
 
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-                var token = new JwtSecurityToken(
-                    issuer: _settings.Issuer,
-                    audience: _settings.Audience,
-                    claims: claims,
-                    expires: DateTime.UtcNow.AddMinutes(_settings.ExpiresInMinutes),
-                    signingCredentials: creds);
+        var token = new JwtSecurityToken(
+            issuer: _settings.Issuer,
+            audience: _settings.Audience,
+            claims: claims,
+            expires: DateTime.UtcNow.Add(expiry),
+            signingCredentials: creds
+        );
 
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
 
-                return tokenString;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to generate JWT token for user {UserName}", userName);
-                return string.Empty;
-            }
-        }
+    public ClaimsPrincipal? GetPrincipalFromExpiredToken(string token)
+    {
+        var tokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key)),
+            ValidateLifetime = false,
+            ValidIssuer = _settings.Issuer,
+            ValidAudience = _settings.Audience,
+        };
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var _);
+        return principal;
     }
 }

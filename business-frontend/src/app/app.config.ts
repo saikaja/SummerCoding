@@ -1,30 +1,35 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi, // <-- Use this instead of withInterceptors
+  HTTP_INTERCEPTORS // <-- Import the token
+} from '@angular/common/http';
 import { routes } from './app.routes';
-
-import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+import { AuthInterceptor } from './services/auth.interceptor';
 
-// 🌐 Translation loader factory
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-const savedLang = localStorage.getItem('lang') || 'en';
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(),
-
+    provideHttpClient(withInterceptorsFromDi()), // <-- Enable DI-based interceptors
+    // Provide the class-based interceptor:
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true // <-- Allows multiple interceptors
+    },
     importProvidersFrom(
-      FormsModule,
-      HttpClientModule,
       TranslateModule.forRoot({
-        defaultLanguage: savedLang,
+        defaultLanguage: typeof localStorage !== 'undefined'
+          ? localStorage.getItem('lang') || 'en'
+          : 'en',
         loader: {
           provide: TranslateLoader,
           useFactory: HttpLoaderFactory,

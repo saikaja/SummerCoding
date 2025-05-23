@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SY.OnlineApp.Models.Models;
+using System.Security.Claims;
 
 namespace SY.OnlineApp.Services.Business_Services.Interfaces
 {
     public interface IJwtTokenService
     {
-        string GenerateToken(string userName);
+        TokenResponseDto GenerateTokens(string userName);
+        ClaimsPrincipal? GetPrincipalFromExpiredToken(string token);
     }
 }

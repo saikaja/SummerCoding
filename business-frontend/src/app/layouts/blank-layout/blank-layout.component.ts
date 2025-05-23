@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { HeaderComponent } from '../../header/header.component';
 
 @Component({
   selector: 'app-blank-layout',
   standalone: true,
-  imports: [RouterModule],
+  imports: [HeaderComponent, RouterModule],
   templateUrl: './blank-layout.component.html',
   styleUrl: './blank-layout.component.css'
 })
-export class BlankLayoutComponent {
-
-}
+export class BlankLayoutComponent {}

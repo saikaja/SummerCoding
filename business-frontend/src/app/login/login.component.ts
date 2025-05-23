@@ -30,27 +30,15 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
-        next: (response: {
-          token: string;
-          firstName: string;
-          lastName: string;
-          lastLogin?: string;
-        }) => {
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('firstName', response.firstName);
-          localStorage.setItem('lastName', response.lastName);
-          localStorage.setItem('lastLogin', response.lastLogin || new Date().toISOString());
-
+        next: () => {
           this.router.navigate(['/dashboard']);
         },
-        error: (err: any) => {
-          console.error('Login failed', err);
+        error: () => {
           this.errorMessage = 'Invalid username or password.';
         }
       });
-      } else {
+    } else {
       this.errorMessage = 'Please fill out all required fields.';
-      this.successMessage = '';
     }
   }
 }

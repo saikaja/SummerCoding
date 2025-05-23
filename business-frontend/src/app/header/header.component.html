@@ -2,26 +2,29 @@
   <h1>{{ 'APP_TITLE' | translate }}</h1>
 
   <div class="header-actions">
-    <!-- Language buttons -->
+    <!-- Language buttons (always visible) -->
     <button (click)="switchLanguage('fr')">FR</button>
     <button (click)="switchLanguage('en')">EN</button>
 
-    <!-- Profile toggle -->
-    <div (click)="toggleProfileDropdown()" class="profile-button">
-      {{ 'USER_PROFILE' | translate }}
-    </div>
-
-        <!-- Profile dropdown -->
-    <div *ngIf="showProfile" class="profile-dropdown">
-      <div class="profile-name">{{ fullName }}</div>
-      <div class="profile-meta">
-        {{ 'LAST_LOGIN' | translate }}:<br />
-        {{ lastLogin | date:'short' }}
+    <!-- User profile section (only visible when logged in) -->
+    <ng-container *ngIf="userLoggedInStatus">
+      <div (click)="toggleProfileDropdown()" class="profile-button">
+        {{ 'USER_PROFILE' | translate }}
       </div>
-      <button class="profile-btn" (click)="goToProfile()">
-        {{ 'VIEW_PROFILE' | translate }}
-      </button>
-      <button class="profile-btn" (click)="logout()">
-        {{ 'LOGOUT' | translate }}
-      </button>
-    </div>
+
+      <div *ngIf="showProfile" class="profile-dropdown">
+        <div class="profile-name">{{ fullName }}</div>
+        <div class="profile-meta">
+          {{ 'LAST_LOGIN' | translate }}:<br />
+          {{ lastLogin | date:'short' }}
+        </div>
+        <button class="profile-btn" (click)="goToProfile()">
+          {{ 'VIEW_PROFILE' | translate }}
+        </button>
+        <button class="profile-btn" (click)="logout()">
+          {{ 'LOGOUT' | translate }}
+        </button>
+      </div>
+    </ng-container>
+  </div>
+</header>

@@ -14,7 +14,6 @@
 .register-container form {
   display: flex;
   flex-direction: column;
-  font-family: sans-serif;
 }
 
 .register-container input,
@@ -22,6 +21,15 @@
   margin-bottom: 1rem;
   padding: 0.5rem;
   font-family: sans-serif;
+  transition: border 0.3s ease;
+}
+
+input.ng-invalid.ng-dirty {
+  border: 2px solid red;
+}
+
+input.ng-valid.ng-dirty {
+  border: 2px solid green;
 }
 
 .register-container button {
@@ -36,7 +44,6 @@
   padding: 0.75rem;
   border-radius: 4px;
   margin-bottom: 1rem;
-  font-family: sans-serif;
 }
 
 .error-message {
@@ -46,7 +53,6 @@
   padding: 0.75rem;
   border-radius: 4px;
   margin-bottom: 1rem;
-  font-family: sans-serif;
 }
 
 .close-button {

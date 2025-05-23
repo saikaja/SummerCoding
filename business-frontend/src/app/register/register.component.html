@@ -1,7 +1,6 @@
 <div class="register-container">
   <h2>Register</h2>
 
-  <!-- Success and Error Messages -->
   <div *ngIf="successMessage" class="success-message" (click)="successMessage = ''">
     {{ successMessage }}
   </div>
@@ -11,45 +10,59 @@
 
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
-    <input formControlName="userName" placeholder="Username" />
-    <input formControlName="firstName" placeholder="First Name" />
-    <input formControlName="lastName" placeholder="Last Name" />
+    <label for="userName">Username *</label>
+<input
+  id="userName"
+  formControlName="userName"
+  (keyup)="registerForm.get('userName')?.markAsDirty()" />
 
-    <!-- Email Field with Real-Time Validation -->
-    <input formControlName="email" placeholder="Email" type="email" />
+<div *ngIf="registerForm.get('userName')?.invalid && registerForm.get('userName')?.dirty" class="error-message">
+  <div *ngIf="registerForm.get('userName')?.errors?.['required']">
+    Username is required.
+  </div>
+  <div *ngIf="registerForm.get('userName')?.errors?.['invalidUsername']">
+    Please enter letters and numbers only (no spaces or symbols).
+  </div>
+</div>
+
+    <label for="firstName">First Name *</label>
+    <input id="firstName" formControlName="firstName" />
+
+    <label for="lastName">Last Name *</label>
+    <input id="lastName" formControlName="lastName" />
+
+    <label for="email">Email *</label>
+    <input id="email" formControlName="email" type="email" />
     <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.dirty" class="error-message">
-      <div *ngIf="registerForm.get('email')?.errors?.['required']">
-        Email is required.
-      </div>
-      <div *ngIf="registerForm.get('email')?.errors?.['email']">
-        Please enter a valid email address.
-      </div>
+      <div *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</div>
+      <div *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email address.</div>
     </div>
 
-    <input formControlName="dateOfBirth" type="date" />
+    <label for="dateOfBirth">Date of Birth *</label>
+    <input id="dateOfBirth" formControlName="dateOfBirth" type="date" />
     <div *ngIf="registerForm.get('dateOfBirth')?.invalid && registerForm.get('dateOfBirth')?.dirty" class="error-message">
-      <div *ngIf="registerForm.get('dateOfBirth')?.errors?.['required']">
-        Date of birth is required.
-      </div>
-      <div *ngIf="registerForm.get('dateOfBirth')?.errors?.['underage']">
-        You must be at least 18 years old to register.
-      </div>
+      <div *ngIf="registerForm.get('dateOfBirth')?.errors?.['required']">Date of birth is required.</div>
+      <div *ngIf="registerForm.get('dateOfBirth')?.errors?.['underage']">You must be at least 18 years old to register.</div>
     </div>
-    <input formControlName="addressLine1" placeholder="Address Line 1" />
-    <input formControlName="addressLine2" placeholder="Address Line 2" />
-    <input formControlName="city" placeholder="City" />
 
-    <!-- Postal Code Field with Validation -->
-    <input formControlName="postalCode" placeholder="Postal Code" />
+    <label for="addressLine1">Address Line 1 *</label>
+    <input id="addressLine1" formControlName="addressLine1" />
+
+    <label for="addressLine2">Address Line 2</label>
+    <input id="addressLine2" formControlName="addressLine2" />
+
+    <label for="city">City *</label>
+    <input id="city" formControlName="city" />
+
+    <label for="postalCode">Postal Code *</label>
+    <input id="postalCode" formControlName="postalCode" />
     <div *ngIf="registerForm.get('postalCode')?.invalid && registerForm.get('postalCode')?.dirty" class="error-message">
-      <div *ngIf="registerForm.get('postalCode')?.errors?.['required']">
-        Postal code is required.
-      </div>
-      <div *ngIf="registerForm.get('postalCode')?.errors?.['invalidPostalCode']">
-        Please enter a valid Canadian postal code (e.g., A1A 1A1).
-      </div>
+      <div *ngIf="registerForm.get('postalCode')?.errors?.['required']">Postal code is required.</div>
+      <div *ngIf="registerForm.get('postalCode')?.errors?.['invalidPostalCode']">Please enter a valid Canadian postal code (e.g., A1A 1A1).</div>
     </div>
 
     <button type="submit" [disabled]="registerForm.invalid">Register</button>
+
+    <p style="margin-top: 20px;"><strong>*</strong> Required fields</p>
   </form>
 </div>
