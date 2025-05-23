@@ -7,7 +7,7 @@
     <button (click)="switchLanguage('en')">EN</button>
 
     <!-- User profile section (only visible when logged in) -->
-    <ng-container *ngIf="userLoggedInStatus">
+    <ng-container *ngIf="hasCheckedLoginState && (isLoggedIn$ | async)">
       <div (click)="toggleProfileDropdown()" class="profile-button">
         {{ 'USER_PROFILE' | translate }}
       </div>

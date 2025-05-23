@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -15,10 +16,12 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class HeaderComponent {
   showProfile = false;
-  userLoggedInStatus = false; // ✅ renamed
-  firstName: string = localStorage.getItem('firstName') || '';
-  lastName: string = localStorage.getItem('lastName') || '';
-  lastLogin = new Date(localStorage.getItem('lastLogin') || new Date());
+  isLoggedIn$: Observable<boolean>;
+  hasCheckedLoginState = false;
+
+  firstName = '';
+  lastName = '';
+  lastLogin: Date = new Date();
 
   get fullName(): string {
     return `${this.firstName} ${this.lastName}`;
@@ -29,15 +32,23 @@ export class HeaderComponent {
     private translate: TranslateService,
     private router: Router
   ) {
+    this.isLoggedIn$ = this.authService.isLoggedIn$;
+
     const savedLang = localStorage.getItem('lang') || 'en';
     this.translate.use(savedLang);
 
-    this.authService.isLoggedIn$.subscribe((state) => {
-      this.userLoggedInStatus = state;
+    this.isLoggedIn$.subscribe((state) => {
+      this.hasCheckedLoginState = true;
 
-      // fallback in case subject was missed
-      if (!state && localStorage.getItem('token')) {
-        this.userLoggedInStatus = true;
+      if (state) {
+        this.firstName = localStorage.getItem('firstName') || '';
+        this.lastName = localStorage.getItem('lastName') || '';
+        this.lastLogin = new Date(localStorage.getItem('lastLogin') || new Date());
+      } else {
+        this.firstName = '';
+        this.lastName = '';
+        this.lastLogin = new Date();
+        this.showProfile = false;
       }
     });
   }
