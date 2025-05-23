@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
-import { TranslateService, TranslateModule } from '@ngx-translate/core'; // ✅ Added TranslateModule
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -12,12 +12,12 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core'; // ✅ 
     RouterModule,
     CommonModule,
     ReactiveFormsModule,
-    TranslateModule // ✅ Required for using | translate in template
+    TranslateModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: string | null = null;
 
@@ -25,11 +25,18 @@ export class LoginComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private translate: TranslateService // ✅ Needed for dynamic error messages
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef // ✅ Required for manual refresh
   ) {
     this.loginForm = this.fb.group({
       userName: ['', Validators.required],
       password: ['', Validators.required]
+    });
+  }
+
+  ngOnInit(): void {
+    this.translate.onLangChange.subscribe(() => {
+      this.cdr.detectChanges(); // ✅ Trigger rerender when language changes
     });
   }
 
