@@ -17,7 +17,7 @@ export class DashboardComponent {
     this.translate.setDefaultLang(savedLang);
     this.translate.use(savedLang);
 
-    // ✅ Force re-render when language changes
+    // Force re-render when language changes
     this.translate.onLangChange.subscribe(() => {
       this.cdr.detectChanges();
     });

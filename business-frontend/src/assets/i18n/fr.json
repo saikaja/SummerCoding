@@ -30,6 +30,16 @@
     "GL_AGG_DED": "Franchise globale GL"
   },
 
+  "LOGIN": {
+  "TITLE": "Connexion",
+  "USERNAME": "Nom d'utilisateur",
+  "PASSWORD": "Mot de passe",
+  "SUBMIT": "Se connecter",
+  "REGISTER": "S'inscrire",
+  "FORGOT": "Mot de passe oublié ?",
+  "ERROR_INVALID": "Nom d'utilisateur ou mot de passe invalide.",
+  "ERROR_REQUIRED": "Veuillez remplir tous les champs obligatoires."
+  },
   "LIABILITIESMAP": {
     "INJURY": "Responsabilité pour blessures",
     "PROPERTY": "Responsabilité pour dommages matériels",
@@ -41,4 +51,3 @@
   "LAST_NAME": "Nom de famille",
   "LAST_LOGIN": "Dernière connexion"
 }
-

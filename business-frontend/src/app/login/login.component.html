@@ -1,15 +1,18 @@
 <div class="login-container">
-  <h2>Login</h2>
+  <h2>{{ 'LOGIN.TITLE' | translate }}</h2>
+
   <div *ngIf="errorMessage" class="error-message">
-  {{ errorMessage }}
+    {{ errorMessage }}
   </div>
+
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <input formControlName="userName" placeholder="User Name" />
-    <input formControlName="password" type="password" placeholder="Password" />
-    <button type="submit">Login</button>
+    <input formControlName="userName" [placeholder]="'LOGIN.USERNAME' | translate" />
+    <input formControlName="password" type="password" [placeholder]="'LOGIN.PASSWORD' | translate" />
+    <button type="submit">{{ 'LOGIN.SUBMIT' | translate }}</button>
   </form>
+
   <div class="links">
-    <a routerLink="/register" routerLinkActive="active-link">Register</a> |
-    <a routerLink="/forgot-password" routerLinkActive="active-link">Forgot Password?</a>
+    <a routerLink="/register" routerLinkActive="active-link">{{ 'LOGIN.REGISTER' | translate }}</a> |
+    <a routerLink="/forgot-password" routerLinkActive="active-link">{{ 'LOGIN.FORGOT' | translate }}</a>
   </div>
 </div>

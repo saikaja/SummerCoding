@@ -29,12 +29,21 @@
     "PRODUCTS_COMBINED_DED": "Products BI or PD Combined Deductible",
     "GL_AGG_DED": "GL Aggregate Deductible"
   },
+  "LOGIN": {
+  "TITLE": "Login",
+  "USERNAME": "User Name",
+  "PASSWORD": "Password",
+  "SUBMIT": "Login",
+  "REGISTER": "Register",
+  "FORGOT": "Forgot Password?",
+  "ERROR_INVALID": "Invalid username or password.",
+  "ERROR_REQUIRED": "Please fill out all required fields."
+  },
   "LIABILITIESMAP": {
     "INJURY": "Injury Liability",
     "PROPERTY": "Property Damage Liability",
     "PRODUCT": "Product Liability",
     "CYBER": "Cyber Liability"
-
   },
   "USER_PROFILE_TITLE": "User Profile",
   "FIRST_NAME": "First Name",
