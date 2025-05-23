@@ -1,5 +1,5 @@
-<div class="register-container">
-  <h2>Register</h2>
+<div class="register-container" *ngIf="translated">
+  <h2>{{ 'REGISTER.TITLE' | translate }}</h2>
 
   <div *ngIf="successMessage" class="success-message" (click)="successMessage = ''">
     {{ successMessage }}
@@ -9,60 +9,51 @@
   </div>
 
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <label for="userName">{{ 'REGISTER.USERNAME_LABEL' | translate }}</label>
+    <input id="userName" formControlName="userName" (keyup)="registerForm.get('userName')?.markAsDirty()" />
+    <div *ngIf="registerForm.get('userName')?.invalid && registerForm.get('userName')?.dirty" class="error-message">
+      <div *ngIf="registerForm.get('userName')?.errors?.['required']">{{ 'REGISTER.USERNAME_REQUIRED' | translate }}</div>
+      <div *ngIf="registerForm.get('userName')?.errors?.['invalidUsername']">{{ 'REGISTER.USERNAME_INVALID' | translate }}</div>
+    </div>
 
-    <label for="userName">Username *</label>
-<input
-  id="userName"
-  formControlName="userName"
-  (keyup)="registerForm.get('userName')?.markAsDirty()" />
-
-<div *ngIf="registerForm.get('userName')?.invalid && registerForm.get('userName')?.dirty" class="error-message">
-  <div *ngIf="registerForm.get('userName')?.errors?.['required']">
-    Username is required.
-  </div>
-  <div *ngIf="registerForm.get('userName')?.errors?.['invalidUsername']">
-    Please enter letters and numbers only (no spaces or symbols).
-  </div>
-</div>
-
-    <label for="firstName">First Name *</label>
+    <label for="firstName">{{ 'REGISTER.FIRST_NAME_LABEL' | translate }}</label>
     <input id="firstName" formControlName="firstName" />
 
-    <label for="lastName">Last Name *</label>
+    <label for="lastName">{{ 'REGISTER.LAST_NAME_LABEL' | translate }}</label>
     <input id="lastName" formControlName="lastName" />
 
-    <label for="email">Email *</label>
+    <label for="email">{{ 'REGISTER.EMAIL_LABEL' | translate }}</label>
     <input id="email" formControlName="email" type="email" />
     <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.dirty" class="error-message">
-      <div *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</div>
-      <div *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email address.</div>
+      <div *ngIf="registerForm.get('email')?.errors?.['required']">{{ 'REGISTER.EMAIL_REQUIRED' | translate }}</div>
+      <div *ngIf="registerForm.get('email')?.errors?.['email']">{{ 'REGISTER.EMAIL_INVALID' | translate }}</div>
     </div>
 
-    <label for="dateOfBirth">Date of Birth *</label>
+    <label for="dateOfBirth">{{ 'REGISTER.DOB_LABEL' | translate }}</label>
     <input id="dateOfBirth" formControlName="dateOfBirth" type="date" />
     <div *ngIf="registerForm.get('dateOfBirth')?.invalid && registerForm.get('dateOfBirth')?.dirty" class="error-message">
-      <div *ngIf="registerForm.get('dateOfBirth')?.errors?.['required']">Date of birth is required.</div>
-      <div *ngIf="registerForm.get('dateOfBirth')?.errors?.['underage']">You must be at least 18 years old to register.</div>
+      <div *ngIf="registerForm.get('dateOfBirth')?.errors?.['required']">{{ 'REGISTER.DOB_REQUIRED' | translate }}</div>
+      <div *ngIf="registerForm.get('dateOfBirth')?.errors?.['underage']">{{ 'REGISTER.DOB_UNDERAGE' | translate }}</div>
     </div>
 
-    <label for="addressLine1">Address Line 1 *</label>
+    <label for="addressLine1">{{ 'REGISTER.ADDRESS1_LABEL' | translate }}</label>
     <input id="addressLine1" formControlName="addressLine1" />
 
-    <label for="addressLine2">Address Line 2</label>
+    <label for="addressLine2">{{ 'REGISTER.ADDRESS2_LABEL' | translate }}</label>
     <input id="addressLine2" formControlName="addressLine2" />
 
-    <label for="city">City *</label>
+    <label for="city">{{ 'REGISTER.CITY_LABEL' | translate }}</label>
     <input id="city" formControlName="city" />
 
-    <label for="postalCode">Postal Code *</label>
+    <label for="postalCode">{{ 'REGISTER.POSTAL_LABEL' | translate }}</label>
     <input id="postalCode" formControlName="postalCode" />
     <div *ngIf="registerForm.get('postalCode')?.invalid && registerForm.get('postalCode')?.dirty" class="error-message">
-      <div *ngIf="registerForm.get('postalCode')?.errors?.['required']">Postal code is required.</div>
-      <div *ngIf="registerForm.get('postalCode')?.errors?.['invalidPostalCode']">Please enter a valid Canadian postal code (e.g., A1A 1A1).</div>
+      <div *ngIf="registerForm.get('postalCode')?.errors?.['required']">{{ 'REGISTER.POSTAL_REQUIRED' | translate }}</div>
+      <div *ngIf="registerForm.get('postalCode')?.errors?.['invalidPostalCode']">{{ 'REGISTER.POSTAL_INVALID' | translate }}</div>
     </div>
 
-    <button type="submit" [disabled]="registerForm.invalid">Register</button>
+    <button type="submit" [disabled]="registerForm.invalid">{{ 'REGISTER.BUTTON' | translate }}</button>
 
-    <p style="margin-top: 20px;"><strong>*</strong> Required fields</p>
+    <p style="margin-top: 20px;"><strong>*</strong> {{ 'REGISTER.REQUIRED_NOTE' | translate }}</p>
   </form>
 </div>
