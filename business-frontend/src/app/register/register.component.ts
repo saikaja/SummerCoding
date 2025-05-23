@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,10 +7,10 @@ import {
   AbstractControl,
   ValidationErrors
 } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { Router } from '@angular/router';
-import { RegisterService } from '../services/register.service';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { RegisterService } from '../services/register.service';
 
 function canadianPostalCodeValidator(control: AbstractControl): ValidationErrors | null {
   const value = control.value?.toUpperCase().trim();
@@ -27,8 +27,7 @@ function minimumAgeValidator(minAge: number) {
     const m = today.getMonth() - birthDate.getMonth();
     const day = today.getDate() - birthDate.getDate();
 
-    const isTooYoung =
-      age < minAge || (age === minAge && (m < 0 || (m === 0 && day < 0)));
+    const isTooYoung = age < minAge || (age === minAge && (m < 0 || (m === 0 && day < 0)));
 
     return isTooYoung ? { underage: true } : null;
   };
@@ -36,32 +35,36 @@ function minimumAgeValidator(minAge: number) {
 
 function alphanumericNoSpaceValidator(control: AbstractControl): ValidationErrors | null {
   const value: string = control.value;
-
-  if (!value) return null; // Avoid triggering on pristine
-
-  // Check for any whitespace and invalid characters
+  if (!value) return null;
   const hasWhitespace = /\s/.test(value);
   const isAlphanumeric = /^[a-zA-Z0-9]+$/.test(value);
-
-  if (hasWhitespace || !isAlphanumeric) {
-    return { invalidUsername: true };
-  }
-
-  return null;
+  return hasWhitespace || !isAlphanumeric ? { invalidUsername: true } : null;
 }
+
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    RouterModule,
+    CommonModule,
+    TranslateModule
+  ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private registerService: RegisterService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private registerService: RegisterService,
+    private router: Router,
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef
+  ) {
     this.registerForm = this.fb.group({
       userName: ['', [Validators.required, alphanumericNoSpaceValidator]],
       firstName: ['', Validators.required],
@@ -75,28 +78,36 @@ export class RegisterComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.translate.onLangChange.subscribe(() => {
+      this.cdr.detectChanges();
+    });
+  }
+
+  get translated(): boolean {
+    return true;
+  }
+
   onSubmit() {
     if (this.registerForm.valid) {
       const formData = this.registerForm.value;
 
       this.registerService.sendRegistration(formData).subscribe({
         next: (response) => {
-          console.log('OTP sent:', response);
-          this.successMessage = response.message || 'OTP sent. Please check your email.';
+          this.successMessage = response.message || this.translate.instant('REGISTER.OTP_SENT');
           this.errorMessage = '';
         },
         error: (err) => {
-          console.error('Registration error:', err);
           this.successMessage = '';
           if (err.status === 400 && err.error?.message) {
             this.errorMessage = err.error.message;
           } else {
-            this.errorMessage = 'Registration failed. Please try again.';
+            this.errorMessage = this.translate.instant('REGISTER.REGISTRATION_FAILED');
           }
         }
       });
     } else {
-      this.errorMessage = 'Please fill out all required fields.';
+      this.errorMessage = this.translate.instant('REGISTER.ERROR_REQUIRED');
       this.successMessage = '';
     }
   }

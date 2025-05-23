@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.translate.onLangChange.subscribe(() => {
+      console.log('Lang changed to:');
       this.cdr.detectChanges(); // ✅ Trigger rerender when language changes
     });
   }
