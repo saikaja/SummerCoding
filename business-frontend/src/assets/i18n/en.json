@@ -40,7 +40,7 @@
   "ERROR_REQUIRED": "Please fill out all required fields."
   },
   "REGISTER": {
-  "TITLE": "Register1",
+  "TITLE": "Register",
   "USERNAME_LABEL": "Username *",
   "USERNAME_REQUIRED": "Username is required.",
   "USERNAME_INVALID": "Please enter letters and numbers only (no spaces or symbols).",
