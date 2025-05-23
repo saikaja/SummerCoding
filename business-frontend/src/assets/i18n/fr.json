@@ -41,7 +41,7 @@
   "ERROR_REQUIRED": "Veuillez remplir tous les champs obligatoires."
   },
   "REGISTER": {
-  "TITLE": "Inscription",
+  "TITLE": "Inscription1",
   "USERNAME_LABEL": "Nom d'utilisateur *",
   "USERNAME_REQUIRED": "Le nom d'utilisateur est requis.",
   "USERNAME_INVALID": "Veuillez n'utiliser que des lettres et des chiffres (sans espaces ni symboles).",
